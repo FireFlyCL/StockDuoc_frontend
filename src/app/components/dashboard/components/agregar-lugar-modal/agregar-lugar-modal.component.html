@@ -1,0 +1,19 @@
+<!-- En tu archivo DetalleSolicitudComponent.html -->
+<div class="dialog-content-container">
+    <!-- Todo el contenido del modal va aquí -->
+    <form [formGroup]="lugarForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Nombre del Lugar</mat-label>
+            <input matInput formControlName="nombre_lugar">
+            <mat-error *ngIf="lugarForm.controls['nombre_lugar'].hasError('required')">
+                El nombre del lugar es requerido.
+            </mat-error>
+            <mat-error *ngIf="lugarForm.controls['nombre_lugar'].hasError('minlength')">
+                El nombre del lugar debe tener al menos 3 caracteres.
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!lugarForm.valid">
+            Crear Lugar
+        </button>
+    </form>
+</div>

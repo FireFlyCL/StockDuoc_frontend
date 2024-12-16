@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Ocupar todo el espacio vertical */
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mi-tabla {
+    width: 100%;
+    margin-bottom: 5%;
+    overflow-x: auto;
+    /* Asegúrate de que la tabla sea desplazable horizontalmente */
+}
+
+.agregar-producto-btn {
+    background-color: #4CAF50;
+    /* Un verde más estandarizado */
+    color: white;
+}
+
+.action-buttons button {
+    margin-right: 8px;
+    /* Espacio entre botones */
+}
+
+/* Para hacer la tabla responsive */
+@media (max-width: 600px) {
+    .mi-tabla {
+        overflow-x: auto;
+    }
+}
+
+.product-image {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    /* Esto asegurará que la imagen se ajuste al contenedor sin perder sus proporciones */
+}

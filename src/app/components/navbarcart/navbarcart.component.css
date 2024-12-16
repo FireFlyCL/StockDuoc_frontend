@@ -1,0 +1,53 @@
+.navbar {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid lightgrey;
+    background-color: #030301;
+    color: white;
+}
+
+.navbar-cart {
+    position: relative;
+    margin-right: 1rem;
+}
+
+.navbar-cart-items {
+    position: absolute;
+    left: 8.5px;
+    top: -0.8rem;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    background-color: rgb(172, 14, 14);
+    height: 20px;
+    width: 20px;
+}
+
+.navbar-cart-items p {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.cart {
+    display: none;
+}
+
+.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+    position: absolute;
+    background-color: white;
+    border-radius: 0.5rem;
+    border: 1px solid #cc1414;
+    right: 0px;
+    min-width: 40%;
+}
+
+.show app-carrito {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

@@ -1,0 +1,7 @@
+/* En tu archivo de estilos del componente DetalleSolicitudComponent */
+.dialog-content-container {
+    max-height: 90vh;
+    /* O el porcentaje que prefieras */
+    overflow-y: auto;
+    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+}

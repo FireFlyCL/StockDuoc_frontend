@@ -1,0 +1,14 @@
+<!-- agregar-cliente.component.html -->
+<div class="agregar-cliente-container">
+    <form [formGroup]="clienteForm" (ngSubmit)="agregarCliente()">
+        <mat-form-field appearance="fill">
+            <mat-label>Escuela</mat-label>
+            <mat-select formControlName="idEscuela">
+                <mat-option *ngFor="let escuela of escuelas" [value]="escuela.id_escuela">
+                    {{ escuela.nombre_escuela }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Confirmar escuela</button>
+    </form>
+</div>

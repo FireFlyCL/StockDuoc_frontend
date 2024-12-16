@@ -1,0 +1,32 @@
+<!-- En tu archivo DetalleSolicitudComponent.html -->
+<div class="dialog-content-container">
+    <!-- Todo el contenido del modal va aquí -->
+    <!-- agregar-stock-modal.component.html -->
+    <h2>Agregar Stock</h2>
+    <div class="img-container">
+        <img mat-card-image [src]="imagenUrl" (error)="errorCargarImagen($event)">
+    </div>
+    <form [formGroup]="stockForm" (ngSubmit)="onFormSubmit()">
+        <!-- Campos del formulario -->
+        <mat-form-field appearance="fill">
+            <mat-label>Número de Serie</mat-label>
+            <input matInput formControlName="numero_serie">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Serie SAP</mat-label>
+            <input matInput formControlName="serie_sap">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Lugar donde estará</mat-label>
+            <mat-select formControlName="idLugar">
+                <mat-option *ngFor="let lugar of lugares" [value]="lugar.id_lugar">
+                    {{ lugar.nombre_lugar }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit">Agregar Stock</button>
+    </form>
+</div>

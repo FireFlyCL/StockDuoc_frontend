@@ -1,0 +1,43 @@
+<!-- En tu archivo DetalleSolicitudComponent.html -->
+<div class="dialog-content-container">
+    <!-- Todo el contenido del modal va aquí -->
+    <!-- Importa los módulos necesarios de Angular Material en tu módulo Angular -->
+    <div class="img-container">
+        <img mat-card-image [src]="imagenUrl" (error)="errorCargarImagen($event)">
+    </div>
+    <mat-table [dataSource]="stockItems" class="mat-elevation-z8">
+
+        <!-- Columna Número de Serie -->
+        <ng-container matColumnDef="numero_serie">
+            <mat-header-cell *matHeaderCellDef> Número de Serie </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{item.numero_serie}} </mat-cell>
+        </ng-container>
+
+        <!-- Columna Serie SAP -->
+        <ng-container matColumnDef="serie_sap">
+            <mat-header-cell *matHeaderCellDef> Serie SAP </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{item.serie_sap}} </mat-cell>
+        </ng-container>
+
+        <!-- Columna Lugar ID -->
+        <ng-container matColumnDef="lugarIdLugar">
+            <mat-header-cell *matHeaderCellDef> Lugar </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{item.lugar.nombre_lugar}} </mat-cell>
+        </ng-container>
+
+        <!-- Columna de Acciones -->
+        <ng-container matColumnDef="opciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let item">
+                <button mat-raised-button color="primary" (click)="abrirModalEditarLugar(item.id_stock)">Editar</button>
+                <button mat-raised-button color="accent" (click)="onDeleteStock(item.id_stock)">Eliminar</button>
+            </mat-cell>
+        </ng-container>
+        <!-- Fila de Encabezado -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+        <!-- Fila de Datos -->
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+</div>

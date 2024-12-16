@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="table-header">
+    <h2>Listado de Productos</h2>
+    <button mat-raised-button class="agregar-producto-btn" color="accent" (click)="abrirModalAgregarProducto()">Agregar
+      Producto</button>
+  </div>
+  <mat-table [dataSource]="productos" class="mat-elevation-z8 mi-tabla">
+    <!-- Columna: Nombre del Producto -->
+    <ng-container matColumnDef="nombre">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.nombre}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="marca_modelo">
+      <mat-header-cell *matHeaderCellDef> Marca | Modelo </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.marca}} | {{producto.modelo}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="imagen">
+      <mat-header-cell *matHeaderCellDef> Imagen </mat-header-cell>
+      <mat-cell *matCellDef="let producto">
+        <img mat-card-image [src]="producto.imagenUrl" (error)="errorCargarImagen($event)" alt="{{ producto.nombre }}"
+          class="product-image">
+      </mat-cell>
+    </ng-container>
+
+    <!-- Columna para Acciones CRUD -->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let producto">
+        <button mat-raised-button color="primary" (click)="abrirModalDetalle(producto)">Detalle</button>
+        <button mat-raised-button color="accent" (click)="abrirModalEditarProducto(producto.id_producto)">Editar</button>
+        <button mat-raised-button color="warn" (click)="onDeleteProducto(producto.id_producto)">Eliminar</button>
+        <button mat-raised-button color="primary"
+          (click)="abrirModalAgregarStockByproducto(producto.id_producto)">Agregar Stock</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnasMostradas"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columnasMostradas;"></mat-row>
+  </mat-table>
+</div>

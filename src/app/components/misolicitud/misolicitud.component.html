@@ -1,0 +1,62 @@
+<div *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loading" class="solicitudes-container">
+    <div>
+        <mat-card-content>
+            <button mat-raised-button color="primary" (click)="atras()"> Volver Atras </button>
+        </mat-card-content>
+    </div>
+    <mat-table [dataSource]="solicitudes" class="mat-elevation-z8">
+
+        <!-- Fecha Solicitud Column -->
+        <ng-container matColumnDef="fecha_retiro">
+            <mat-header-cell *matHeaderCellDef> Fecha de Retiro </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.fecha_entrega | date}} </mat-cell>
+        </ng-container>
+
+        <!-- Fecha Solicitud Column -->
+        <ng-container matColumnDef="hora_retiro">
+            <mat-header-cell *matHeaderCellDef> Fecha Retiro </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.hora_inicio }} </mat-cell>
+        </ng-container>
+
+        <!-- Fecha Solicitud Column -->
+        <ng-container matColumnDef="fecha_devolucion">
+            <mat-header-cell *matHeaderCellDef> Fecha de Devolición </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.fecha_regreso | date}} </mat-cell>
+        </ng-container>
+
+        <!-- Fecha Solicitud Column -->
+        <ng-container matColumnDef="hora_devolucion">
+            <mat-header-cell *matHeaderCellDef> Hora Devolución </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.hora_termino }} </mat-cell>
+        </ng-container>
+
+        <!-- Fecha Solicitud Column -->
+        <ng-container matColumnDef="seccion">
+            <mat-header-cell *matHeaderCellDef> Sección </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.seccion}} </mat-cell>
+        </ng-container>
+
+        <!-- Estado Solicitud Column -->
+        <ng-container matColumnDef="nombre_estado">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.estadosolicitud.nombre_estado}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="opciones">
+            <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+            <mat-cell *matCellDef="let solicitud">
+                <button mat-raised-button color="primary" (click)="verDetalle(solicitud.solicitud.id_solicitud)">Ver
+                    Detalle</button>
+                <button mat-raised-button color="warn" (click)="cancelarSolicitud(solicitud.solicitud)">Cancelar
+                    Solicitud</button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>

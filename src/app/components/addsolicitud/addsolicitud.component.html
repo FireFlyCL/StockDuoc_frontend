@@ -1,0 +1,187 @@
+<div *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<!-- El resto de tu contenido aquí -->
+<div *ngIf="!loading">
+  <!-- Contenido que se muestra cuando no se está cargando -->
+
+  <mat-card class="container mt-3">
+    <mat-card-content>
+      <h2>Datos de Retiro</h2>
+      <!-- Acordeón para la lista de productos -->
+      <mat-accordion multi="true" *ngIf="solProd && solProd.length > 0">
+        <mat-expansion-panel *ngFor="let product of solProd">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <img [src]="product.producto.imagenUrl" height="30" alt="Imagen del producto">
+              {{ product.producto.nombre }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>Cantidad: {{ product.cantidad }}</p>
+          <!-- Aquí puedes añadir más detalles del producto si es necesario -->
+        </mat-expansion-panel>
+      </mat-accordion>
+      <br>
+      <form [formGroup]="solicitudForm" (ngSubmit)="submitForm()">
+        <mat-form-field *ngIf="!isLoading" class="calendario">
+          <mat-label>Fecha de uso</mat-label>
+          <mat-date-range-input [formGroup]="solicitudForm" [rangePicker]="fechaRetiroPicker" [min]="minDate">
+            <input matStartDate formControlName="fechaEntrega" placeholder="Fecha de Retiro">
+            <input matEndDate formControlName="fechaRegreso" placeholder="Fecha de Devolución">
+          </mat-date-range-input>
+          <mat-hint>Fecha de Retiro – Fecha de Devolución</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="fechaRetiroPicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #fechaRetiroPicker></mat-date-range-picker>
+        </mat-form-field>
+
+        <div *ngIf="!isLoading" class="form-row mt-3">
+          <div class="form-group col">
+            <label for="horaInicio">Hora de Retiro</label>
+            <select class="form-control" formControlName="horaInicio">
+              <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+            </select>
+          </div>
+
+          <div class="form-group col">
+            <label for="horaTermino">Hora de Devolución</label>
+            <select class="form-control" formControlName="horaTermino">
+              <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+            </select>
+          </div>
+        </div>
+
+
+        <div *ngIf="!isLoading" class="form-group mt-3">
+          <label for="seccion">Sección</label>
+          <input type="text" class="form-control" formControlName="seccion">
+        </div>
+
+        <div *ngIf="!isLoading">
+          <button mat-raised-button color="primary" type="submit" [disabled]="solicitudForm.invalid"
+            (submit)="submitForm()">
+            <span class="mat-button-wrapper ">
+              <span>Solicitar</span>
+            </span>
+          </button>
+          <span *ngIf="solicitudForm.invalid"> Formolario incompleto</span>
+        </div>
+        <div *ngIf="isLoading" class="loading-spinner">
+          <img src="https://usagif.com/wp-content/uploads/loading-9.gif" alt="Cargando..." />
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+<!-- <mat-card class="container mt-3">
+  <mat-card-content>
+    <h2>Agregar Solicitud</h2>
+    <div >
+      <mat-card-content>
+        <button mat-raised-button color="primary" (click)="atras()"> Volver Atras </button>
+      </mat-card-content>
+    </div>
+    <form [formGroup]="solicitudForm" (ngSubmit)="submitForm()">
+      <mat-form-field *ngIf="!isLoading" class="calendario">
+        <mat-label>Fecha de uso</mat-label>
+        <mat-date-range-input [formGroup]="solicitudForm" [rangePicker]="fechaRetiroPicker" [min]="minDate">
+          <input matStartDate formControlName="fechaEntrega" placeholder="Fecha de Retiro">
+          <input matEndDate formControlName="fechaRegreso" placeholder="Fecha de Devolución">
+        </mat-date-range-input>
+        <mat-hint>Fecha de Retiro – Fecha de Devolución</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="fechaRetiroPicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #fechaRetiroPicker></mat-date-range-picker>
+      </mat-form-field>
+
+      <div *ngIf="!isLoading" class="form-row mt-3">
+        <div class="form-group col">
+          <label for="horaInicio">Hora de Retiro</label>
+          <select class="form-control" formControlName="horaInicio">
+            <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+          </select>
+        </div>
+
+        <div class="form-group col">
+          <label for="horaTermino">Hora de Devolución</label>
+          <select class="form-control" formControlName="horaTermino">
+            <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div *ngIf="!isLoading" class="form-group mt-3">
+        <label for="seccion">Sección</label>
+        <input type="text" class="form-control" formControlName="seccion">
+      </div>
+
+      <table *ngIf="!isLoading" class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>imagen</th>
+            <th>Nombre</th>
+            <th>Modelo</th>
+            <th>Marca</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products">
+
+            <td>
+              <mat-checkbox (change)="toggleSelection(product[0])"></mat-checkbox>
+            </td>
+
+            <td><img src="{{product['imagenUrl']}}" width="60px" height="60px"></td>
+            <td>{{ product['nombre'] }}</td>
+            <td>{{ product['modelo'] }}</td>
+            <td>{{ product['marca'] }}</td>
+            <td>
+              <input type="number" min="0" [value]="getCantidad(product[0])" [max]="getMaximaCantidad(product[0])"
+                (change)="updateCantidad(product[0], $event)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <mat-form-field *ngIf="!isLoading" class="text-area mt-3">
+        <mat-label>Comentario</mat-label>
+        <textarea matInput formControlName="comentario"></textarea>
+      </mat-form-field>
+
+      <div *ngIf="!isLoading">
+        <button mat-raised-button color="primary" type="submit" [disabled]="solicitudForm.invalid"
+          (submit)="submitForm()">
+          <span class="mat-button-wrapper ">
+            <span>Solicitar</span>
+          </span>
+        </button>
+        <span *ngIf="solicitudForm.invalid"> Formolario incompleto</span>
+      </div>
+      <div *ngIf="isLoading" class="loading-spinner">
+        <img src="https://usagif.com/wp-content/uploads/loading-9.gif" alt="Cargando..." />
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card> -->
+
+<!-- <div class="products-container">
+  <article class="product" *ngFor="let product of products">
+    <div class="product-header">
+      <h3 class="product-title">{{ product['nombre'] }}</h3>
+      <img class="product-image" src="{{ product['imagenUrl'] }}" alt="{{ product['nombre'] }}">
+      <p class="product-model">{{ product['modelo'] || product['marca'] }}</p>
+    </div>
+    <div class="product-body">
+      <p>{{ product['descripcion'] }}</p>
+    </div>
+    <div class="product-footer">
+      <button mat-raised-button color="primary" (click)="addToCart(product, 1)">
+        Add to Cart
+      </button>
+    </div>
+  </article>
+</div> -->

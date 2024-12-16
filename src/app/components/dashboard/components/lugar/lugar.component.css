@@ -1,0 +1,12 @@
+/* lugares.component.css */
+.container {
+    padding: 16px;
+}
+
+mat-table {
+    width: 100%;
+}
+
+button {
+    margin-right: 8px;
+}

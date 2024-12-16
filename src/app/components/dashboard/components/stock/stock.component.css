@@ -1,0 +1,67 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mi-tabla {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 5%;
+    /* Asegura que la tabla sea desplazable horizontalmente si es necesario */
+}
+
+.action-buttons button {
+    margin-right: 8px;
+    /* Espacio entre botones */
+    min-width: 90px;
+    /* Ancho mínimo para los botones para evitar que se apilen */
+}
+
+.boton-detalle {
+    color: #2196F3;
+    /* Azul Material Design */
+}
+
+.boton-agregar {
+    background-color: #4CAF50;
+    /* Verde Material Design */
+    color: white;
+}
+
+.boton-ver {
+    background-color: #FFC107;
+    /* Amarillo Material Design */
+    color: white;
+}
+
+/* Para manejar el diseño responsivo */
+@media (max-width: 768px) {
+    .action-buttons button {
+        margin-right: 4px;
+        /* Menor espacio entre botones en pantallas pequeñas */
+        padding: 0 8px;
+        /* Menor relleno para botones */
+        font-size: 0.8em;
+        /* Fuente más pequeña para botones */
+    }
+
+    .mi-tabla {
+        margin-bottom: 0;
+        /* Elimina el margen si la pantalla es pequeña */
+    }
+}
+
+.product-image {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    /* Esto asegurará que la imagen se ajuste al contenedor sin perder sus proporciones */
+}

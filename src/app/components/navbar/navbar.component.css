@@ -1,0 +1,25 @@
+.navbar-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-item {
+    margin-left: 5px;
+}
+
+.navbar-button {
+    color: white;
+    /* Color deseado para los botones */
+}
+
+.navbar-button .mat-icon {
+    vertical-align: middle;
+}
+
+.spacer {
+    flex: 1;
+  }
+
+.custom-button-border {
+    border: 2px solid #ff0000;
+}

@@ -1,0 +1,74 @@
+.container {
+    max-width: 600px;
+    /* Limita el ancho del formulario para mejorar la legibilidad */
+    margin: auto;
+    /* Centra el formulario en la página */
+    background-color: #fff;
+    /* Fondo blanco para el formulario */
+    padding: 2rem;
+    /* Espacio interno para que el contenido no toque los bordes */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra suave para resaltar el formulario */
+}
+
+.mat-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* Espacio entre elementos del formulario */
+}
+
+mat-form-field.calendario,
+mat-form-field.text-area,
+.form-group {
+    width: 100%;
+    /* Los campos ocupan todo el ancho disponible */
+}
+
+mat-form-field.calendario {
+    /* Estilos específicos para el rango de fechas, si es necesario */
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    /* Espacio entre columnas de form-row */
+}
+
+.form-group {
+    flex: 1;
+    /* Las columnas dentro de form-row ocupan espacios iguales */
+}
+
+mat-form-field.text-area textarea {
+    min-height: 100px;
+    /* Altura mínima para el área de texto */
+}
+
+button.mat-raised-button {
+    margin-top: 1rem;
+    /* Espacio antes del botón */
+    padding: 0.5rem 1rem;
+    /* Padding para el botón */
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    /* Centra la imagen de carga horizontalmente */
+    margin-top: 1rem;
+    /* Espacio antes de la imagen de carga */
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}

@@ -1,0 +1,31 @@
+<!-- En tu archivo DetalleSolicitudComponent.html -->
+<div class="dialog-content-container">
+    <!-- Todo el contenido del modal va aquí -->
+    <!-- edit-stock-modal.component.html -->
+    <h2>Editar Stock</h2>
+    <form [formGroup]="editStockForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Número de Serie</mat-label>
+            <input matInput formControlName="numero_serie">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Serie SAP</mat-label>
+            <input matInput formControlName="serie_sap">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Lugar donde estará</mat-label>
+            <mat-select formControlName="idLugar">
+                <mat-option *ngFor="let lugar of lugares" [value]="lugar.id_lugar">
+                    {{ lugar.nombre_lugar }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="actions">
+            <button mat-raised-button color="primary" type="submit">Actualizar</button>
+            <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
+        </div>
+    </form>
+</div>

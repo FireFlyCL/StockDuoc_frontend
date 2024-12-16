@@ -1,0 +1,46 @@
+/* boleta.component.css */
+.boleta-container {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #000;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.boleta-header {
+    text-align: center;
+}
+
+.boleta-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.boleta-info-section p {
+    margin: 5px 0;
+}
+
+.boleta-body {
+    margin-top: 20px;
+}
+
+.mat-table {
+    width: 100%;
+}
+
+.boleta-footer {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.firma {
+    margin-right: 50px;
+}
+
+.total {
+    font-weight: bold;
+}
+
+/* Puedes agregar más estilos según necesites para ajustar el diseño */

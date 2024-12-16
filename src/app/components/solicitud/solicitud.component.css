@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    width: 100vw;
+    position: relative;
+    background-color: white;
+}
+
+.container-title {
+    margin-bottom: 1.5rem;
+}
+
+.container-products app-product {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,59 @@
+<!-- boleta.component.html -->
+<div id="boleta" class="boleta-container">
+  <header class="boleta-header">
+    <h2>DUOC UC PLAZA VESPUCIO</h2>
+    <p>Departamento {{ solicitudes[0]?.solicitud_producto?.solicitud.area.nombre_area }} </p>
+    <!-- ... otros detalles ... -->
+  </header>
+
+  <section class="boleta-info">
+    <p>Señor(a): {{ solicitudes[0]?.solicitud_producto?.solicitud.nombre_solicitante }}</p>
+    <p>Correo: {{ solicitudes[0]?.solicitud_producto?.solicitud.correo_solicitante }}</p>
+    <p>Departamento: {{ solicitudes[0]?.solicitud_producto?.solicitud.area.nombre_area }} </p>
+    <!-- ... otros detalles ... -->
+  </section>
+
+  <section class="boleta-info">
+    <p>Sección: {{ solicitudes[0]?.solicitud_producto?.solicitud.seccion }}</p>
+    <p>Fecha Retrio: {{ solicitudes[0]?.solicitud_producto?.solicitud.fecha_entrega | date: 'dd/MM/yyyy' }}</p>
+    <p>Hora Retiro: {{ solicitudes[0]?.solicitud_producto?.solicitud.hora_inicio }}</p>
+    <p>Fecha Devolución: {{ solicitudes[0]?.solicitud_producto?.solicitud.fecha_regreso | date: 'dd/MM/yyyy' }}</p>
+    <p>Hora Devolución: {{ solicitudes[0]?.solicitud_producto?.solicitud.hora_termino }}</p>
+    <!-- ... otros detalles ... -->
+  </section>
+
+  <table class="boleta-table">
+    <thead>
+      <tr>
+        <th>Cantidad</th>
+        <th></th>
+        <th>Nombre</th>
+        <th></th>
+        <th>Marca</th>
+        <th></th>
+        <th>Modelo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let solicitud of solicitudes">
+        <td>{{ solicitud.cantidad }}</td>
+        <td></td>
+        <td>{{ solicitud.solicitud_producto?.producto.nombre }}</td>
+        <td></td>
+        <td>{{ solicitud.solicitud_producto?.producto.marca }}</td>
+        <td></td>
+        <td>{{ solicitud.solicitud_producto?.producto.modelo }}</td> <!-- Importe calculado -->
+      </tr>
+    </tbody>
+  </table>
+
+
+  <footer class="boleta-footer">
+    <p class="total">StockDuoc</p>
+    <div class="firma">
+      <p>Firma: ______________________</p>
+    </div>
+  </footer>
+</div>
+
+<button (click)="generarPDF()">Descargar Boleta</button>

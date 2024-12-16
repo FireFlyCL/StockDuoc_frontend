@@ -1,0 +1,58 @@
+mat-card {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
+    text-align: center;
+}
+
+mat-card-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+mat-tab-group {
+    margin-top: 20px;
+    height: auto;
+    width: 100%;
+}
+
+mat-form-field {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.custom-button-div {
+    padding: 5%;
+    /* Agrega el espacio deseado en los bordes internos del div */
+    margin: 5% 0;
+    /* Agrega el espacio deseado en los bordes externos del div */
+}
+
+
+button {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.btn-google {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 1px #ddd;
+    border-radius: 5px;
+}
+
+.btn-google:hover {
+  
+    background-color: #C23B33;
+    border-color: #C23B33;
+    color: #ffffff;
+}
+
+.btn {
+    border-radius: 2px;
+    text-transform: capitalize;
+    font-size: 15px;
+    padding: 10px 19px;
+    cursor: pointer
+}

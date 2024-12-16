@@ -1,0 +1,26 @@
+<!-- lugares.component.html -->
+<div class="container">
+    <h2>Listado de Lugares</h2>
+    <button mat-raised-button color="primary" (click)="abrirModalAgregarLugar()">Agregar Lugar</button>
+
+    <mat-table [dataSource]="lugares" class="mat-elevation-z8">
+
+        <!-- Nombre Lugar Column -->
+        <ng-container matColumnDef="nombre_lugar">
+            <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+            <mat-cell *matCellDef="let lugar"> {{ lugar.nombre_lugar }} </mat-cell>
+        </ng-container>
+
+        <!-- Acciones Column -->
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let lugar">
+                <button mat-raised-button color="accent" (click)="abrirModalEditarLugar(lugar.id_lugar)">Editar</button>
+                <button mat-raised-button color="warn" (click)="eliminarLugar(lugar.id_lugar)">Eliminar</button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+</div>

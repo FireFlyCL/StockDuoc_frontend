@@ -1,0 +1,17 @@
+<!-- En tu archivo DetalleSolicitudComponent.html -->
+<div class="dialog-content-container">
+    <!-- Todo el contenido del modal va aquí -->
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{ producto.nombre }}</mat-card-title>
+            <mat-card-subtitle>{{ producto.marca }} - {{ producto.modelo }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="producto.imagenUrl || '../assets/icons/product.png'" alt="{{ producto.nombre }}">
+        <mat-card-content>
+            <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+            <p><strong>Área:</strong> {{ producto.area.nombre_area }}</p>
+            <p><strong>Stock Crítico:</strong> {{ producto.stock_critico }}</p>
+            <!-- Añade aquí más campos si es necesario -->
+        </mat-card-content>
+    </mat-card>
+</div>

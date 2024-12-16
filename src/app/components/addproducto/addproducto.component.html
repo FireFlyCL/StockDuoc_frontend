@@ -1,0 +1,19 @@
+<div class="products-container">
+  <article class="product" *ngFor="let product of products">
+    <div  class="product-header"> <!-- *ngIf="contador <= product.stock" -->
+      <h3 class="product-title">{{ product.producto['nombre'] }}</h3>
+      <img class="product-image" src="{{ product.producto['imagenUrl'] }}" alt="{{ product.producto['nombre'] }}">
+      <p class="product-model">{{ product.producto['modelo'] || product.producto['marca'] }}</p>
+    </div>
+    <div class="product-body">
+      <p>{{ product.producto['descripcion'] }}</p>
+    </div>
+    <div class="product-footer">
+      <button mat-raised-button color="primary"
+      [disabled]="(productosSinStock$ | async)?.includes(product.producto.id_producto)"
+      (click)="addToCart(product)">
+        Agregar Producto
+      </button>
+    </div>
+  </article>
+</div>

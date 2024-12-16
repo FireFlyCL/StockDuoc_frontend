@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="table-header">
+    <h2>Listado de Solicitudes</h2>
+  </div>
+  <mat-table [dataSource]="solicitudes" class="mat-elevation-z8">
+    <!-- Nombre del solicitante -->
+    <ng-container matColumnDef="nombre_solicitante">
+      <mat-header-cell *matHeaderCellDef> Solicitante </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.nombre_solicitante}} </mat-cell>
+    </ng-container>
+
+    <!-- correo -->
+    <ng-container matColumnDef="correo_solicitante">
+      <mat-header-cell *matHeaderCellDef> Correo </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.correo_solicitante}} </mat-cell>
+    </ng-container>
+
+    <!-- fecha solicitud -->
+    <ng-container matColumnDef="fecha_entrega">
+      <mat-header-cell *matHeaderCellDef> Fecha retiro </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud"> {{ solicitud.solicitud.fecha_entrega | date:'dd-MM-yyyy' }} </mat-cell>
+    </ng-container>
+
+
+    <!-- Estado de la solicitud -->
+    <ng-container matColumnDef="nombre_estado">
+      <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud"> {{solicitud.solicitud.estadosolicitud.nombre_estado}} </mat-cell>
+    </ng-container>
+
+    <!-- Columna para acciones como editar o eliminar -->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud">
+        <!-- Botón Detalle -->
+        <button mat-raised-button color="primary" (click)="abrirModalDetalleSolicitud(solicitud.solicitud.id_solicitud)"
+          title="Ver detalles">
+          Detalle
+        </button>
+        <button mat-raised-button color="accent" (click)="abrirModaleditarSolicitud(solicitud.solicitud.id_solicitud)"
+          title="Ver detalles">
+          Opciones
+        </button>
+        <button mat-raised-button color="warn" (click)="abrirModalPdfSolicitud(solicitud.solicitud.id_solicitud)"
+          title="Ver detalles">
+          PDF
+        </button>
+      </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

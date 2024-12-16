@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="table-header">
+        <h2>Listado de Stock Crítico</h2>
+        <!-- Asumiendo que querrás una acción para agregar stock -->
+    </div>
+
+    <mat-table [dataSource]="stockCritico" multiTemplateDataRows class="mat-elevation-z8 mi-tabla">
+        <!-- ... tus otras columnas ... -->
+
+        <ng-container matColumnDef="nombre_producto">
+            <mat-header-cell *matHeaderCellDef>Nombre | Marca | Modelo </mat-header-cell>
+            <mat-cell *matCellDef="let stock"> {{stock.producto.nombre}} | {{stock.producto.marca}} |
+                {{stock.producto.modelo}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="stock_critico">
+            <mat-header-cell *matHeaderCellDef> Stock Crítico </mat-header-cell>
+            <mat-cell *matCellDef="let stock"> {{stock.stock_critico}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cantidad_actual">
+            <mat-header-cell *matHeaderCellDef> Stock Actual </mat-header-cell>
+            <mat-cell *matCellDef="let stock"> {{stock.cantidad_actual}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="imagen">
+            <mat-header-cell *matHeaderCellDef> Imagen </mat-header-cell>
+            <mat-cell *matCellDef="let stock">
+                <img mat-card-image [src]="stock.producto.imagenUrl" (error)="errorCargarImagen($event)"
+                    alt="{{ stock.producto.nombre }}" class="product-image">
+            </mat-cell>
+        </ng-container>
+
+        <!-- Columna para Acciones CRUD -->
+        <ng-container matColumnDef="acciones">
+            <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+            <mat-cell *matCellDef="let stock" class="action-buttons">
+                <button mat-raised-button color="primary" (click)="abrirModalDetalle(stock.producto)">
+                    Detalle Producto</button>
+                <button mat-raised-button color="accent"
+                    (click)="abrirModalAgregarStockByproducto(stock.producto.id_producto)">Agregar Stock</button>
+
+            </mat-cell>
+        </ng-container>
+        <!-- Fila de la tabla principal-->
+        <mat-header-row *matHeaderRowDef="columnasMostradasStock"></mat-header-row>
+        <mat-row *matRowDef="let element; columns: columnasMostradasStock;"></mat-row>
+
+
+    </mat-table>
+
+</div>

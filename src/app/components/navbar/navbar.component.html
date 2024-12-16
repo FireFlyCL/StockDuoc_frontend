@@ -1,0 +1,93 @@
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand">StockDuoc</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" (click)="goToPerfil()">Perfil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="goToSolicitudes()">Solicitudes</a>
+            </li>
+
+            <li class="nav-item" *ngIf="estado">
+                <a class="nav-link" [routerLink]="['/dashboard']">Dashboard</a>
+            </li>
+            <li class="nav-item" >
+                <a class="nav-link" (click)="cerrarSesion()" >Cerrar sesión</a>
+            </li>
+        </ul>
+        
+        <div class="text-left">
+            <button mat-button color="primary">Botón a la Izquierda</button>
+          </div>
+    </div>
+</nav>
+-->
+
+<!--<mat-toolbar color="primary">
+    <span class="navbar-title">StockDuoc</span>
+    <span class="spacer"></span>
+    <div class="navbar-buttons">
+        <button mat-icon-button class="navbar-button" (click)="goToPerfil()">
+            <mat-icon>person</mat-icon>
+            <span class="navbar-item">Perfil</span>
+        </button>
+        <button mat-icon-button class="navbar-button" (click)="goToSolicitudes()">
+            <mat-icon>list</mat-icon>
+            <span class="navbar-item">Solicitudes</span>
+        </button>
+        <button mat-icon-button class="navbar-button" (click)="goToInventario()">
+            <mat-icon>storage</mat-icon>
+            <span class="navbar-item">Inventario</span>
+        </button>
+        <button mat-icon-button class="navbar-button" [routerLink]="['/dashboard']">
+            <mat-icon>dashboard</mat-icon>
+            <span class="navbar-item">Dashboard</span>
+        </button>
+        <button mat-icon-button class="navbar-button" (click)="cerrarSesion()">
+            <mat-icon>power_settings_new</mat-icon>
+            <span class="navbar-item">Cerrar sesión</span>
+        </button>
+    </div>
+</mat-toolbar> -->
+<mat-toolbar class="mat-toolbar-tall" style="height: 100px;" color="primary">
+    <span style="color: white; margin-right: 4px; font-size: 30px;">Stock</span>
+    <span style="margin-right: 80px; color: yellow; font-size: 30px;">Duoc</span>
+
+    <!-- <button *ngIf="sesion" type="button" (click)="goToPerfil()" class="custom-button-border"
+        style="margin: 10px; background-color: transparent; color: white; border-color: white;" mat-fab extended>
+        <mat-icon style="color: white;">person</mat-icon>
+        PERFIL
+
+    </button>
+    <button *ngIf="sesion" type="button" (click)="goToSolicitudes()" class="custom-button-border"
+        style="margin: 10px; background-color: transparent; color: white; border-color: white;" mat-fab extended>
+        <mat-icon style="color: white;">list</mat-icon>
+        SOLICITUDES
+
+    </button>
+    <button *ngIf="sesion" type="button" (click)="goToInventario()" class="custom-button-border"
+        style="margin: 10px; background-color: transparent; color: white; border-color: white;" mat-fab extended>
+        <mat-icon style="color: white;">storage</mat-icon>
+        INVENTARIO
+
+    </button>
+    <button *ngIf="sesion" type="button" [routerLink]="['/dashboard']" class="custom-button-border"
+        style="margin: 10px; background-color: transparent; color: white; border-color: white;" mat-fab extended>
+        <mat-icon style="color: white;">dashboard</mat-icon>
+        DASHBOARD
+
+    </button>
+
+    <span class="spacer"></span>
+    <button *ngIf="sesion" type="button" (click)="cerrarSesion()" class="custom-button-border"
+        style="margin: 20px; background-color: transparent; color: white; border-color: white; font-size: 12px;" mat-fab
+        extended>
+        <mat-icon style="color: white; ">power_settings_new</mat-icon>
+        CERRAR SECION
+    </button> -->
+</mat-toolbar>

@@ -1,0 +1,10 @@
+.mi-tabla{
+    margin-bottom: 5%;
+}
+
+.product-image {
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    /* Esto asegurará que la imagen se ajuste al contenedor sin perder sus proporciones */
+}

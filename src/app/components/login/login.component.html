@@ -1,0 +1,39 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Inicio de sesión</mat-card-title>
+    </mat-card-header>
+    <ng-container *ngIf="loading">
+        <img src="assets/loading.gif" alt="Loading" class="loading-gif" />
+      </ng-container>
+    <mat-card-content>
+        <mat-tab-group *ngIf="!loading">
+            <!-- Tab para profesores y alumnos -->
+            <mat-tab label="Profesores y Alumnos">
+                <div class="row">
+                    <button class="btn btn-lg btn-google btn-block text-uppercase btn-outline" (click)="login()">
+                        <img src="https://img.icons8.com/color/22/000000/google-logo.png"> Sing in Google
+                    </button>
+                </div>
+            </mat-tab>
+            <!-- Tab solo para administrativos -->
+            <mat-tab label="Administrativos">
+                <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
+                    <!-- Campos de inicio de sesión para administrativos -->
+                    <mat-form-field>
+                        <mat-label>Usuario</mat-label>
+                        <input matInput placeholder="Ingrese su usuario" formControlName="usuario">
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput type="password" placeholder="Ingrese su contraseña"
+                            formControlName="contraseña">
+                    </mat-form-field>
+
+                    <!-- Botón de inicio de sesión para administrativos -->
+                    <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+</mat-card>

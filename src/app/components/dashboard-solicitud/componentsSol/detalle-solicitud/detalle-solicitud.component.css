@@ -1,0 +1,73 @@
+.detalle-solicitud-card {
+    max-width: 600px;
+    margin: auto;
+}
+
+.mat-card-header {
+    background-color: #f5f5f5;
+}
+
+.mat-card-content {
+    background-color: #ffffff;
+}
+
+.mat-card-actions {
+    background-color: #fafafa;
+    justify-content: flex-end;
+}
+
+.detalle-solicitud-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.solicitud-content,
+.productos-content {
+    flex: 1 1 45%;
+    /* Ocupa el 45% del ancho disponible */
+    margin: 10px;
+}
+
+.producto-card {
+    margin-top: 10px;
+}
+
+.producto-card {
+    margin-top: 10px;
+}
+
+.producto-card-content {
+    display: flex;
+    align-items: center;
+    /* Alinea verticalmente el contenido y la imagen */
+}
+
+.producto-info {
+    flex: 1;
+    /* Ocupa el espacio disponible menos el de la imagen */
+}
+
+.producto-imagen {
+    flex-shrink: 0;
+    /* Evita que la imagen se reduzca */
+    padding: 10px;
+    /* Espacio alrededor de la imagen */
+}
+
+.producto-imagen img {
+    max-width: 100px;
+    /* Tamaño máximo de la imagen */
+    height: auto;
+    /* Mantiene la relación de aspecto de la imagen */
+    border-radius: 5px;
+    /* Bordes redondeados para la imagen */
+}
+
+/* En tu archivo de estilos del componente DetalleSolicitudComponent */
+.dialog-content-container {
+    max-height: 90vh;
+    /* O el porcentaje que prefieras */
+    overflow-y: auto;
+    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+}

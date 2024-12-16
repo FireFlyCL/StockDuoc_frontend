@@ -1,0 +1,42 @@
+mat-dialog-content {
+    padding: 20px;
+    /* Margen interior para el contenido del modal */
+}
+
+mat-form-field {
+    width: 100%;
+    /* Los campos de formulario ocupan todo el ancho */
+    margin-bottom: 16px;
+    /* Espaciado entre campos de formulario */
+}
+
+.submit-button {
+    margin-top: 20px;
+    /* Espacio por encima del botón de envío */
+    width: 100%;
+    /* El botón de envío ocupa todo el ancho */
+}
+
+/* agregar-stock-modal.component.css */
+.img-container {
+    text-align: center;
+    /* Centra la imagen si es más pequeña que el contenedor */
+    margin-bottom: 20px;
+    /* Espacio entre la imagen y el formulario */
+}
+
+.img-container img {
+    max-width: 20%;
+    /* Asegura que la imagen no exceda el ancho del contenedor */
+    height: auto;
+    /* Mantiene la proporción de la imagen */
+    /* Puedes añadir un borde o sombra si lo deseas */
+}
+
+/* En tu archivo de estilos del componente DetalleSolicitudComponent */
+.dialog-content-container {
+    max-height: 90vh;
+    /* O el porcentaje que prefieras */
+    overflow-y: auto;
+    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+}

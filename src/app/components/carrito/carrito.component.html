@@ -1,0 +1,60 @@
+<!-- <div class="productCart-wrapper">
+    <article class="productCart" *ngFor="let item of myCartWithDetails$ | async">
+        <div class="productCart-body">
+            <p>{{ item.producto.producto.nombre }}</p>
+            <div class="productCart-body-info">
+                <p> {{ item.producto.producto.nombre }}</p> 
+                <p>{{ item.cantidad }} uds</p>
+                <img class="product-image" src="{{ item.producto.producto['imagenUrl'] }}" alt="{{ item.producto.producto['nombre'] }}">
+            </div>
+        </div>
+        <div class="productCart-total">
+            <p> {{ totalProduct(1, item.cantidad) }}</p>
+        </div>
+        <div class="productCart-buttons">
+            <div class="productCart-buttons-operators">
+                <i class="fa-solid fa-minus" (click)="updateUnits('minus', item.producto.producto.id_producto)"></i>
+                <span>{{ item.cantidad }}</span>
+                <i class="fa-solid fa-plus" (click)="updateUnits('add', item.producto.producto.id_producto)"></i>
+            </div>
+            <i class="fa-solid fa-trash" (click)="deleteProduct(item.producto.producto.id_producto)"></i>
+        </div>
+    </article>
+    <div class="cartTotal">
+        <p class="cartTotal-total">Total: {{ totalCart() }} - Productos</p>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="onConfirmarProductosClick()">Confirmar Productos</button>
+
+</div> -->
+
+<div class="productCart-wrapper">
+    <article class="productCart" *ngFor="let item of myCartWithDetails$ | async">
+        <div class="productCart-body">
+            <p>{{item.productoId.producto.nombre}}</p> 
+            <!--  Cambiado para coincidir con la estructura de tus interfaces -->
+            <div class="productCart-body-info">
+                <!-- <p>{{ item.productoId.producto.nombre }}</p> -->
+                <!-- Cambiado para coincidir con la estructura de tus interfaces -->
+                <p>{{ item.cantidad }} uds</p>
+                <img class="product-image" src="{{ item.productoId.producto.imagenUrl }}"
+                    alt="{{ item.productoId.producto.nombre }}">
+            </div>
+        </div>
+        <div class="productCart-total">
+            <p>{{ totalProduct(1, item.cantidad) }}</p> <!-- Asumiendo que 1 es el precio -->
+        </div>
+        <div class="productCart-buttons">
+            <div class="productCart-buttons-operators">
+                <i class="fa-solid fa-minus" (click)="updateUnits('minus', item.productoId.producto.id_producto, item.productoId.stock)"></i>
+                <span>{{ item.cantidad }}</span>
+                <i class="fa-solid fa-plus" (click)="updateUnits('add', item.productoId.producto.id_producto, item.productoId.stock)"></i>
+            </div>
+            <i class="fa-solid fa-trash" (click)="deleteProduct(item.productoId.producto.id_producto)"></i>
+        </div>
+    </article>
+    <div class="cartTotal">
+        <p class="cartTotal-total">Total: {{ totalCart() }} - Productos</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="onConfirmarProductosClick()">Confirmar Productos</button>
+</div>

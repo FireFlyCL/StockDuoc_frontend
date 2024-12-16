@@ -1,0 +1,25 @@
+<mat-card class="profile-card mt-3">
+  <img mat-card-image [src]="user.img" alt="Foto del usuario" class="profile-image">
+
+  <mat-card-content>
+    <h2>{{ user.nombre }}</h2>
+    <p>Correo: {{ user.correo }}</p>
+    <p>Escuela: {{ user.area }}</p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <div class="button-container">
+      <button *ngIf="tipo == 'user' && user.area != 'FINANZAS'" mat-raised-button color="primary"
+        (click)="solicitud()">Generar Solicitud</button>
+      <button *ngIf="tipo == 'user' && user.area != 'FINANZAS'" mat-raised-button color="accent"
+        (click)="misSolicitudes(user.correo)">Mis Solicitudes</button>
+      <button *ngIf="tipo == 'admin' && user.area != 'FINANZAS'" mat-raised-button color="primary"
+        (click)="solicitudes()">Solicitudes</button>
+      <button *ngIf="tipo == 'admin' && user.area != 'FINANZAS'" mat-raised-button color="accent"
+        (click)="inventario()">Inventario</button>
+      <button *ngIf="tipo == 'admin' && user.area == 'FINANZAS'" mat-raised-button color="accent"
+        (click)="documento()">DESCARGAR INVENTARIO</button>
+      <button mat-raised-button color="warn" (click)="cerrarSesion()">Cerrar Sesión</button>
+    </div>
+  </mat-card-actions>
+</mat-card>
