@@ -5,9 +5,10 @@ import { MailService } from 'src/app/services/mailService/mail.service';
 import { EstadoSolicitud, SolicitudService } from 'src/app/services/solicitudservice/solicitud.service';
 
 @Component({
-  selector: 'app-edit-estado-sol',
-  templateUrl: './edit-estado-sol.component.html',
-  styleUrls: ['./edit-estado-sol.component.css']
+    selector: 'app-edit-estado-sol',
+    templateUrl: './edit-estado-sol.component.html',
+    styleUrls: ['./edit-estado-sol.component.css'],
+    standalone: false
 })
 export class EditEstadoSolComponent implements OnInit {
   estados: any[] = [];

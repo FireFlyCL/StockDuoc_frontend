@@ -4,9 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LugarService } from 'src/app/services/lugarservice/lugar.service';
 
 @Component({
-  selector: 'app-edit-lugar-modal',
-  templateUrl: './edit-lugar-modal.component.html',
-  styleUrls: ['./edit-lugar-modal.component.css']
+    selector: 'app-edit-lugar-modal',
+    templateUrl: './edit-lugar-modal.component.html',
+    styleUrls: ['./edit-lugar-modal.component.css'],
+    standalone: false
 })
 export class EditLugarModalComponent {
   editLugarForm: FormGroup;

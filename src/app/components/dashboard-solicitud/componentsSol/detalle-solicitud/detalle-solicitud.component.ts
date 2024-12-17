@@ -4,9 +4,10 @@ import { SolicitudService } from 'src/app/services/solicitudservice/solicitud.se
 import { SolproductService } from 'src/app/services/solproductservice/solproduct.service';
 
 @Component({
-  selector: 'app-detalle-solicitud',
-  templateUrl: './detalle-solicitud.component.html',
-  styleUrls: ['./detalle-solicitud.component.css']
+    selector: 'app-detalle-solicitud',
+    templateUrl: './detalle-solicitud.component.html',
+    styleUrls: ['./detalle-solicitud.component.css'],
+    standalone: false
 })
 export class DetalleSolicitudComponent {
   solicitud: any; // Aquí almacenarás los datos de la solicitud

@@ -4,9 +4,10 @@ import { LugarService } from 'src/app/services/lugarservice/lugar.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 
 @Component({
-  selector: 'app-agregar-lugar-modal',
-  templateUrl: './agregar-lugar-modal.component.html',
-  styleUrls: ['./agregar-lugar-modal.component.css']
+    selector: 'app-agregar-lugar-modal',
+    templateUrl: './agregar-lugar-modal.component.html',
+    styleUrls: ['./agregar-lugar-modal.component.css'],
+    standalone: false
 })
 export class AgregarLugarModalComponent {
   lugarForm: FormGroup;

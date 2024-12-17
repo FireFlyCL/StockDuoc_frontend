@@ -5,9 +5,10 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
 @Component({
-  selector: 'app-documento',
-  templateUrl: './documento.component.html',
-  styleUrls: ['./documento.component.css']
+    selector: 'app-documento',
+    templateUrl: './documento.component.html',
+    styleUrls: ['./documento.component.css'],
+    standalone: false
 })
 export class DocumentoComponent {
 

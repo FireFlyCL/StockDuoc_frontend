@@ -7,9 +7,10 @@ import { AddsolicitudComponent } from '../addsolicitud/addsolicitud.component';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-carrito',
-  templateUrl: './carrito.component.html',
-  styleUrls: ['./carrito.component.css']
+    selector: 'app-carrito',
+    templateUrl: './carrito.component.html',
+    styleUrls: ['./carrito.component.css'],
+    standalone: false
 })
 export class CarritoComponent {
   myCart$ = this.cartService.myCart$;

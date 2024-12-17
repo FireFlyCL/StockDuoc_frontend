@@ -7,9 +7,10 @@ import { ClienteService } from 'src/app/services/cliente/cliente.service';
 import { AutentifacionService } from 'src/auth/autentifacion.service';
 
 @Component({
-  selector: 'app-redirectmodel',
-  templateUrl: './redirectmodel.component.html',
-  styleUrls: ['./redirectmodel.component.css']
+    selector: 'app-redirectmodel',
+    templateUrl: './redirectmodel.component.html',
+    styleUrls: ['./redirectmodel.component.css'],
+    standalone: false
 })
 export class RedirectmodelComponent {
   constructor(

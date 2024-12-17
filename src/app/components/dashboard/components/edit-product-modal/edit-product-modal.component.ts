@@ -4,9 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 
 @Component({
-  selector: 'app-edit-product-modal',
-  templateUrl: './edit-product-modal.component.html',
-  styleUrls: ['./edit-product-modal.component.css']
+    selector: 'app-edit-product-modal',
+    templateUrl: './edit-product-modal.component.html',
+    styleUrls: ['./edit-product-modal.component.css'],
+    standalone: false
 })
 export class EditProductModalComponent {
   editProductForm: FormGroup;

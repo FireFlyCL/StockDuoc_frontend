@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { ClienteService, Cliente, Escuela } from 'src/app/services/cliente/cliente.service';
 
 @Component({
-  selector: 'app-alerta',
-  templateUrl: './alerta.component.html',
-  styleUrls: ['./alerta.component.css']
+    selector: 'app-alerta',
+    templateUrl: './alerta.component.html',
+    styleUrls: ['./alerta.component.css'],
+    standalone: false
 })
 export class AlertaComponent {
   escuelas: Escuela[] = [];

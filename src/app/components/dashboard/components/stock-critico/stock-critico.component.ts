@@ -5,9 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock-modal.component';
 
 @Component({
-  selector: 'app-stock-critico',
-  templateUrl: './stock-critico.component.html',
-  styleUrls: ['./stock-critico.component.css']
+    selector: 'app-stock-critico',
+    templateUrl: './stock-critico.component.html',
+    styleUrls: ['./stock-critico.component.css'],
+    standalone: false
 })
 export class StockCriticoComponent implements OnInit {
 

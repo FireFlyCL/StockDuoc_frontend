@@ -4,9 +4,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 
 @Component({
-  selector: 'app-agregar-producto-modal',
-  templateUrl: './agregar-producto-modal.component.html',
-  styleUrls: ['./agregar-producto-modal.component.css']
+    selector: 'app-agregar-producto-modal',
+    templateUrl: './agregar-producto-modal.component.html',
+    styleUrls: ['./agregar-producto-modal.component.css'],
+    standalone: false
 })
 export class AgregarProductoModalComponent implements OnInit {
   productoForm: FormGroup;

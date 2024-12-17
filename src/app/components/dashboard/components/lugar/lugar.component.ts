@@ -5,9 +5,10 @@ import { AgregarLugarModalComponent } from '../agregar-lugar-modal/agregar-lugar
 import { EditLugarModalComponent } from '../edit-lugar-modal/edit-lugar-modal.component';
 
 @Component({
-  selector: 'app-lugar',
-  templateUrl: './lugar.component.html',
-  styleUrls: ['./lugar.component.css']
+    selector: 'app-lugar',
+    templateUrl: './lugar.component.html',
+    styleUrls: ['./lugar.component.css'],
+    standalone: false
 })
 export class LugarComponent {
   lugares: Lugar[] = []; // Debes tener una interfaz Lugar definida

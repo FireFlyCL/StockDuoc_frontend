@@ -6,9 +6,10 @@ import { DetalleStockComponent } from '../detalle-stock/detalle-stock.component'
 import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock-modal.component';
 
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-  styleUrls: ['./stock.component.css'],
+    selector: 'app-stock',
+    templateUrl: './stock.component.html',
+    styleUrls: ['./stock.component.css'],
+    standalone: false
 })
 export class StockComponent implements OnInit {
 

@@ -3,9 +3,10 @@ import { ProductoService } from 'src/app/services/productoservice/producto.servi
 import { StockService } from 'src/app/services/stock/stock.service';
 
 @Component({
-  selector: 'app-descarga-inventario',
-  templateUrl: './descarga-inventario.component.html',
-  styleUrls: ['./descarga-inventario.component.css']
+    selector: 'app-descarga-inventario',
+    templateUrl: './descarga-inventario.component.html',
+    styleUrls: ['./descarga-inventario.component.css'],
+    standalone: false
 })
 export class DescargaInventarioComponent {
   constructor(private productoService: ProductoService, private stockService: StockService) { }

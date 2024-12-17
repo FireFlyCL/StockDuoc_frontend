@@ -7,9 +7,10 @@ import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock
 import { EditProductModalComponent } from '../edit-product-modal/edit-product-modal.component';
 
 @Component({
-  selector: 'app-productos',
-  templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css']
+    selector: 'app-productos',
+    templateUrl: './productos.component.html',
+    styleUrls: ['./productos.component.css'],
+    standalone: false
 })
 export class ProductosComponent {
 

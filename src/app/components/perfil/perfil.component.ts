@@ -7,9 +7,10 @@ import { UserService } from 'src/app/services/userservice/user.service';
 import { AutentifacionService } from 'src/auth/autentifacion.service';
 
 @Component({
-  selector: 'app-perfil',
-  templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.css']
+    selector: 'app-perfil',
+    templateUrl: './perfil.component.html',
+    styleUrls: ['./perfil.component.css'],
+    standalone: false
 })
 export class PerfilComponent implements OnInit {
 

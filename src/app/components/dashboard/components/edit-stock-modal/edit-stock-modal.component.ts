@@ -5,9 +5,10 @@ import { LugarService } from 'src/app/services/lugarservice/lugar.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 
 @Component({
-  selector: 'app-edit-stock-modal',
-  templateUrl: './edit-stock-modal.component.html',
-  styleUrls: ['./edit-stock-modal.component.css']
+    selector: 'app-edit-stock-modal',
+    templateUrl: './edit-stock-modal.component.html',
+    styleUrls: ['./edit-stock-modal.component.css'],
+    standalone: false
 })
 export class EditStockModalComponent {
   editStockForm: FormGroup;

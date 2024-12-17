@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { MailService } from 'src/app/services/mailService/mail.service';
 
 @Component({
-  selector: 'app-misolicitud',
-  templateUrl: './misolicitud.component.html',
-  styleUrls: ['./misolicitud.component.css']
+    selector: 'app-misolicitud',
+    templateUrl: './misolicitud.component.html',
+    styleUrls: ['./misolicitud.component.css'],
+    standalone: false
 })
 export class MisolicitudComponent implements OnInit {
   solicitudes: any[] = [];

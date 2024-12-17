@@ -4,9 +4,10 @@ import { EditStockModalComponent } from '../edit-stock-modal/edit-stock-modal.co
 import { StockService } from 'src/app/services/stock/stock.service';
 
 @Component({
-  selector: 'app-detalle-stock',
-  templateUrl: './detalle-stock.component.html',
-  styleUrls: ['./detalle-stock.component.css']
+    selector: 'app-detalle-stock',
+    templateUrl: './detalle-stock.component.html',
+    styleUrls: ['./detalle-stock.component.css'],
+    standalone: false
 })
 export class DetalleStockComponent {
 

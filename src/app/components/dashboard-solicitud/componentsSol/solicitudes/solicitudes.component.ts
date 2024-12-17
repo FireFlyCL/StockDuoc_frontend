@@ -6,9 +6,10 @@ import { EditEstadoSolComponent } from '../edit-estado-sol/edit-estado-sol.compo
 import { DocumentoComponent } from '../documento/documento.component';
 
 @Component({
-  selector: 'app-solicitudes',
-  templateUrl: './solicitudes.component.html',
-  styleUrls: ['./solicitudes.component.css']
+    selector: 'app-solicitudes',
+    templateUrl: './solicitudes.component.html',
+    styleUrls: ['./solicitudes.component.css'],
+    standalone: false
 })
 export class SolicitudesComponent implements OnInit {
 

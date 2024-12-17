@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { CarritoService } from 'src/app/services/carritoService/carrito.service';
 
 @Component({
-  selector: 'app-navbarcart',
-  templateUrl: './navbarcart.component.html',
-  styleUrls: ['./navbarcart.component.css']
+    selector: 'app-navbarcart',
+    templateUrl: './navbarcart.component.html',
+    styleUrls: ['./navbarcart.component.css'],
+    standalone: false
 })
 export class NavbarcartComponent {
   viewCart: boolean = false;

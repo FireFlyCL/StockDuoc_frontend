@@ -5,9 +5,10 @@ import { LugarService } from 'src/app/services/lugarservice/lugar.service';
 import { StockService } from 'src/app/services/stock/stock.service';
 
 @Component({
-  selector: 'app-agregar-stock-modal',
-  templateUrl: './agregar-stock-modal.component.html',
-  styleUrls: ['./agregar-stock-modal.component.css']
+    selector: 'app-agregar-stock-modal',
+    templateUrl: './agregar-stock-modal.component.html',
+    styleUrls: ['./agregar-stock-modal.component.css'],
+    standalone: false
 })
 export class AgregarStockModalComponent implements OnInit {
 

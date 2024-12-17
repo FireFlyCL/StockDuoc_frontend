@@ -6,9 +6,10 @@ import { Route } from "@angular/router";
 import { UserService } from 'src/app/services/userservice/user.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.css'],
+    standalone: false
 })
 
 export class NavbarComponent implements OnInit {
