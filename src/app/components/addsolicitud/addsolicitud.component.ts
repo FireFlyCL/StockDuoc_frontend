@@ -1,15 +1,27 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter,
   MAT_MOMENT_DATE_ADAPTER_OPTIONS,
 } from '@angular/material-moment-adapter';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from '@angular/material/core';
 import 'moment/locale/ja';
 import 'moment/locale/fr';
 import moment from 'moment';
-import { Solicitud, SolicitudService } from 'src/app/services/solicitudservice/solicitud.service';
+import {
+  Solicitud,
+  SolicitudService,
+} from 'src/app/services/solicitudservice/solicitud.service';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 import { SolproductService } from 'src/app/services/solproductservice/solproduct.service';
 import { Router } from '@angular/router';
@@ -19,9 +31,6 @@ import { SolicitudProducto } from '../addproducto/addproducto.component';
 import { catchError, map, throwError } from 'rxjs';
 import { MailService } from 'src/app/services/mailService/mail.service';
 import { UserService } from 'src/app/services/userservice/user.service';
-
-
-
 
 @Component({
   selector: 'app-addsolicitud',
@@ -50,12 +59,20 @@ export class AddsolicitudComponent implements OnInit {
   products!: [];
   seleccionados: Array<[number, number]> = [];
   horas: string[] = [];
-  loading : boolean = false
+  loading: boolean = false;
 
-  constructor(private fb: FormBuilder, private productoService: ProductoService,
-    private router: Router, @Inject(MAT_DIALOG_DATA) public solProd: any[], private carritoService: CarritoService,
-    private solicitudService: SolicitudService, private solProductosService: SolproductService
-    , public dialog: MatDialog, private mailService : MailService,private usuarioService : UserService) {
+  constructor(
+    private fb: FormBuilder,
+    private productoService: ProductoService,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public solProd: any[],
+    private carritoService: CarritoService,
+    private solicitudService: SolicitudService,
+    private solProductosService: SolproductService,
+    public dialog: MatDialog,
+    private mailService: MailService,
+    private usuarioService: UserService
+  ) {
     this.minDate = new Date(); // Obtener la fecha actual
     this.minDate.setDate(this.minDate.getDate() + 2);
   } // Añadir 2 días
@@ -68,7 +85,7 @@ export class AddsolicitudComponent implements OnInit {
       fechaRegreso: ['', Validators.required],
       horaInicio: ['', Validators.required],
       horaTermino: ['', Validators.required],
-      seccion: ['', Validators.required]
+      seccion: ['', Validators.required],
     });
   }
 
@@ -84,9 +101,13 @@ export class AddsolicitudComponent implements OnInit {
       //console.log("clientedata");
       //console.log(clientedata);
       // Asegúrate de que clientedata y clientedata.escuela no sean null o undefined antes de acceder a id_escuela
-      let areaId = clientedata && clientedata.escuela ? clientedata.escuela.id_escuela : null;
-      let res_nombre_solicitante = sessionStorage.getItem('nombre')
-      let res_correo_solicitante = clientedata && clientedata.correo ? clientedata.correo : null;
+      let areaId =
+        clientedata && clientedata.escuela
+          ? clientedata.escuela.id_escuela
+          : null;
+      let res_nombre_solicitante = sessionStorage.getItem('nombre');
+      let res_correo_solicitante =
+        clientedata && clientedata.correo ? clientedata.correo : null;
       console.log(areaId);
 
       //console.log(areaId);
@@ -95,11 +116,20 @@ export class AddsolicitudComponent implements OnInit {
       const fechaRegreso = this.solicitudForm.get('fechaRegreso')?.value;
 
       // Formatear las fechas de Moment a string en formato 'YYYY-MM-DD'
-      const fechaEntregaFormatted = fechaEntrega ? moment(fechaEntrega).format('YYYY-MM-DD') : null;
-      const fechaRegresoFormatted = fechaRegreso ? moment(fechaRegreso).format('YYYY-MM-DD') : null;
+      const fechaEntregaFormatted = fechaEntrega
+        ? moment(fechaEntrega).format('YYYY-MM-DD')
+        : null;
+      const fechaRegresoFormatted = fechaRegreso
+        ? moment(fechaRegreso).format('YYYY-MM-DD')
+        : null;
 
       // Crear un objeto con los datos del formulario y las fechas formateadas
-      if (fechaEntregaFormatted && fechaRegresoFormatted && res_correo_solicitante && res_nombre_solicitante) {
+      if (
+        fechaEntregaFormatted &&
+        fechaRegresoFormatted &&
+        res_correo_solicitante &&
+        res_nombre_solicitante
+      ) {
         const solicitud = {
           fecha_entrega: fechaEntregaFormatted?.toString(),
           fecha_regreso: fechaRegresoFormatted?.toString(),
@@ -113,56 +143,70 @@ export class AddsolicitudComponent implements OnInit {
         console.log('Formulario válido, enviar datos:', solicitud);
 
         //AQUI OCUPO MIS SERVICIOS PARA CREAR LA SOLICITUD Y LUEGO LA SOLICITUD_PRODUCTO
-        await this.solicitudService.crearSolicitud(solicitud).pipe(
-          catchError(error => {
-            console.error('Error al crear la solicitud:', error);
-            return throwError(() => new Error('Error al crear la solicitud'));
-          })
-        ).subscribe({
-          next: (respuestaSolicitud) => {
-            // Asumiendo que la respuesta incluye el ID de la nueva solicitud
-            const solicitudId = respuestaSolicitud.id_solicitud;
+        await this.solicitudService
+          .crearSolicitud(solicitud)
+          .pipe(
+            catchError((error) => {
+              console.error('Error al crear la solicitud:', error);
+              return throwError(() => new Error('Error al crear la solicitud'));
+            })
+          )
+          .subscribe({
+            next: (respuestaSolicitud) => {
+              // Asumiendo que la respuesta incluye el ID de la nueva solicitud
+              const solicitudId = respuestaSolicitud.id_solicitud;
 
-            if (solicitudId) {
-              // Ahora crea las solicitudes de producto asociadas a la solicitud creada
-              this.solProd.forEach(async (element) => {
-                let nuevaSolicitudProducto: SolicitudProducto = {
-                  cantidad: element.cantidad ,
-                  descripcion: element.descripcion || "editable",
-                  productoId: element.producto.id_producto,
-                  solicitudId: solicitudId,  // Usa el ID de la solicitud recién creada
-                  observacion: element.observacion || "editable"
-                };
+              if (solicitudId) {
+                // Ahora crea las solicitudes de producto asociadas a la solicitud creada
+                this.solProd.forEach(async (element) => {
+                  let nuevaSolicitudProducto: SolicitudProducto = {
+                    cantidad: element.cantidad,
+                    descripcion: element.descripcion || 'editable',
+                    productoId: element.producto.id_producto,
+                    solicitudId: solicitudId, // Usa el ID de la solicitud recién creada
+                    observacion: element.observacion || 'editable',
+                  };
 
-                await this.solProductosService.crearSolicitudProducto(nuevaSolicitudProducto).pipe(
-                  catchError(error => {
-                    console.error('Error al crear la solicitud de producto:', error);
-                    return throwError(() => new Error('Error al crear la solicitud de producto'));
-                  })
-                ).subscribe({
-                  next: async (respuestaProducto) => {
-                    console.log('Solicitud de producto creada con éxito', respuestaProducto);
-                    
-                    await this.confirmarSolicitud(solicitud)
-                    // Aquí podrías redirigir al usuario o mostrar un mensaje de éxito
-                    this.dialog.closeAll();
-                  },
-                  error: (error) => {
-                    // Manejar errores específicos de la solicitud de producto aquí
-                    console.error(error)
-                  }
+                  await this.solProductosService
+                    .crearSolicitudProducto(nuevaSolicitudProducto)
+                    .pipe(
+                      catchError((error) => {
+                        console.error(
+                          'Error al crear la solicitud de producto:',
+                          error
+                        );
+                        return throwError(
+                          () =>
+                            new Error('Error al crear la solicitud de producto')
+                        );
+                      })
+                    )
+                    .subscribe({
+                      next: async (respuestaProducto) => {
+                        console.log(
+                          'Solicitud de producto creada con éxito',
+                          respuestaProducto
+                        );
+
+                        await this.confirmarSolicitud(solicitud);
+                        // Aquí podrías redirigir al usuario o mostrar un mensaje de éxito
+                        this.dialog.closeAll();
+                      },
+                      error: (error) => {
+                        // Manejar errores específicos de la solicitud de producto aquí
+                        console.error(error);
+                      },
+                    });
                 });
-              });
-            } else {
-              console.log("NO DEVOLVIO IDSOLICITUD");
-
-            }
-          },
-          error: (error) => {
-            // Manejar errores específicos de la solicitud aquí
-            console.error(error)
-          }
-        });
+              } else {
+                console.log('NO DEVOLVIO IDSOLICITUD');
+              }
+            },
+            error: (error) => {
+              // Manejar errores específicos de la solicitud aquí
+              console.error(error);
+            },
+          });
       }
     } else {
       console.error('Formulario no válido');
@@ -171,7 +215,7 @@ export class AddsolicitudComponent implements OnInit {
 
   async cargarUsuarios(idArea: number) {
     return await this.usuarioService.getUsuariosPorArea(idArea).pipe(
-      map(usuarios => {
+      map((usuarios) => {
         // Suponiendo que el correo del administrador es el primer usuario
         return usuarios.length > 0 ? usuarios[0].correo_institucional : null;
       })
@@ -180,32 +224,48 @@ export class AddsolicitudComponent implements OnInit {
 
   async confirmarSolicitud(datosSolicitud: any) {
     (await this.cargarUsuarios(datosSolicitud.idArea)).subscribe({
-      next: correoAdmin => {
+      next: (correoAdmin) => {
         console.log(correoAdmin);
         if (correoAdmin) {
-          this.mailService.enviarEmailSolicitudCreada(datosSolicitud).subscribe({
-            next: response => {
-              console.log('Email de confirmación enviado con éxito', response);
-              this.mailService.enviarEmailSolicitudCreadaAdmin(datosSolicitud, correoAdmin).subscribe({
-                next: response => {
-                  console.log('Email de confirmación enviado con éxito', response);
-                },
-                error: error => {
-                  console.error('Error al enviar email de confirmación', error);
-                }
-              });
-            },
-            error: error => {
-              console.error('Error al enviar email de confirmación', error);
-            }
-          });
+          this.mailService
+            .enviarEmailSolicitudCreada(datosSolicitud)
+            .subscribe({
+              next: (response) => {
+                console.log(
+                  'Email de confirmación enviado con éxito',
+                  response
+                );
+                this.mailService
+                  .enviarEmailSolicitudCreadaAdmin(datosSolicitud, correoAdmin)
+                  .subscribe({
+                    next: (response) => {
+                      console.log(
+                        'Email de confirmación enviado con éxito',
+                        response
+                      );
+                    },
+                    error: (error) => {
+                      console.error(
+                        'Error al enviar email de confirmación',
+                        error
+                      );
+                    },
+                  });
+              },
+              error: (error) => {
+                console.error('Error al enviar email de confirmación', error);
+              },
+            });
         } else {
           console.error('No se encontró el correo del administrador');
         }
       },
-      error: error => {
-        console.error('Hubo un error al obtener el correo del administrador', error);
-      }
+      error: (error) => {
+        console.error(
+          'Hubo un error al obtener el correo del administrador',
+          error
+        );
+      },
     });
   }
 
@@ -215,7 +275,6 @@ export class AddsolicitudComponent implements OnInit {
       this.horas.push(i.toString().padStart(2, '0') + ':00'); // Añade ceros a la izquierda si es necesario
     }
   }
-
 }
 
 export interface Area {
@@ -236,8 +295,6 @@ export interface Producto {
   deleteAt: null | Date; // Igual que en la interfaz Area
   descripcion: string;
 }
-
-
 
 // export interface Producto {
 //   id_Producto: number;
@@ -266,7 +323,6 @@ export interface Producto {
 //   isLoading = false;
 //   minDate: Date;
 //   //solicitudForm2: FormGroup;
-
 
 //   constructor(private formBuilder: FormBuilder, private _adapter: DateAdapter<any>,
 //     @Inject(MAT_DATE_LOCALE) private _locale: string, private soliS: SolicitudService,
@@ -394,7 +450,6 @@ export interface Producto {
 //       this.isLoading = false
 //     }
 //   }
-
 
 //   soliProducto(id_solicitude: number, mensaje: string) {//, mensaje: string
 //     try {

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -8,7 +11,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -29,9 +32,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AlertaComponent } from './components/alerta/alerta.component';
-import { BarcodeScannerLivestreamModule } from "ngx-barcode-scanner";
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatListModule} from "@angular/material/list";
+import { BarcodeScannerLivestreamModule } from 'ngx-barcode-scanner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { RedirectmodelComponent } from './components/redirect/redirectmodel/redirectmodel.component';
 import { ProductosComponent } from './components/dashboard/components/productos/productos.component';
@@ -56,73 +59,78 @@ import { CarritoComponent } from './components/carrito/carrito.component';
 import { NavbarcartComponent } from './components/navbarcart/navbarcart.component';
 import { SolicitudComponent } from './components/solicitud/solicitud.component';
 import { MisolicitudComponent } from './components/misolicitud/misolicitud.component';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DescargaInventarioComponent } from './components/descarga-inventario/descarga-inventario.component';
 
-
-@NgModule({ declarations: [
-        AppComponent,
-        LoginComponent,
-        PerfilComponent,
-        NavbarComponent,
-        AddproductoComponent,
-        DashboardComponent,
-        AddsolicitudComponent,
-        AlertaComponent,
-        RedirectmodelComponent,
-        ProductosComponent,
-        StockComponent,
-        StockCriticoComponent,
-        DetalleProductoComponent,
-        AgregarProductoModalComponent,
-        DetalleStockComponent,
-        AgregarStockModalComponent,
-        AgregarLugarModalComponent,
-        LugarComponent,
-        EditProductModalComponent,
-        EditStockModalComponent,
-        EditLugarModalComponent,
-        DashboardSolicitudComponent,
-        DocumentoComponent,
-        DetalleSolicitudComponent,
-        SolicitudesComponent,
-        EditEstadoSolComponent,
-        CarritoComponent,
-        NavbarcartComponent,
-        SolicitudComponent,
-        MisolicitudComponent,
-        DescargaInventarioComponent
-    ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatCardModule,
-        MatTabsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        MatTableModule,
-        MatToolbarModule,
-        ReactiveFormsModule,
-        MatGridListModule,
-        FontAwesomeModule,
-        FormsModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatListModule,
-        MatMomentDateModule,
-        MatSelectModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDialogModule,
-        BarcodeScannerLivestreamModule,
-        MatSidenavModule,
-        OAuthModule.forRoot(),
-        MatSidenavModule,
-        MatListModule,
-        CdkTableModule,
-        MatInputModule,
-        MatExpansionModule,
-        MatProgressSpinnerModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
-export class AppModule { }
+@NgModule({
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    PerfilComponent,
+    NavbarComponent,
+    AddproductoComponent,
+    DashboardComponent,
+    AddsolicitudComponent,
+    AlertaComponent,
+    RedirectmodelComponent,
+    ProductosComponent,
+    StockComponent,
+    StockCriticoComponent,
+    DetalleProductoComponent,
+    AgregarProductoModalComponent,
+    DetalleStockComponent,
+    AgregarStockModalComponent,
+    AgregarLugarModalComponent,
+    LugarComponent,
+    EditProductModalComponent,
+    EditStockModalComponent,
+    EditLugarModalComponent,
+    DashboardSolicitudComponent,
+    DocumentoComponent,
+    DetalleSolicitudComponent,
+    SolicitudesComponent,
+    EditEstadoSolComponent,
+    CarritoComponent,
+    NavbarcartComponent,
+    SolicitudComponent,
+    MisolicitudComponent,
+    DescargaInventarioComponent,
+  ],
+  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatTableModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatGridListModule,
+    FontAwesomeModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatListModule,
+    MatMomentDateModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    BarcodeScannerLivestreamModule,
+    MatSidenavModule,
+    OAuthModule.forRoot(),
+    MatSidenavModule,
+    MatListModule,
+    CdkTableModule,
+    MatInputModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+  ],
+  providers: [provideHttpClient(withInterceptorsFromDi())],
+})
+export class AppModule {}
