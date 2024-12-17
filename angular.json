@@ -72,10 +72,10 @@
             "port": 8000},
           "configurations": {
             "production": {
-              "browserTarget": "stockWeb:build:production"
+              "buildTarget": "stockWeb:build:production"
             },
             "development": {
-              "browserTarget": "stockWeb:build:development"
+              "buildTarget": "stockWeb:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "stockWeb:build"
+            "buildTarget": "stockWeb:build"
           }
         },
         "test": {
