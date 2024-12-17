@@ -8,7 +8,7 @@ import {
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import 'moment/locale/ja';
 import 'moment/locale/fr';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Solicitud, SolicitudService } from 'src/app/services/solicitudservice/solicitud.service';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 import { SolproductService } from 'src/app/services/solproductservice/solproduct.service';
