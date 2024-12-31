@@ -1,38 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 import { DetalleProductoComponent } from '../detalle-producto/detalle-producto.component';
 import { AgregarProductoModalComponent } from '../agregar-producto-modal/agregar-producto-modal.component';
 import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock-modal.component';
 import { EditProductModalComponent } from '../edit-product-modal/edit-product-modal.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-productos',
-    templateUrl: './productos.component.html',
-    styleUrls: ['./productos.component.css'],
-    standalone: false
+  selector: 'app-productos',
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.css'],
+  standalone: false
 })
+
+
 export class ProductosComponent {
 
   productos: Producto[] = [];
   usuario: any
 
-  columnasMostradas: string[] = ['nombre', 'marca_modelo', 'imagen', 'acciones'];
+  columnasMostradas: string[] = ['nombre', 'marca_modelo', 'stock_critico','stock_actual', 'imagen', 'acciones'];
+
+  router = inject(Router);
+
+  subArea = '';
 
   constructor(private productoService: ProductoService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog) {
+
+    let partes: string[] = this.router.url.split('/');
+    this.subArea = partes[3];
+    console.log('subarea: ', this.subArea)
+
+  }
 
   ngOnInit(): void {
+
+
     this.getProductosByArea()
+
+
   }
 
   async showData() {
     let token = sessionStorage.getItem('token');
     if (token) {
       try {
-        console.log(JSON.parse(token));
 
         return JSON.parse(token); // Parsea el token si es una cadena JSON
+
       } catch (error) {
         console.error("Error al parsear el token:", error);
       }
@@ -43,16 +60,39 @@ export class ProductosComponent {
   async getProductosByArea() {
     let token: any = await this.showData()
     let id = token.areaIdArea.id_area
-    //console.log(id);
-    this.productoService.getProductosByAreaId(id).subscribe(
-      data => {
-        this.productos = data;
-        console.log(this.productos);
-      },
-      error => {
-        console.error('Hubo un error al obtener los productos', error);
-      }
-    );
+
+
+    if (this.subArea == 'informatica') {
+
+      this.productoService.getProductosByAreaIdInformatica(id).subscribe(
+        data => {
+          this.productos = data;
+          console.log(this.productos)
+        },
+        error => {
+          console.error('Hubo un error al obtener los productos', error);
+        }
+      );
+
+    } else {
+
+
+      this.productoService.getProductosByAreaIdTeleco(id).subscribe(
+        data => {
+          this.productos = data;
+          console.log(this.productos)
+        },
+        error => {
+          console.error('Hubo un error al obtener los productos', error);
+        }
+      );
+
+
+
+    }
+
+
+
   }
 
   abrirModalAgregarProducto(): void {

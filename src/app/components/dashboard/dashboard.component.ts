@@ -9,11 +9,14 @@ import { Router } from '@angular/router';
     styleUrls: ['./dashboard.component.css'],
     standalone: false
 })
+
 export class DashboardComponent {
-  typesOfShoes: { name: string, route: string }[] = [
-    { name: 'Productos', route: '/dashboard/productos' },
-    { name: 'Stock', route: '/dashboard/stock' },
-    { name: 'Stock Crítico', route: '/dashboard/stock-critico' },
+
+  listaMenu: { name: string, route: string }[] = [
+    { name: 'Inventario Informática', route: '/dashboard/productos/informatica' },
+    { name: 'Inventario Teleco', route: '/dashboard/productos/teleco' },    
+ //   { name: 'Stock', route: '/dashboard/stock' },
+ //   { name: 'Stock Crítico', route: '/dashboard/stock-critico' },
     { name: 'Lugares', route: '/dashboard/lugar' },
     { name: 'Volver Atras', route: '/perfil' }
   ];

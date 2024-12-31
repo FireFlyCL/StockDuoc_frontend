@@ -36,7 +36,8 @@ const routes: Routes = [
     canActivate: [AdminGuard], data: { roles: ['admin'] },
     children: [
       { path: '', redirectTo: 'productos', pathMatch: 'full' }, // Redirige a 'productos' por defecto
-      { path: 'productos', component: ProductosComponent },
+      { path: 'productos/informatica', component: ProductosComponent },
+      { path: 'productos/teleco', component: ProductosComponent },      
       { path: 'stock', component: StockComponent },
       { path: 'stock-critico', component: StockCriticoComponent },
       { path: 'lugar', component: LugarComponent }

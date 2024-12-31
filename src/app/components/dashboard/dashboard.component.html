@@ -4,12 +4,13 @@
       <span>Panel de Control Inventario</span>
     </mat-toolbar>
     <mat-selection-list #shoes [multiple]="false" (selectionChange)="onSelection($event)">
-      <mat-list-option *ngFor="let shoe of typesOfShoes ; let i = index" [value]="shoe" [selected]="i === 0">
-        {{ shoe.name }}
+      <mat-list-option *ngFor="let item of listaMenu ; let i = index" [value]="item" [selected]="i === 0">
+        {{ item.name }}
       </mat-list-option>
     </mat-selection-list>
-
   </mat-sidenav>
+
+  
   <mat-sidenav-content>
     <mat-card class="content-card">
       <router-outlet></router-outlet>

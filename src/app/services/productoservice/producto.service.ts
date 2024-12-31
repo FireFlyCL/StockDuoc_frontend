@@ -29,8 +29,13 @@ export class ProductoService {
   //   return this.http.put<any>(`${this.apiUrl}/productomodel/${producto.id}`, producto);
   // }
 
-  getProductosByAreaId(areaId: number): Observable<Producto[]> {
-    const url = `${this.apiUrl}/productomodel/area/${areaId}`;
+  getProductosByAreaIdInformatica(areaId: number): Observable<Producto[]> {
+    const url = `${this.apiUrl}/productomodel/area_informatica/${areaId}`;
+    return this.http.get<Producto[]>(url);
+  }
+
+  getProductosByAreaIdTeleco(areaId: number): Observable<Producto[]> {
+    const url = `${this.apiUrl}/productomodel/area_teleco/${areaId}`;
     return this.http.get<Producto[]>(url);
   }
 
@@ -55,6 +60,7 @@ interface Producto {
   marca: string;
   modelo: string;
   stock_critico: number;
+  stock_actual: number;
   imagen: string;
   imagenUrl: string;
   area: {

@@ -16,6 +16,16 @@
       <mat-cell *matCellDef="let producto"> {{producto.marca}} | {{producto.modelo}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="stock_critico">
+      <mat-header-cell *matHeaderCellDef> Stock Crítico </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.stock_critico}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="stock_actual">
+      <mat-header-cell *matHeaderCellDef> Stock Actual </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.stock_actual}} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="imagen">
       <mat-header-cell *matHeaderCellDef> Imagen </mat-header-cell>
       <mat-cell *matCellDef="let producto">
