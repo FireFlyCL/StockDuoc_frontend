@@ -18,8 +18,31 @@ mat-tab-group {
 }
 
 mat-form-field {
-    width: 100%;
+    width: 95%;
     margin-top: 20px;
+}
+
+.login-form{
+    padding: 30px;
+}
+
+.user .pass{
+    width: 90%;
+    margin-top: 20px;
+}
+
+.log-in{
+    background-color: #ffffff !important; 
+    border: #FFB800 !important;
+    border-radius: 20px; /* Bordes redondeados */
+    padding: 10px 20px; /* Tamaño interno */
+    font-size: 16px; /* Tamaño de texto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra */
+    transition: all 0.3s ease; /* Animación */
+}
+
+.log-in:hover{
+    background-color: #FFB800 !important;
 }
 
 .custom-button-div {

@@ -16,22 +16,22 @@
                 </div>
             </mat-tab>
             <!-- Tab solo para administrativos -->
-            <mat-tab label="Administrativos">
+            <mat-tab class= "login-form" label="Administrativos">
                 <form [formGroup]="loginForm" (ngSubmit)="iniciarSesion()">
                     <!-- Campos de inicio de sesión para administrativos -->
-                    <mat-form-field>
+                    <mat-form-field class="user">
                         <mat-label>Usuario</mat-label>
                         <input matInput placeholder="Ingrese su usuario" formControlName="usuario">
                     </mat-form-field>
 
-                    <mat-form-field>
+                    <mat-form-field class="pass">
                         <mat-label>Contraseña</mat-label>
                         <input matInput type="password" placeholder="Ingrese su contraseña"
                             formControlName="contraseña">
                     </mat-form-field>
 
                     <!-- Botón de inicio de sesión para administrativos -->
-                    <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+                    <button mat-raised-button class="log-in" type="submit">Iniciar sesión</button>
                 </form>
             </mat-tab>
         </mat-tab-group>
