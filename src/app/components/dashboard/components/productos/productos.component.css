@@ -5,6 +5,17 @@
     /* Ocupar todo el espacio vertical */
 }
 
+.acciones-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espacio entre botones */
+    padding: 10px;
+  }
+
+.accion-btn {
+    width: 75%; /* Asegura que todos los botones tengan el mismo ancho */
+  }
+
 .table-header {
     display: flex;
     justify-content: space-between;
@@ -37,9 +48,14 @@
     }
 }
 
-.product-image {
-    width: 80%;
-    height: 80%;
-    object-fit: cover;
-    /* Esto asegurará que la imagen se ajuste al contenedor sin perder sus proporciones */
-}
+.imagen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .product-image {
+    max-width: 250px; /* Ajusta el tamaño máximo de la imagen */
+    max-height: 250px;
+    object-fit: contain; /* Asegura que la imagen se vea completa sin recortarse */
+  }

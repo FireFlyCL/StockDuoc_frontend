@@ -1,8 +1,5 @@
-<!-- En tu archivo DetalleSolicitudComponent.html -->
-<div *ngIf="loading">
-    <mat-spinner>
-
-    </mat-spinner>
+<div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
     <div><p>CARGANDO</p></div>
 </div>
 
@@ -10,7 +7,7 @@
     <!-- Todo el contenido del modal va aquí -->
     <h2>Editar Estado de la Solicitud</h2>
     <form [formGroup]="form" (ngSubmit)="cambiarEstado()">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" class="full-width">
             <mat-label>Estado de la Solicitud</mat-label>
             <mat-select formControlName="estado">
                 <mat-option *ngFor="let estado of estados" [value]="estado.id_estado_solicitud">
@@ -21,6 +18,8 @@
                 Debe seleccionar un estado
             </mat-error>
         </mat-form-field>
-        <div><button mat-raised-button color="primary" type="submit">Actualizar Estado</button></div>
+        <div class="button-container">
+            <button mat-raised-button color="primary" type="submit">Actualizar Estado</button>
+        </div>
     </form>
 </div>

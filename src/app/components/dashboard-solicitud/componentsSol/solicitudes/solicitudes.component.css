@@ -1,0 +1,10 @@
+.acciones-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espacio entre botones */
+    padding: 10px;
+  }
+
+.accion-btn {
+    width: 75%; /* Asegura que todos los botones tengan el mismo ancho */
+  }

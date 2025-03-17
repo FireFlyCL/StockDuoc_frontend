@@ -31,17 +31,17 @@
     <!-- Columna para acciones como editar o eliminar -->
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
-      <mat-cell *matCellDef="let solicitud">
+      <mat-cell *matCellDef="let solicitud" class="acciones-container">
         <!-- Botón Detalle -->
-        <button mat-raised-button color="primary" (click)="abrirModalDetalleSolicitud(solicitud.solicitud.id_solicitud)"
+        <button mat-raised-button color="primary" class="accion-btn" (click)="abrirModalDetalleSolicitud(solicitud.solicitud.id_solicitud)"
           title="Ver detalles">
           Detalle
         </button>
-        <button mat-raised-button color="accent" (click)="abrirModaleditarSolicitud(solicitud.solicitud.id_solicitud)"
+        <button mat-raised-button color="accent" class="accion-btn" (click)="abrirModaleditarSolicitud(solicitud.solicitud.id_solicitud)"
           title="Ver detalles">
           Opciones
         </button>
-        <button mat-raised-button color="warn" (click)="abrirModalPdfSolicitud(solicitud.solicitud.id_solicitud)"
+        <button mat-raised-button color="warn" class="accion-btn" (click)="abrirModalPdfSolicitud(solicitud.solicitud.id_solicitud)"
           title="Ver detalles">
           PDF
         </button>

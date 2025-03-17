@@ -28,21 +28,19 @@
 
     <ng-container matColumnDef="imagen">
       <mat-header-cell *matHeaderCellDef> Imagen </mat-header-cell>
-      <mat-cell *matCellDef="let producto">
-        <img mat-card-image [src]="producto.imagenUrl" (error)="errorCargarImagen($event)" alt="{{ producto.nombre }}"
-          class="product-image">
+      <mat-cell *matCellDef="let producto" class="imagen-container">
+        <img mat-card-image [src]="producto.imagenUrl" (error)="errorCargarImagen($event)" alt="{{ producto.nombre }}" class="product-image">
       </mat-cell>
     </ng-container>
 
     <!-- Columna para Acciones CRUD -->
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
-      <mat-cell *matCellDef="let producto">
-        <button mat-raised-button color="primary" (click)="abrirModalDetalle(producto)">Detalle</button>
-        <button mat-raised-button color="accent" (click)="abrirModalEditarProducto(producto.id_producto)">Editar</button>
-        <button mat-raised-button color="warn" (click)="onDeleteProducto(producto.id_producto)">Eliminar</button>
-        <button mat-raised-button color="primary"
-          (click)="abrirModalAgregarStockByproducto(producto.id_producto)">Agregar Stock</button>
+      <mat-cell *matCellDef="let producto" class="acciones-container">
+        <button mat-raised-button color="primary" class="accion-btn" (click)="abrirModalDetalle(producto)">Detalle</button>
+        <button mat-raised-button color="accent" class="accion-btn" (click)="abrirModalEditarProducto(producto.id_producto)">Editar</button>
+        <button mat-raised-button color="warn" class="accion-btn" (click)="onDeleteProducto(producto.id_producto)">Eliminar</button>
+        <button mat-raised-button color="primary" class="accion-btn" (click)="abrirModalAgregarStockByproducto(producto.id_producto)">Agregar Stock</button>
       </mat-cell>
     </ng-container>
 

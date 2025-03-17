@@ -1,9 +1,39 @@
-/* En tu archivo de estilos del componente DetalleSolicitudComponent */
+.mat-dialog-container {
+    width: 90% !important; /* Ajustar el ancho del modal */
+    max-width: 350px !important; /* Reducir el ancho máximo para que no sea tan grande */
+    min-width: 300px; /* Asegurar que no sea demasiado pequeño */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
 .dialog-content-container {
-    max-height: 90vh;
-    /* O el porcentaje que prefieras */
-    overflow-y: auto;
-    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
 }
 
 .loading-overlay {

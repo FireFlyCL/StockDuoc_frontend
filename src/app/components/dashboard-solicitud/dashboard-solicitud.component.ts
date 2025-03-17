@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class DashboardSolicitudComponent {
   typesOfShoes: { name: string, route: string }[] = [
-    { name: 'Solicutdes', route: '/dashboard/productos' },
-    { name: 'Volver Atras', route: '/perfil' }
+    { name: 'Solicitudes', route: '/dashboard/productos' },
+    { name: 'Volver Atrás', route: '/perfil' }
   ];
 
   constructor(private router: Router) { }
