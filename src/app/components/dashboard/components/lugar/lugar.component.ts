@@ -65,7 +65,18 @@ export class LugarComponent {
     // Implementa la lógica para editar un lugar
   }
 
-  eliminarLugar(idLugar: number): void {
-    // Implementa la lógica para eliminar un lugar
+  eliminarLugar(id_Lugar: number): void {
+    const confirmacion = confirm('¿Estás seguro de que deseas eliminar este lugar?');
+    if (confirmacion) {
+      this.lugarService.deleteLugar(id_Lugar).subscribe({
+        next: () => {
+          console.log(`Lugar con ID ${id_Lugar} eliminado correctamente.`);
+          this.cargarLugares(); // Recargar la lista tras eliminar
+        },
+        error: (error) => {
+          console.error('Error al eliminar el lugar:', error);
+        }
+      });
+    }
   }
 }

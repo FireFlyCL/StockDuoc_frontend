@@ -29,6 +29,12 @@ export class LugarService {
     return this.http.put<any>(`${this.apiUrl}/lugarmodel/${id}`, lugarData);
   }
 
+  // Método para eliminar un lugar
+  deleteLugar(id: number): Observable<any> {
+    const url = `${this.apiUrl}/lugarmodel/${id}`;
+    return this.http.delete<any>(url);
+  }
+
 }
 export interface Lugar {
   id_lugar: number;
