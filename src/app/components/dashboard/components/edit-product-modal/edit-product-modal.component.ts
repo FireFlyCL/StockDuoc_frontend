@@ -73,6 +73,30 @@ export class EditProductModalComponent {
     }
   }
 
+  updateProduct(): void {
+    if (this.editProductForm.valid) {
+      const formData = new FormData();
+      formData.append('nombre', this.editProductForm.value.nombre);
+      formData.append('marca', this.editProductForm.value.marca);
+      formData.append('modelo', this.editProductForm.value.modelo);
+      formData.append('stock_critico', this.editProductForm.value.stock_critico);
+      formData.append('descripcion', this.editProductForm.value.descripcion);
+      if (this.selectedFile) {
+        formData.append('imagen', this.selectedFile , this.selectedFile.name);
+      }
+      
+      this.productoService.updateProducto(this.id_producto, formData).subscribe(
+        response => {
+          console.log('Producto actualizado', response);
+          this.dialogRef.close(response);
+        },
+        error => {
+          console.error('Error al actualizar el producto', error);
+        }
+      );
+    }
+  }
+
   onCancel(): void {
     this.dialogRef.close();
   }

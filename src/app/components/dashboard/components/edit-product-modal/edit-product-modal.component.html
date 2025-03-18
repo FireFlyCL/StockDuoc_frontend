@@ -39,7 +39,7 @@
         <input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" />
 
         <div class="actions">
-            <button mat-raised-button color="primary" type="submit">Actualizar</button>
+            <button mat-raised-button color="primary" type="submit" (click)="updateProduct()">Actualizar</button>
             <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
         </div>
     </form>
