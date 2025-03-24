@@ -15,6 +15,7 @@ export class AgregarStockModalComponent implements OnInit {
   imagenUrl = '../assets/product.png'
   stockForm: FormGroup;
   lugares: any[] = []
+  permitirCamposOpcionales = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,20 +33,33 @@ export class AgregarStockModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarLugares()
+    this.cargarLugares();
+  }
+
+  toggleCamposOpcionales(): void {
+    if (this.permitirCamposOpcionales) {
+      this.stockForm.get('numero_serie')?.clearValidators();
+      this.stockForm.get('serie_sap')?.clearValidators();
+      this.stockForm.get('idLugar')?.clearValidators();
+    } else {
+      this.stockForm.get('numero_serie')?.setValidators([Validators.required]);
+      this.stockForm.get('serie_sap')?.setValidators([Validators.required]);
+      this.stockForm.get('idLugar')?.setValidators([Validators.required]);
+    }
+    this.stockForm.get('numero_serie')?.updateValueAndValidity();
+    this.stockForm.get('serie_sap')?.updateValueAndValidity();
+    this.stockForm.get('idLugar')?.updateValueAndValidity();
   }
 
   onFormSubmit(): void {
     if (this.stockForm.valid) {
-      // Clona los valores actuales del formulario
       const formData = { ...this.stockForm.value };
 
-      // Convierte serie_sap a un número si no es null o undefined
       if (formData.serie_sap != null) {
         formData.serie_sap = Number(formData.serie_sap);
       }
       console.log(formData.serie_sap);
-      
+
       this.stockService.crearStock(formData).subscribe(
         data => {
           console.log('Stock agregado', data);
@@ -70,6 +84,6 @@ export class AgregarStockModalComponent implements OnInit {
   }
 
   errorCargarImagen($event: ErrorEvent) {
-    return true
+    return true;
   }
 }

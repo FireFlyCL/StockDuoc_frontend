@@ -6,6 +6,9 @@
     <div class="img-container">
         <img mat-card-image [src]="imagenUrl" (error)="errorCargarImagen($event)">
     </div>
+        <mat-checkbox [(ngModel)]="permitirCamposOpcionales" (change)="toggleCamposOpcionales()">
+      Producto sin número de serie ni lugar específico
+    </mat-checkbox>
     <form [formGroup]="stockForm" (ngSubmit)="onFormSubmit()">
         <!-- Campos del formulario -->
         <mat-form-field appearance="fill">
