@@ -20,7 +20,7 @@ export class ProductosComponent {
   productos: Producto[] = [];
   usuario: any
 
-  columnasMostradas: string[] = ['nombre', 'marca_modelo', 'stock_critico','stock_actual', 'imagen', 'acciones'];
+  columnasMostradas: string[] = ['nombre', 'marca_modelo', 'stock_critico','stock_actual', 'descripcion', 'observaciones','fungible', 'imagen', 'acciones'];
 
   router = inject(Router);
 
@@ -188,4 +188,6 @@ interface Producto {
   };
   deleteAt: string | null;
   descripcion: string;
+  observaciones: string;
+  fungible: boolean;
 }

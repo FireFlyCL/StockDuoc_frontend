@@ -26,6 +26,21 @@
       <mat-cell *matCellDef="let producto"> {{producto.stock_actual}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="descripcion">
+      <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.descripcion}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="observaciones">
+      <mat-header-cell *matHeaderCellDef> Observaciones </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.observaciones}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fungible">
+      <mat-header-cell *matHeaderCellDef> Fungible </mat-header-cell>
+      <mat-cell *matCellDef="let producto"> {{producto.fungible ? 'Sí' : 'No' }} </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="imagen">
       <mat-header-cell *matHeaderCellDef> Imagen </mat-header-cell>
       <mat-cell *matCellDef="let producto" class="imagen-container">

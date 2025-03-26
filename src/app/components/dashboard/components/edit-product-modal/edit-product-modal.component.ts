@@ -4,10 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 
 @Component({
-    selector: 'app-edit-product-modal',
-    templateUrl: './edit-product-modal.component.html',
-    styleUrls: ['./edit-product-modal.component.css'],
-    standalone: false
+  selector: 'app-edit-product-modal',
+  templateUrl: './edit-product-modal.component.html',
+  styleUrls: ['./edit-product-modal.component.css'],
+  standalone: false,
 })
 export class EditProductModalComponent {
   editProductForm: FormGroup;
@@ -25,8 +25,10 @@ export class EditProductModalComponent {
       modelo: ['', Validators.required],
       stock_critico: [0, [Validators.required, Validators.min(0)]],
       descripcion: ['', Validators.required],
+      observaciones: [''],
       area: [0],
-      imagen_url: ['']
+      fungible: [false],
+      imagen_url: [''],
     });
   }
 
@@ -37,7 +39,8 @@ export class EditProductModalComponent {
 
   loadProductData(id: number): void {
     // Obtener datos del producto y actualizar el formulario
-    this.productoService.getProductoById(id).subscribe(producto => {
+    this.productoService.getProductoById(id).subscribe((producto) => {
+      producto.fungible = !!producto.fungible;
       this.editProductForm.patchValue(producto);
       console.log(this.editProductForm.value);
     });
@@ -51,46 +54,41 @@ export class EditProductModalComponent {
     }
   }
 
-  onSubmit(): void {
-    if (this.editProductForm.valid && this.selectedFile) {
-      const formData = new FormData();
-      formData.append('nombre', this.editProductForm.value.nombre);
-      formData.append('marca', this.editProductForm.value.marca);
-      formData.append('modelo', this.editProductForm.value.modelo);
-      formData.append('stock_critico', this.editProductForm.value.stock_critico);
-      formData.append('descripcion', this.editProductForm.value.descripcion);
-      formData.append('imagen', this.selectedFile , this.selectedFile.name);
-      // Llamada al servicio para actualizar el producto
-      this.productoService.updateProducto(this.id_producto, formData).subscribe(
-        response => {
-          console.log('Producto actualizado', response);
-          this.dialogRef.close(response);
-        },
-        error => {
-          console.error('Error al actualizar el producto', error);
-        }
-      );
-    }
-  }
-
   updateProduct(): void {
     if (this.editProductForm.valid) {
       const formData = new FormData();
+
       formData.append('nombre', this.editProductForm.value.nombre);
       formData.append('marca', this.editProductForm.value.marca);
       formData.append('modelo', this.editProductForm.value.modelo);
-      formData.append('stock_critico', this.editProductForm.value.stock_critico);
+      formData.append(
+        'stock_critico',
+        this.editProductForm.value.stock_critico.toString()
+      );
       formData.append('descripcion', this.editProductForm.value.descripcion);
-      if (this.selectedFile) {
-        formData.append('imagen', this.selectedFile , this.selectedFile.name);
+
+      if (this.editProductForm.value.observaciones) {
+        formData.append(
+          'observaciones',
+          this.editProductForm.value.observaciones
+        );
       }
-      
+
+      formData.append(
+        'fungible',
+        this.editProductForm.value.fungible ? 'true' : 'false'
+      );
+
+      if (this.selectedFile) {
+        formData.append('imagen', this.selectedFile, this.selectedFile.name);
+      }
+
       this.productoService.updateProducto(this.id_producto, formData).subscribe(
-        response => {
+        (response) => {
           console.log('Producto actualizado', response);
           this.dialogRef.close(response);
         },
-        error => {
+        (error) => {
           console.error('Error al actualizar el producto', error);
         }
       );

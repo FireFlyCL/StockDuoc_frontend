@@ -69,6 +69,8 @@ interface Producto {
   };
   deleteAt: string | null;
   descripcion: string;
+  observaciones: string;
+  fungible: boolean;
 }
 
 

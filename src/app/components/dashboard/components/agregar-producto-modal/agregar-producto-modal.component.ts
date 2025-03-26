@@ -23,7 +23,9 @@ export class AgregarProductoModalComponent implements OnInit {
       modelo: ['', Validators.required],
       stock_critico: [0, [Validators.required, Validators.min(0)]],
       descripcion: ['', Validators.required],
+      obsercaciones: [''],
       area: [0],
+      fungible: [false],
       imagen_url: ['']
     });
   }
@@ -63,7 +65,9 @@ export class AgregarProductoModalComponent implements OnInit {
       formData.append('modelo', this.productoForm.value.modelo);
       formData.append('stock_critico', this.productoForm.value.stock_critico);
       formData.append('descripcion', this.productoForm.value.descripcion);
+      formData.append('observaciones', this.productoForm.value.observaciones);
       formData.append('area', id.toString());
+      formData.append('fungible', this.productoForm.value.fungible ? '1' : '0');
       formData.append('imagen', this.selectedFile , this.selectedFile.name);
       this.productoService.createProducto(formData).subscribe(
         data => {
