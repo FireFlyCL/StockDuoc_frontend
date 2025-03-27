@@ -12,6 +12,8 @@ import { ProductoService } from 'src/app/services/productoservice/producto.servi
 export class AgregarProductoModalComponent implements OnInit {
   productoForm: FormGroup;
   selectedFile: File | null = null;
+  subAreaActiva: 'informatica' | 'teleco' = 'informatica';
+
   constructor(
     private fb: FormBuilder,
     private productoService: ProductoService,
@@ -23,7 +25,7 @@ export class AgregarProductoModalComponent implements OnInit {
       modelo: ['', Validators.required],
       stock_critico: [0, [Validators.required, Validators.min(0)]],
       descripcion: ['', Validators.required],
-      obsercaciones: [''],
+      observaciones: [''],
       area: [0],
       fungible: [false],
       imagen_url: ['']
@@ -59,6 +61,11 @@ export class AgregarProductoModalComponent implements OnInit {
     if (this.productoForm.valid && this.selectedFile) {
       let token = await this.showData()
       let id = token.areaIdArea.id_area
+    // ✅ Obtén subArea del sessionStorage correctamente
+    let subAreaSeleccionada = sessionStorage.getItem('subArea') || 'informatica';
+
+    console.log('SubArea seleccionada antes de enviar:', subAreaSeleccionada);
+
       const formData = new FormData();
       formData.append('nombre', this.productoForm.value.nombre);
       formData.append('marca', this.productoForm.value.marca);
@@ -67,7 +74,11 @@ export class AgregarProductoModalComponent implements OnInit {
       formData.append('descripcion', this.productoForm.value.descripcion);
       formData.append('observaciones', this.productoForm.value.observaciones);
       formData.append('area', id.toString());
-      formData.append('fungible', this.productoForm.value.fungible ? '1' : '0');
+      formData.append('fungible', this.productoForm.value.fungible ? 'true' : 'false');
+          // ✅ Asegúrate de enviar la subArea correcta
+          // ✅ Verifica que subArea se envíe correctamente
+      console.log('SubArea seleccionada:', subAreaSeleccionada);
+      formData.append('subArea', subAreaSeleccionada); // 👈 se asigna automáticamente
       formData.append('imagen', this.selectedFile , this.selectedFile.name);
       this.productoService.createProducto(formData).subscribe(
         data => {

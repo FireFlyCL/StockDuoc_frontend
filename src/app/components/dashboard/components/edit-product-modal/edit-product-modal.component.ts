@@ -47,17 +47,19 @@ export class EditProductModalComponent {
   }
 
   onFileSelected(event: Event): void {
+    event.preventDefault(); // ✅ Evita cierre del modal
     const element = event.currentTarget as HTMLInputElement;
     let fileList: FileList | null = element.files;
     if (fileList) {
       this.selectedFile = fileList[0];
+      console.log('Archivo seleccionado:', this.selectedFile.name);
     }
   }
 
   updateProduct(): void {
     if (this.editProductForm.valid) {
       const formData = new FormData();
-
+  
       formData.append('nombre', this.editProductForm.value.nombre);
       formData.append('marca', this.editProductForm.value.marca);
       formData.append('modelo', this.editProductForm.value.modelo);
@@ -66,23 +68,33 @@ export class EditProductModalComponent {
         this.editProductForm.value.stock_critico.toString()
       );
       formData.append('descripcion', this.editProductForm.value.descripcion);
-
+  
       if (this.editProductForm.value.observaciones) {
         formData.append(
           'observaciones',
           this.editProductForm.value.observaciones
         );
       }
-
+  
       formData.append(
         'fungible',
         this.editProductForm.value.fungible ? 'true' : 'false'
       );
-
+  
+      // ✅ Si hay una nueva imagen seleccionada, actualizarla
       if (this.selectedFile) {
         formData.append('imagen', this.selectedFile, this.selectedFile.name);
+      } 
+      // ✅ Si no se selecciona imagen, enviar la URL existente para conservarla
+      else if (this.editProductForm.value.imagen_url) {
+        formData.append('imagen_url', this.editProductForm.value.imagen_url);
       }
-
+  
+      // ✅ Enviar subArea si existe
+      if (this.editProductForm.value.subArea) {
+        formData.append('subArea', this.editProductForm.value.subArea);
+      }
+  
       this.productoService.updateProducto(this.id_producto, formData).subscribe(
         (response) => {
           console.log('Producto actualizado', response);

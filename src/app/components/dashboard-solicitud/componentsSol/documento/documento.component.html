@@ -15,7 +15,7 @@
 
   <section class="boleta-info">
     <p>Sección: {{ solicitudes[0]?.solicitud_producto?.solicitud.seccion }}</p>
-    <p>Fecha Retrio: {{ solicitudes[0]?.solicitud_producto?.solicitud.fecha_entrega | date: 'dd/MM/yyyy' }}</p>
+    <p>Fecha Retiro: {{ solicitudes[0]?.solicitud_producto?.solicitud.fecha_entrega | date: 'dd/MM/yyyy' }}</p>
     <p>Hora Retiro: {{ solicitudes[0]?.solicitud_producto?.solicitud.hora_inicio }}</p>
     <p>Fecha Devolución: {{ solicitudes[0]?.solicitud_producto?.solicitud.fecha_regreso | date: 'dd/MM/yyyy' }}</p>
     <p>Hora Devolución: {{ solicitudes[0]?.solicitud_producto?.solicitud.hora_termino }}</p>

@@ -25,8 +25,19 @@ export class DashboardComponent {
 
   onSelection(event: MatSelectionListChange): void {
     if (event.options[0].selected) {
-      const selectedShoe = event.options[0].value;
-      this.router.navigate([selectedShoe.route]);
+      const selectedMenu = event.options[0].value;
+      
+      // ✅ Detecta si es inventario de informática o teleco
+      if (selectedMenu.route.includes('informatica')) {
+        sessionStorage.setItem('subArea', 'informatica');
+      } else if (selectedMenu.route.includes('teleco')) {
+        sessionStorage.setItem('subArea', 'teleco');
+      }
+  
+      console.log('SubArea actualizada:', sessionStorage.getItem('subArea')); // 👀 Verificar valor actualizado
+  
+      // Navega a la ruta seleccionada
+      this.router.navigate([selectedMenu.route]);
     }
   }
 }
