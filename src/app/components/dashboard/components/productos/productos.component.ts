@@ -116,7 +116,7 @@ export class ProductosComponent {
     } else if (tipo === 'stock_critico') {
       this.filtroStockCritico = filterValue ? parseInt(filterValue) : null;
     } else if (tipo === 'stock_actual') {
-      this.filtroStockActual = filterValue ? parseInt(filterValue) : null;
+      this.filtroStockActual = filterValue ? parseInt(filterValue, 10) : null;
     }
 
     this.filtrarProductos();
@@ -125,30 +125,38 @@ export class ProductosComponent {
   filtrarProductos() {
     console.log('Aplicando filtros...');
     console.log('Filtro de fungible:', this.filtroFungible);
-  
-    this.productosFiltrados = this.productos.filter(producto => {
+
+    this.productosFiltrados = this.productos.filter((producto) => {
       const palabraClaveMatch =
         this.filtroPalabraClave === '' ||
         producto.nombre.toLowerCase().includes(this.filtroPalabraClave) ||
         producto.marca.toLowerCase().includes(this.filtroPalabraClave) ||
         producto.modelo.toLowerCase().includes(this.filtroPalabraClave) ||
         producto.descripcion.toLowerCase().includes(this.filtroPalabraClave);
-  
+
       const stockCriticoMatch =
-        this.filtroStockCritico === null || producto.stock_critico === this.filtroStockCritico;
-  
+        this.filtroStockCritico === null ||
+        producto.stock_critico === this.filtroStockCritico;
+
       const stockActualMatch =
-        this.filtroStockActual === null || producto.stock_actual === this.filtroStockActual;
-  
+        this.filtroStockActual === null ||
+        Number(producto.stock_actual) === Number(this.filtroStockActual);
+
       // Convierte el valor a booleano si viene como número
       const fungibleBoolean = Number(producto.fungible) === 1 ? true : false;
-  
+
       const fungibleMatch =
-        this.filtroFungible === 'all' || fungibleBoolean === this.filtroFungible;
-  
-      return palabraClaveMatch && stockCriticoMatch && stockActualMatch && fungibleMatch;
+        this.filtroFungible === 'all' ||
+        fungibleBoolean === this.filtroFungible;
+
+      return (
+        palabraClaveMatch &&
+        stockCriticoMatch &&
+        stockActualMatch &&
+        fungibleMatch
+      );
     });
-  
+
     console.log('Productos filtrados:', this.productosFiltrados);
   }
 
