@@ -18,7 +18,7 @@ export class DashboardComponent {
  //   { name: 'Stock', route: '/dashboard/stock' },
  //   { name: 'Stock Crítico', route: '/dashboard/stock-critico' },
     { name: 'Lugares', route: '/dashboard/lugar' },
-    { name: 'Volver Atras', route: '/perfil' }
+    { name: 'Volver Atrás', route: '/perfil' }
   ];
 
   constructor(private router: Router) { }

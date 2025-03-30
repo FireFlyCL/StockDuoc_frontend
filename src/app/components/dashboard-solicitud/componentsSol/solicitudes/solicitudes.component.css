@@ -1,58 +1,69 @@
 .acciones-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* Espacio entre botones */
-    padding: 10px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espacio entre botones */
+  padding: 10px;
+}
 
 .accion-btn {
-    width: 75%; /* Asegura que todos los botones tengan el mismo ancho */
-  }
+  width: 75%; /* Asegura que todos los botones tengan el mismo ancho */
+  background-color: #fff !important; /* Fondo blanco */
+  color: #000 !important; /* Letras negras */
+  border: 1px solid #000; /* Borde negro */
+  transition: background-color 0.3s, color 0.3s; /* Efecto suave */
+}
 
+/* Estilo para hover: Fondo amarillo con letras blancas */
+.accion-btn:hover {
+  background-color: #ffb800 !important; /* Fondo amarillo */
+  color: #fff !important; /* Letras blancas */
+}
 
-  .table-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f5f5f5;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-    gap: 12px;
-  }
-  
-  .table-header h2 {
-    margin: 0;
-    font-size: 20px;
-    font-weight: bold;
-  }
-  
-  .table-header mat-form-field {
-    width: 250px;
-    margin: 0;
-  }
-  
-  .table-header button {
-    height: 36px;
-    padding: 0 16px;
-    border-radius: 8px;
-    font-size: 14px;
-  }
-  
-  /* Botón para quitar filtros */
-  .table-header button[color='warn'] {
-    background-color: #ffebee;
-    color: #d32f2f;
-  }
-  
-  /* Botón de orden por fecha */
-  .table-header button[mat-button] {
-    background-color: #e3f2fd;
-    color: #1976d2;
-  }
-  
-  .table-header button:hover {
-    background-color: #bbdefb;
-  }
+.table-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.table-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.table-header mat-form-field {
+  width: 250px;
+  margin: 0;
+}
+
+.table-header button {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Botón para quitar filtros */
+.table-header button[color="warn"] {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+/* Botón de orden por fecha */
+.table-header button[mat-button] {
+  background-color: #f5f5f5;
+  color: #1a1a1a;
+  border: 1px solid #000; /* Borde negro opcional */
+}
+
+.table-header button:hover {
+  background-color: #ffb800;
+  color: #f5f5f5;
+}

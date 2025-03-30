@@ -122,32 +122,28 @@
         <mat-cell *matCellDef="let producto" class="acciones-container">
           <button
             mat-raised-button
-            color="primary"
-            class="accion-btn"
+            class="btn-acciones"
             (click)="abrirModalDetalle(producto)"
           >
             Detalle
           </button>
           <button
             mat-raised-button
-            color="accent"
-            class="accion-btn"
+            class="btn-acciones"
             (click)="abrirModalEditarProducto(producto.id_producto)"
           >
             Editar
           </button>
           <button
             mat-raised-button
-            color="warn"
-            class="accion-btn"
+            class="btn-acciones"
             (click)="onDeleteProducto(producto.id_producto)"
           >
             Eliminar
           </button>
           <button
             mat-raised-button
-            color="primary"
-            class="accion-btn"
+            class="btn-acciones"
             (click)="abrirModalAgregarStockByproducto(producto.id_producto)"
           >
             Agregar Stock
