@@ -1,61 +1,125 @@
+h2{
+    color: #f5f5f5;
+    font-size: 25px;
+}
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    /* Ocupar todo el espacio vertical */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* Ocupar todo el espacio vertical */
 }
 
 .acciones-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px; /* Espacio entre botones */
-    padding: 10px;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espacio entre botones */
+  padding: 10px;
+}
 
 .accion-btn {
-    width: 75%; /* Asegura que todos los botones tengan el mismo ancho */
-  }
+  width: 75%; /* Asegura que todos los botones tengan el mismo ancho */
+}
 
 .table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .mi-tabla {
-    width: 100%;
-    margin-bottom: 5%;
-    overflow-x: auto;
-    /* Asegúrate de que la tabla sea desplazable horizontalmente */
+  width: 100%;
+  margin-bottom: 5%;
+  overflow-x: auto;
+  /* Asegúrate de que la tabla sea desplazable horizontalmente */
 }
 
 .agregar-producto-btn {
-    background-color: #4CAF50;
-    /* Un verde más estandarizado */
-    color: white;
+  background-color: #FFB800;
+  /* Un verde más estandarizado */
+  color: white;
 }
 
 .action-buttons button {
-    margin-right: 8px;
-    /* Espacio entre botones */
+  margin-right: 8px;
+  /* Espacio entre botones */
 }
 
 /* Para hacer la tabla responsive */
 @media (max-width: 600px) {
-    .mi-tabla {
-        overflow-x: auto;
-    }
+  .mi-tabla {
+    overflow-x: auto;
+  }
 }
 
 .imagen-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .product-image {
-    max-width: 250px; /* Ajusta el tamaño máximo de la imagen */
-    max-height: 250px;
-    object-fit: contain; /* Asegura que la imagen se vea completa sin recortarse */
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-image {
+  max-width: 250px; /* Ajusta el tamaño máximo de la imagen */
+  max-height: 250px;
+  object-fit: contain; /* Asegura que la imagen se vea completa sin recortarse */
+}
+
+/*Filtros*/
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f5f5f5;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.filtros-container mat-form-field {
+  width: 250px;
+  margin: 0;
+}
+
+.filtros-container mat-form-field mat-label {
+  font-weight: bold;
+  color: #1A1A1A;
+}
+
+.filtros-container input,
+.filtros-container mat-select {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+.filtros-container mat-select {
+  width: 100%;
+}
+
+.filtros-container mat-option {
+  font-size: 14px;
+}
+
+/* Botones para aplicar o limpiar filtros */
+.filtros-container button {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* Estilo de botones */
+.filtros-container button[color="warn"] {
+  background-color: #ffebee;
+  color: #d32f2f;
+}
+
+.filtros-container button[mat-button] {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.filtros-container button:hover {
+  background-color: #bbdefb;
+}
