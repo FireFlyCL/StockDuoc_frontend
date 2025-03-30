@@ -1,12 +1,40 @@
 /* lugares.component.css */
+h2 {
+  color: #f5f5f5;
+  font-size: 25px;
+}
+
 .container {
-    padding: 16px;
+  padding: 16px;
 }
 
 mat-table {
-    width: 100%;
+  width: 100%;
+}
+
+/* Estilo personalizado para los botones de acciones */
+.btn-acciones {
+  background-color: #fff !important; /* Fondo blanco */
+  color: #000 !important; /* Letras negras */
+  border: 1px solid #000; /* Borde negro */
+  transition: background-color 0.3s, color 0.3s; /* Efecto suave */
+}
+
+/* Estilo para hover: Fondo amarillo con letras blancas */
+.btn-acciones:hover {
+  background-color: #ffb800 !important; /* Fondo amarillo */
+  color: #fff !important; /* Letras blancas */
 }
 
 button {
-    margin-right: 8px;
+  margin-right: 8px;
+}
+
+/* Estilo personalizado para el botón */
+.btn-custom {
+  background-color: #ffb800 !important; /* Fondo blanco */
+  color: #ffffff !important; /* Letra negra */
+  border: 1px solid #000; /* Borde negro opcional */
+  transition: background-color 0.3s, color 0.3s; /* Efecto suave */
+  margin-bottom: 10px;
 }
