@@ -1,5 +1,5 @@
 <mat-card class="profile-card mt-3">
-  <img mat-card-image [src]="user.img" alt="Foto del usuario" class="profile-image">
+  <img mat-card-image [src]="user.img" alt="Foto del usuario" class="profile-image" />
 
   <mat-card-content>
     <h2>{{ user.nombre }}</h2>
@@ -9,17 +9,49 @@
 
   <mat-card-actions>
     <div class="button-container">
-      <button *ngIf="tipo == 'user' && user.area != 'FINANZAS'" mat-raised-button color="primary"
-        (click)="solicitud()">Generar Solicitud</button>
-      <button *ngIf="tipo == 'user' && user.area != 'FINANZAS'" mat-raised-button color="accent"
-        (click)="misSolicitudes(user.correo)">Mis Solicitudes</button>
-      <button *ngIf="tipo == 'admin' && user.area != 'FINANZAS'" mat-raised-button color="primary"
-        (click)="solicitudes()">Solicitudes</button>
-      <button *ngIf="tipo == 'admin' && user.area != 'FINANZAS'" mat-raised-button color="accent"
-        (click)="inventario()">Inventario</button>
-      <button *ngIf="tipo == 'admin' && user.area == 'FINANZAS'" mat-raised-button color="accent"
-        (click)="documento()">DESCARGAR INVENTARIO</button>
-      <button mat-raised-button color="warn" (click)="cerrarSesion()">Cerrar Sesión</button>
+      <button
+        *ngIf="tipo == 'user' && user.area != 'FINANZAS'"
+        mat-raised-button
+        class="button-custom"
+        (click)="solicitud()"
+      >
+        Generar Solicitud
+      </button>
+      <button
+        *ngIf="tipo == 'user' && user.area != 'FINANZAS'"
+        mat-raised-button
+        class="button-custom"
+        (click)="misSolicitudes(user.correo)"
+      >
+        Mis Solicitudes
+      </button>
+      <button
+        *ngIf="tipo == 'admin' && user.area != 'FINANZAS'"
+        mat-raised-button
+        class="button-custom"
+        (click)="solicitudes()"
+      >
+        Solicitudes
+      </button>
+      <button
+        *ngIf="tipo == 'admin' && user.area != 'FINANZAS'"
+        mat-raised-button
+        class="button-custom"
+        (click)="inventario()"
+      >
+        Inventario
+      </button>
+      <button
+        *ngIf="tipo == 'admin' && user.area == 'FINANZAS'"
+        mat-raised-button
+        class="button-custom"
+        (click)="documento()"
+      >
+        DESCARGAR INVENTARIO
+      </button>
+      <button mat-raised-button class="button-custom" (click)="cerrarSesion()">
+        Cerrar Sesión
+      </button>
     </div>
   </mat-card-actions>
 </mat-card>
