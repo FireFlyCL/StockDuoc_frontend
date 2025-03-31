@@ -1,70 +1,125 @@
 .productCart-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 1rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem;
 }
-
+.product-image {
+  height: 250px;
+  width: 250px;
+  border-radius: 8px;
+  object-fit: contain;
+}
 .productCart-wrapper .productCart {
-    padding: 1rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .productCart-wrapper .productCart-body {
-    flex-basis: 50%;
+  flex-basis: 50%;
+}
+
+.productCart-wrapper .productCart-body p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
 }
 
 .productCart-wrapper .productCart-total {
-    flex-basis: 20%;
+  flex-basis: 20%;
 }
 
 .productCart-wrapper .productCart-buttons {
-    flex-basis: 30%;
+  flex-basis: 30%;
+}
+
+.productCart-buttons i.fa-trash {
+  color: #dc3545; /* Color rojo inicial */
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.productCart-buttons i.fa-trash:hover {
+  color: #ff4d4d; /* Rojo más claro al hacer hover */
+  transform: scale(1.2); /* Aumentar ligeramente el tamaño */
 }
 
 .productCart-wrapper .productCart-body-info {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: flex-start;
 }
 
 .productCart-wrapper .productCart-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
 }
 
 .productCart-wrapper .productCart-buttons-operators {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.productCart-wrapper .productCart-buttons-operators i {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: background-color 0.3s ease;
+}
+
+.productCart-wrapper .productCart-buttons-operators i:hover {
+  background-color: #ffb800;
+  color: white;
 }
 
 .productCart-wrapper .productCart-buttons-operators span {
-    border: 1px solid lightgrey;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
+  border: 1px solid lightgrey;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 
 .productCart-wrapper .cartTotal {
-    padding: 1rem;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .productCart-wrapper .cartTotal-total {
-    font-size: 1.2rem;
-    font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .productCart-wrapper .cart-btn {
-    width: 50%;
-    align-self: center;
-    border: none;
-    border-radius: 0.25rem;
-    margin: 0.75rem 0;
-    background-color: #030301;
-    color: white;
-    cursor: pointer;
-    padding: 1rem;
+  width: 50%;
+  align-self: center;
+  border: none;
+  border-radius: 0.25rem;
+  margin: 0.75rem 0;
+  background-color: #030301;
+  color: white;
+  cursor: pointer;
+  padding: 1rem;
+}
+
+.button-custom {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button-custom:hover {
+  background-color: #ffb800;
+  color: white;
 }

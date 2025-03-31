@@ -1,7 +1,85 @@
-/* En tu archivo de estilos del componente DetalleSolicitudComponent */
+
 .dialog-content-container {
-    max-height: 90vh;
-    /* O el porcentaje que prefieras */
-    overflow-y: auto;
-    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  font-family: "Merriweather", serif;
+  color: #212121;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos para el formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Margen entre campos */
+mat-form-field {
+  width: 100%;
+}
+
+/* Estilo para el botón de subir archivo */
+mat-form-field .mat-icon-button {
+  background-color: #ffb800;
+  color: white;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+mat-form-field .mat-icon-button:hover {
+  background-color: #ffcc4d;
+  transform: scale(1.1);
+}
+
+/* Estilo para los botones de acciones */
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Estilos para los botones Actualizar y Cancelar */
+button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 4px;
+}
+
+button[color="primary"] {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+button[color="primary"]:hover {
+  background-color: #ffb800;
+  color: white;
+}
+
+button[color="warn"] {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+button[color="warn"]:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+/* Espaciado para el botón de subir archivo */
+mat-icon {
+  vertical-align: middle;
 }

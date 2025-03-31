@@ -1,14 +1,14 @@
 <nav class="navbar">
   <div class="navbar-logo">
-
     <div>
-
       <mat-card-content>
-        <button mat-raised-button color="primary" (click)="atras()"> Volver Atrás </button>
+        <button mat-raised-button class="button-custom" (click)="atras()">
+          Volver Atrás
+        </button>
       </mat-card-content>
     </div>
   </div>
-  <div class="navbar-title">stockduoc</div>
+  <div class="navbar-title">Stockduoc</div>
   <div class="navbar-cart" (click)="onToggleCart()">
     <div class="navbar-cart-items" *ngIf="(myCart$ | async)?.length">
       <p>{{ (myCart$ | async)?.length }}</p>

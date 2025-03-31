@@ -5,7 +5,7 @@
 <div *ngIf="!loading" class="solicitudes-container">
     <div>
         <mat-card-content>
-            <button mat-raised-button color="primary" (click)="atras()"> Volver Atrás </button>
+            <button mat-raised-button class="button-custom" (click)="atras()"> Volver Atrás </button>
         </mat-card-content>
     </div>
     <mat-table [dataSource]="solicitudes" class="mat-elevation-z8">
@@ -49,9 +49,9 @@
         <ng-container matColumnDef="opciones">
             <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
             <mat-cell *matCellDef="let solicitud">
-                <button mat-raised-button color="primary" (click)="verDetalle(solicitud.solicitud.id_solicitud)">Ver
+                <button mat-raised-button class="button-custom" (click)="verDetalle(solicitud.solicitud.id_solicitud)">Ver
                     Detalle</button>
-                <button mat-raised-button color="warn" (click)="cancelarSolicitud(solicitud.solicitud)">Cancelar
+                <button mat-raised-button class="button-custom" (click)="cancelarSolicitud(solicitud.solicitud)">Cancelar
                     Solicitud</button>
             </mat-cell>
         </ng-container>

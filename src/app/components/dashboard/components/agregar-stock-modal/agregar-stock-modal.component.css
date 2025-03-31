@@ -1,42 +1,85 @@
-mat-dialog-content {
-    padding: 20px;
-    /* Margen interior para el contenido del modal */
-}
-
-mat-form-field {
-    width: 100%;
-    /* Los campos de formulario ocupan todo el ancho */
-    margin-bottom: 16px;
-    /* Espaciado entre campos de formulario */
-}
-
-.submit-button {
-    margin-top: 20px;
-    /* Espacio por encima del botón de envío */
-    width: 100%;
-    /* El botón de envío ocupa todo el ancho */
-}
-
-/* agregar-stock-modal.component.css */
-.img-container {
-    text-align: center;
-    /* Centra la imagen si es más pequeña que el contenedor */
-    margin-bottom: 20px;
-    /* Espacio entre la imagen y el formulario */
-}
-
-.img-container img {
-    max-width: 20%;
-    /* Asegura que la imagen no exceda el ancho del contenedor */
-    height: auto;
-    /* Mantiene la proporción de la imagen */
-    /* Puedes añadir un borde o sombra si lo deseas */
-}
-
-/* En tu archivo de estilos del componente DetalleSolicitudComponent */
 .dialog-content-container {
-    max-height: 90vh;
-    /* O el porcentaje que prefieras */
-    overflow-y: auto;
-    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
-}
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título centrado con tipografía personalizada */
+  h2 {
+    text-align: center;
+    font-family: "Merriweather", serif;
+    color: #212121;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Contenedor de la imagen */
+  .img-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Imagen centrada y ajustada */
+  .img-container img {
+    height: 200px;
+    width: 200px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  /* Estilos para los mat-form-field */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  /* Ajustes para mat-form-field */
+  mat-form-field {
+    width: 100%;
+  }
+  
+  /* Estilos para mat-checkbox */
+  mat-checkbox {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Checkbox alineado */
+  mat-checkbox label {
+    font-size: 14px;
+    font-family: "Merriweather", serif;
+  }
+  
+  /* Estilos para el botón Agregar Stock */
+  button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+  }
+  
+  /* Botón en formato Duoc */
+  button[color="primary"] {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+  }
+  
+  button[color="primary"]:hover {
+    background-color: #ffb800;
+    color: white;
+  }
+  
+  /* Botón alineado al centro */
+  button[type="submit"] {
+    align-self: center;
+    width: 50%;
+    margin-top: 1rem;
+  }

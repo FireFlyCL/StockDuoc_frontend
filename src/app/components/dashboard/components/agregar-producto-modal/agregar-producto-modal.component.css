@@ -1,26 +1,69 @@
-mat-dialog-content {
-    padding: 20px;
-    /* Margen interior para el contenido del modal */
-}
-
-mat-form-field {
-    width: 100%;
-    /* Los campos de formulario ocupan todo el ancho */
-    margin-bottom: 16px;
-    /* Espaciado entre campos de formulario */
-}
-
-.submit-button {
-    margin-top: 20px;
-    /* Espacio por encima del botón de envío */
-    width: 100%;
-    /* El botón de envío ocupa todo el ancho */
-}
-
-/* En tu archivo de estilos del componente DetalleSolicitudComponent */
 .dialog-content-container {
-    max-height: 90vh;
-    /* O el porcentaje que prefieras */
-    overflow-y: auto;
-    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Título centrado y con tipografía */
+h2 {
+  text-align: center;
+  font-family: "Merriweather", serif;
+  color: #212121;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos para el formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Ajustes para los mat-form-field */
+mat-form-field {
+  width: 100%;
+}
+
+/* Estilo del botón para subir archivo */
+mat-form-field .mat-icon-button {
+  background-color: #ffb800;
+  color: white;
+  border-radius: 50%;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+mat-form-field .mat-icon-button:hover {
+  background-color: #ffcc4d;
+  transform: scale(1.1);
+}
+
+/* Estilos para el botón Guardar */
+button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 4px;
+}
+
+/* Estilos para botones en formato DUOC */
+button[color="primary"] {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+}
+
+button[color="primary"]:hover {
+  background-color: #ffb800;
+  color: white;
+}
+
+/* Botón al final del formulario */
+button[type="submit"] {
+  align-self: center;
+  width: 50%;
+  margin-top: 1rem;
 }

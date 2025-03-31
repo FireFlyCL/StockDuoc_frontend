@@ -9,7 +9,7 @@
       <p>{{ product.producto['descripcion'] }}</p>
     </div>
     <div class="product-footer">
-      <button mat-raised-button color="primary"
+      <button mat-raised-button class="button-custom"
       [disabled]="(productosSinStock$ | async)?.includes(product.producto.id_producto)"
       (click)="addToCart(product)">
         Agregar Producto
