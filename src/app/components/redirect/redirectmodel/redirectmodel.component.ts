@@ -126,7 +126,7 @@ export class RedirectmodelComponent {
       } else {
         console.log("ELSE DEL LOGIN");
         //this.loading = false
-        this.router.navigateByUrl("/login");
+        this.router.navigate(['/'], { queryParams: { error: 'El correo ingresado no pertenece a un dominio permitido.' } });
       }
     } else {
       console.error("no imprime info usuario");

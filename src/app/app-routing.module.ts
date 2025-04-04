@@ -20,6 +20,7 @@ import { DescargaInventarioComponent } from './components/descarga-inventario/de
 
 const routes: Routes = [
   { path: "", component: LoginComponent },
+  { path: "login", component: LoginComponent },
   { path: "redirect", component: RedirectmodelComponent },
   { path: "perfil", component: PerfilComponent, canActivate: [AdminGuard], data: { roles: ['profesor', 'alumno', 'admin'] } },
   { path: "alerta", component: AlertaComponent, canActivate: [AdminGuard], data: { roles: ['profesor', 'alumno', 'admin'] } },

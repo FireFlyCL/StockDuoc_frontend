@@ -79,3 +79,13 @@ button {
     padding: 10px 19px;
     cursor: pointer
 }
+
+.error-message {
+    color: #a94442;               /* Texto en color rojo oscuro */
+    background-color: #f2dede;    /* Fondo rojo muy claro */
+    border: 1px solid #ebccd1;    /* Borde rojo claro */
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
