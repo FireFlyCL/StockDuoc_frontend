@@ -1,0 +1,48 @@
+.agregar-cliente-container {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.agregar-cliente-container h2 {
+  text-align: center;
+  color: #212121;
+  font-family: "Merriweather", serif;
+  margin-bottom: 1.5rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.button-duoc {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 0.8rem 1.5rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 4px;
+}
+
+.button-duoc:hover {
+  background-color: #ffb800;
+  color: white;
+}
+
+/* Responsive */
+@media screen and (max-width: 600px) {
+  .agregar-cliente-container {
+    padding: 1rem;
+    width: 90%;
+  }
+}
