@@ -4,10 +4,9 @@ h2 {
   margin-top: 10px;
 }
 .container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  /* Ocupar todo el espacio vertical */
+  width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
 }
 
 .acciones-container {
@@ -18,7 +17,7 @@ h2 {
 }
 
 .btn-acciones {
-  width: 75%;
+  width: 100%;
   background-color: #fff !important; /* Fondo blanco */
   color: #000 !important; /* Letras negras */
   border: 1px solid #000; /* Borde negro */
@@ -39,10 +38,15 @@ h2 {
 }
 
 .mi-tabla {
+  display: block;
   width: 100%;
-  margin-bottom: 5%;
   overflow-x: auto;
-  /* Asegúrate de que la tabla sea desplazable horizontalmente */
+  white-space: nowrap; /* 👈 Evita que el contenido se quiebre */
+}
+
+mat-header-cell, mat-cell {
+  min-width: 120px;
+  padding: 12px;
 }
 
 .agregar-producto-btn {
@@ -55,16 +59,10 @@ h2 {
 }
 
 .action-buttons button {
-  margin-right: 8px;
+  margin-right: 5px;
   /* Espacio entre botones */
 }
 
-/* Para hacer la tabla responsive */
-@media (max-width: 600px) {
-  .mi-tabla {
-    overflow-x: auto;
-  }
-}
 
 /* Contenedor de la imagen para evitar que se desborde */
 .imagen-container {
@@ -148,4 +146,62 @@ h2 {
 .filtros-container button:hover {
   background-color: #ffb800;
   color: #f5f5f5;
+}
+
+
+/* Responsive para pantallas medianas y móviles */
+@media screen and (max-width: 1440px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .table-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .filtros-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtros-container mat-form-field {
+    width: 100%;
+  }
+
+  .mi-tabla {
+    max-width: 100vw;
+    overflow-x: auto;
+  }
+
+  mat-header-cell, mat-cell {
+    min-width: 140px;
+  }
+
+  .acciones-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-acciones {
+    width: 100%;
+    margin: 4px 0;
+  }
+
+  .imagen-container {
+    width: 200px;
+    height: 250px;
+  }
+
+  .product-image {
+    max-width: 200px;
+    max-height: 200px;
+  }
+
+  h2 {
+    font-size: 20px;
+    text-align: center;
+  }
 }

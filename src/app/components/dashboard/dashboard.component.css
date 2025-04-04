@@ -5,6 +5,15 @@
   flex-direction: column;
 }
 
+.toolbar-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  max-width: 100%;
+  font-size: 80%;
+}
+
 .mat-sidenav-content {
   flex: 1;
   /* Asegúrate de que ocupa el espacio restante después de mat-sidenav */
@@ -24,4 +33,33 @@
 mat-toolbar {
   background-color: #ffb800 !important;
   color: #333; /* Ajusta el color del texto si es necesario */
+}
+
+.sidenav-container {
+  height: 100vh;
+}
+
+mat-sidenav {
+  width: 250px;
+}
+
+.top-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-button {
+  margin-right: 1rem;
+}
+
+@media (max-width: 768px) {
+  .content-card {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .mat-toolbar {
+    width: 100%;
+  }
 }

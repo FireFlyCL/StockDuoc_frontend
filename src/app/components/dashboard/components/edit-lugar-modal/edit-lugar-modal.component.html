@@ -1,17 +1,24 @@
-<!-- En tu archivo DetalleSolicitudComponent.html -->
 <div class="dialog-content-container">
-    <!-- Todo el contenido del modal va aquí -->
-    <!-- edit-lugar-modal.component.html -->
-    <h2>Editar Lugar</h2>
-    <form [formGroup]="editLugarForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="fill">
-            <mat-label>Nombre del Lugar</mat-label>
-            <input matInput formControlName="nombre_lugar">
-        </mat-form-field>
+  <h2>Editar Lugar</h2>
 
-        <div class="actions">
-            <button mat-raised-button color="primary" type="submit">Actualizar</button>
-            <button mat-raised-button color="warn" (click)="onCancel()">Cancelar</button>
-        </div>
-    </form>
+  <form [formGroup]="editLugarForm" (ngSubmit)="onSubmit()" class="modal-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre del Lugar</mat-label>
+      <input matInput formControlName="nombre_lugar" />
+    </mat-form-field>
+
+    <div class="modal-actions">
+      <button mat-raised-button class="button-custom" type="submit">
+        Actualizar
+      </button>
+      <button
+        mat-raised-button
+        class="button-cancel"
+        type="button"
+        (click)="onCancel()"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
 </div>

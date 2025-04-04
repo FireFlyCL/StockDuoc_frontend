@@ -1,7 +1,61 @@
-/* En tu archivo de estilos del componente DetalleSolicitudComponent */
 .dialog-content-container {
-    max-height: 90vh;
-    /* O el porcentaje que prefieras */
-    overflow-y: auto;
-    /* Habilita el desplazamiento vertical si el contenido excede la altura máxima */
+  padding: 16px;
+  max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.button-custom {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #ccc;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button-custom:hover {
+  background-color: #ffb800 !important;
+  color: white !important;
+}
+
+.button-cancel {
+  background-color: #ffffff !important;
+  color: #cc1414 !important;
+  border: 1px solid #cc1414;
+  font-weight: 500;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button-cancel:hover {
+  background-color: #cc1414 !important;
+  color: white !important;
+}
+
+/* Responsividad */
+@media screen and (max-width: 600px) {
+  .dialog-content-container {
+    max-width: 90vw;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

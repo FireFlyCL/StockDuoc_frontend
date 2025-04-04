@@ -56,14 +56,15 @@
 .products-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   padding: 1rem;
+  gap: 1rem;
 }
 
-/* Estilos Generales de la Tarjeta */
+/* Tarjeta del Producto */
 .product {
-  flex-basis: calc(33% - 1rem);
-  /* Ajusta este valor para cambiar el ancho de las tarjetas */
+  flex: 1 1 calc(33.333% - 2rem);
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,12 +72,10 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  /* Esto asegura que todo se mantenga dentro del borde redondeado */
   background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Efecto al pasar el ratón por encima de la tarjeta */
 .product:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -85,66 +84,41 @@
 /* Imagen del Producto */
 .product-image {
   width: 100%;
-  height: 100%;
-
-  height: auto;
-  display: block;
-  /* Asegura que la imagen no tenga espacio extra alrededor */
+  max-height: 180px;
+  object-fit: contain;
+  padding: 10px;
 }
 
-/* Cabecera de la Tarjeta */
+/* Cabecera, título, modelo */
 .product-header {
   padding: 1rem;
   text-align: center;
 }
 
-/* Título del Producto */
 .product-title {
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
 }
 
-/* Modelo y Precio del Producto */
 .product-model,
 .product-price {
   font-size: 1rem;
   color: #666;
 }
 
-/* Descripción del Producto */
+/* Cuerpo y pie de producto */
 .product-body {
   padding: 0 1rem;
+  text-align: center;
 }
 
-/* Pie de la Tarjeta con el Botón */
 .product-footer {
   padding: 1rem;
   width: 100%;
   text-align: center;
 }
 
-/* Botón 'Agregar al Carrito' */
-.product-button {
-  border: none;
-  border-radius: 20px;
-  background-color: #cc1414;
-  color: white;
-  padding: 0.5rem 1rem;
-  width: auto;
-  /* O un ancho específico si es necesario */
-  cursor: pointer;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-
-
-.product-button:hover {
-  color: #cc1414;
-  background-color: white;
-  border: 1px solid #cc1414;
-}
-
+/* Botón personalizado */
 .button-custom {
   background-color: white;
   color: black;
@@ -152,10 +126,43 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-.mdc-button__label{
-    z-index: 0;
-}
 .button-custom:hover {
   background-color: #ffb800;
   color: white;
+}
+
+/* Botón de Material */
+.mdc-button__label {
+  z-index: 0;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 992px) {
+  .product {
+    flex: 1 1 calc(45% - 1rem);
+  }
+}
+
+/* Responsive: Móvil */
+@media (max-width: 600px) {
+  .product {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .product-model {
+    font-size: 0.9rem;
+  }
+
+  .product-body p {
+    font-size: 0.9rem;
+  }
+
+  .product-footer {
+    padding-bottom: 1rem;
+  }
 }

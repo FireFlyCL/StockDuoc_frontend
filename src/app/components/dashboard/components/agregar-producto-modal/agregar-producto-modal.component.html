@@ -2,75 +2,79 @@
 <div class="dialog-content-container">
   <!-- Todo el contenido del modal va aquí -->
   <!-- agregar-producto-modal.component.html -->
-  <h2>Agregar Producto</h2>
-  <form [formGroup]="productoForm" (ngSubmit)="onFormSubmit()">
-    <!-- Campos del formulario -->
-    <mat-form-field appearance="fill">
-      <mat-label>Nombre</mat-label>
-      <input matInput formControlName="nombre" />
-    </mat-form-field>
+  <div class="dialog-scrollable">
+    <form [formGroup]="productoForm" (ngSubmit)="onFormSubmit()">
+      <h2 class="modal-title">Agregar Producto</h2>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Marca</mat-label>
-      <input matInput formControlName="marca" />
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Modelo</mat-label>
-      <input matInput formControlName="modelo" />
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Marca</mat-label>
+        <input matInput formControlName="marca" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Stock_critico</mat-label>
-      <input matInput formControlName="stock_critico" />
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Modelo</mat-label>
+        <input matInput formControlName="modelo" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Descripcion</mat-label>
-      <input matInput formControlName="descripcion" />
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Stock crítico</mat-label>
+        <input matInput formControlName="stock_critico" type="number" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Observaciones</mat-label>
-      <input matInput formControlName="observaciones" />
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="descripcion" />
+      </mat-form-field>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Fungible</mat-label>
-      <mat-select formControlName="fungible">
-        <mat-option [value]="true">Sí</mat-option>
-        <mat-option [value]="false">No</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Observaciones</mat-label>
+        <input matInput formControlName="observaciones" />
+      </mat-form-field>
 
-    <mat-form-field
-      appearance="fill"
-      class="example-full-width"
-      appearance="fill"
-    >
-      <mat-label>Subir archivo</mat-label>
+      <mat-form-field appearance="fill">
+        <mat-label>Fungible</mat-label>
+        <mat-select formControlName="fungible">
+          <mat-option [value]="true">Sí</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Subir archivo</mat-label>
+        <input
+          matInput
+          [value]="selectedFile?.name"
+          placeholder="Selecciona un archivo..."
+          readonly
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="fileInput.click()"
+          tabindex="-1"
+          type="button"
+        >
+          <mat-icon>folder_open</mat-icon>
+        </button>
+      </mat-form-field>
+
       <input
-        matInput
-        [value]="selectedFile?.name"
-        placeholder="Selecciona un archivo..."
-        readonly
+        type="file"
+        #fileInput
+        style="display: none"
+        (change)="onFileSelected($event)"
       />
-      <button
-        mat-icon-button
-        matSuffix
-        (click)="fileInput.click()"
-        tabindex="-1"
-      >
-        <mat-icon>folder_open</mat-icon>
-      </button>
-    </mat-form-field>
-    <input
-      type="file"
-      #fileInput
-      style="display: none"
-      (change)="onFileSelected($event)"
-    />
 
-    <button mat-raised-button color="primary" type="submit">Guardar</button>
-  </form>
+      <div class="modal-actions">
+        <button mat-raised-button class="button-custom" type="submit">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

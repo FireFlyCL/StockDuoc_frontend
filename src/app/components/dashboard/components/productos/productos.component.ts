@@ -162,7 +162,7 @@ export class ProductosComponent {
 
   abrirModalAgregarProducto(): void {
     const dialogRef = this.dialog.open(AgregarProductoModalComponent, {
-      width: '25%',
+      width: '90vw',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

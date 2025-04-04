@@ -50,20 +50,42 @@ button {
 }
 
 /* Estilos para botones en formato DUOC */
-button[color="primary"] {
+button.custom[color="primary"] {
   background-color: white;
   color: black;
   border: 1px solid #ccc;
 }
 
-button[color="primary"]:hover {
-  background-color: #ffb800;
-  color: white;
+.button-custom:hover {
+  background-color: #ffb800!important;
+  color: white!important;
 }
 
 /* Botón al final del formulario */
-button[type="submit"] {
-  align-self: center;
-  width: 50%;
+.button-custom {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #ccc;
+  padding: 8px 24px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dialog-scrollable {
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.modal-title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
   margin-top: 1rem;
 }

@@ -1,17 +1,37 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" opened>
+<mat-sidenav-container class="sidenav-container">
+  <!-- Menú lateral -->
+  <mat-sidenav
+    #sidenav
+    [mode]="isMobile ? 'over' : 'side'"
+    [opened]="!isMobile"
+  >
     <mat-toolbar color="accent">
-      <span>Panel de Control Inventario</span>
+      <span class="toolbar-title">Panel de Control Inventario</span>
     </mat-toolbar>
-    <mat-selection-list #shoes [multiple]="false" (selectionChange)="onSelection($event)">
-      <mat-list-option *ngFor="let item of listaMenu ; let i = index" [value]="item" [selected]="i === 0">
+    <mat-selection-list
+      [multiple]="false"
+      (selectionChange)="onSelection($event)"
+    >
+      <mat-list-option *ngFor="let item of listaMenu" [value]="item">
         {{ item.name }}
       </mat-list-option>
     </mat-selection-list>
   </mat-sidenav>
 
-  
+  <!-- Contenido principal -->
   <mat-sidenav-content>
+    <mat-toolbar color="primary" class="top-toolbar">
+      <button
+        mat-icon-button
+        (click)="sidenav.toggle()"
+        class="menu-button"
+        *ngIf="isMobile"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span></span>
+    </mat-toolbar>
+
     <mat-card class="content-card">
       <router-outlet></router-outlet>
     </mat-card>

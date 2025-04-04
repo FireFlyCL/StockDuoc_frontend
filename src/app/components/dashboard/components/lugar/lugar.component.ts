@@ -49,7 +49,8 @@ export class LugarComponent {
 
   abrirModalEditarLugar(id_lugar: number): void {
     const dialogRef = this.dialog.open(EditLugarModalComponent, {
-      width: '70%',
+      width: '90vw',
+      maxWidth: '500px',
       data : id_lugar
       // Puedes pasar datos adicionales si es necesario
     });
