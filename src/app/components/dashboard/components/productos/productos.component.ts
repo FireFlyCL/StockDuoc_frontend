@@ -163,6 +163,7 @@ export class ProductosComponent {
   abrirModalAgregarProducto(): void {
     const dialogRef = this.dialog.open(AgregarProductoModalComponent, {
       width: '90vw',
+      maxWidth:  '600px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -188,7 +189,8 @@ export class ProductosComponent {
 
   abrirModalAgregarStockByproducto(id_producto: number) {
     const dialogRef = this.dialog.open(AgregarStockModalComponent, {
-      width: '70%',
+      width: '90vw',
+      maxWidth:  '600px',
       data: id_producto,
     });
 
@@ -200,7 +202,8 @@ export class ProductosComponent {
 
   abrirModalEditarProducto(id_producto: number) {
     const dialogRef = this.dialog.open(EditProductModalComponent, {
-      width: '70%',
+      width: '90vw',
+      maxWidth:  '600px',
       data: id_producto,
     });
 

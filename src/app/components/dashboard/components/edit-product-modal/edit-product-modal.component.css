@@ -1,10 +1,12 @@
-
 .dialog-content-container {
   padding: 1.5rem;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-height: 90vh; /* Limita altura máxima */
+  overflow-y: auto;  /* Scroll si se excede */
 }
+
 
 h2 {
   text-align: center;
@@ -82,4 +84,29 @@ button[color="warn"]:hover {
 /* Espaciado para el botón de subir archivo */
 mat-icon {
   vertical-align: middle;
+}
+
+/* Responsive para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .dialog-content-container {
+    padding: 1rem;
+    border-radius: 0;
+    box-shadow: none;
+    height: 100vh;
+    max-height: 100vh;
+  }
+
+  form {
+    gap: 1rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1rem;
+  }
 }
