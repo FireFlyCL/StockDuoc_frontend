@@ -16,6 +16,7 @@ export class CarritoComponent {
   myCart$ = this.cartService.myCart$;
   myCartWithDetails$: Observable<any[]>;
   viewCart: boolean = false;
+  mostrarCarrito: boolean = false;
 
   constructor(private cartService: CarritoService, private productoService: ProductoService,
     public dialog: MatDialog, private router: Router) {
@@ -65,6 +66,14 @@ export class CarritoComponent {
     this.myCartWithDetails$.subscribe(cart => {
       this.confirmarSolProd(cart);
     });
+  }
+
+  abrirCarrito(): void {
+    this.mostrarCarrito = true;
+  }
+
+  cerrarCarrito(): void {
+    this.mostrarCarrito = false;
   }
 
 

@@ -18,24 +18,24 @@ import { ProductoService } from 'src/app/services/productoservice/producto.servi
 import { StockService } from 'src/app/services/stock/stock.service';
 
 @Component({
-    selector: 'app-addproducto',
-    templateUrl: './addproducto.component.html',
-    styleUrls: ['./addproducto.component.css'],
-    providers: [
-        // The locale would typically be provided on the root module of your application. We do it at
-        // the component level here, due to limitations of our example generation script.
-        { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
-        // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
-        // `MatMomentDateModule` in your applications root module. We provide it at the component level
-        // here, due to limitations of our example generation script.
-        {
-            provide: DateAdapter,
-            useClass: MomentDateAdapter,
-            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-        },
-        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    ],
-    standalone: false
+  selector: 'app-addproducto',
+  templateUrl: './addproducto.component.html',
+  styleUrls: ['./addproducto.component.css'],
+  providers: [
+    // The locale would typically be provided on the root module of your application. We do it at
+    // the component level here, due to limitations of our example generation script.
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
+  standalone: false,
 })
 export class AddproductoComponent {
   solicitudForm!: FormGroup;
@@ -45,6 +45,13 @@ export class AddproductoComponent {
   seleccionados: Array<[number, number]> = [];
   horas: string[] = [];
   productosSinStock$: Observable<number[]>;
+  // 🔎 Filtro y paginación
+  searchTerm: string = '';
+  paginaActual: number = 1;
+  elementosPorPagina: number = 6;
+
+  productosFiltrados: StockProducto[] = [];
+  productosPaginados: StockProducto[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -70,12 +77,15 @@ export class AddproductoComponent {
       seccion: ['', Validators.required],
       comentario: [''],
     });
+
+    this.filtrarProductos(); // <- aplicar filtro y paginación inicial
   }
 
   obtenerProductos(): void {
     let areaId = 1;
     this.stockService.getStockByArea(areaId).subscribe((data: any) => {
       this.products = data;
+      this.filtrarProductos();
       console.log(this.products);
     });
   }
@@ -167,6 +177,44 @@ export class AddproductoComponent {
       this.seleccionados[selectedProductIndex][1] = cantidad;
     }
     //console.log(this.seleccionados);
+  }
+
+  filtrarProductos() {
+    const keyword = this.searchTerm.toLowerCase().trim();
+    this.productosFiltrados = this.products.filter(
+      (p) =>
+        p.producto.nombre.toLowerCase().includes(keyword) ||
+        p.producto.modelo?.toLowerCase().includes(keyword) ||
+        p.producto.marca?.toLowerCase().includes(keyword) ||
+        p.producto.descripcion?.toLowerCase().includes(keyword)
+    );
+
+    this.paginaActual = 1;
+    this.actualizarPaginacion();
+  }
+
+  actualizarPaginacion() {
+    const start = (this.paginaActual - 1) * this.elementosPorPagina;
+    const end = start + this.elementosPorPagina;
+    this.productosPaginados = this.productosFiltrados.slice(start, end);
+  }
+
+  get totalPaginas(): number {
+    return Math.ceil(this.productosFiltrados.length / this.elementosPorPagina);
+  }
+
+  anteriorPagina() {
+    if (this.paginaActual > 1) {
+      this.paginaActual--;
+      this.actualizarPaginacion();
+    }
+  }
+
+  siguientePagina() {
+    if (this.paginaActual < this.totalPaginas) {
+      this.paginaActual++;
+      this.actualizarPaginacion();
+    }
   }
 }
 

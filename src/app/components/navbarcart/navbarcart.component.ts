@@ -11,6 +11,8 @@ import { CarritoService } from 'src/app/services/carritoService/carrito.service'
 export class NavbarcartComponent {
   viewCart: boolean = false;
   myCart$ = this.cartService.myCart$;
+  mostrarCarrito: boolean = false;
+  
 
   constructor(private cartService: CarritoService, private router: Router) { }
 
@@ -18,6 +20,14 @@ export class NavbarcartComponent {
     this.viewCart = !this.viewCart
 
   };
+
+  abrirCarrito(): void {
+    this.mostrarCarrito = true;
+  }
+
+  cerrarCarrito(): void {
+    this.mostrarCarrito = false;
+  }
 
   atras() {
     this.router.navigateByUrl('/perfil');

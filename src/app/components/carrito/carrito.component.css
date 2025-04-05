@@ -123,3 +123,17 @@
   background-color: #ffb800;
   color: white;
 }
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .productCart-wrapper {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .productCart-body-info {
+    flex-direction: column;
+    align-items: center;
+  }
+}
