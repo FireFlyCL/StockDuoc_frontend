@@ -9,7 +9,7 @@
         placeholder="Buscar en la tabla"
       />
     </mat-form-field>
-
+    
     <mat-form-field appearance="outline">
       <mat-label>Filtrar por estado</mat-label>
       <mat-select (selectionChange)="filterByEstado($event.value)">
@@ -22,108 +22,91 @@
     <button mat-button (click)="toggleSortOrder()">
       Ordenar por Fecha: {{ sortOrder }}
     </button>
-
+    
     <button mat-button color="warn" (click)="resetFilters()">
       Quitar Filtros
     </button>
   </div>
-  <div class="table-responsive-wrapper">
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
-      <!-- Nombre del solicitante -->
-      <ng-container matColumnDef="nombre_solicitante">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Solicitante
-        </mat-header-cell>
-        <mat-cell *matCellDef="let solicitud">
-          {{ solicitud.solicitud.nombre_solicitante }}
-        </mat-cell>
-      </ng-container>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+    <!-- Nombre del solicitante -->
+    <ng-container matColumnDef="nombre_solicitante">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Solicitante
+      </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud">
+        {{ solicitud.solicitud.nombre_solicitante }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Correo -->
-      <ng-container matColumnDef="correo_solicitante">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Correo
-        </mat-header-cell>
-        <mat-cell *matCellDef="let solicitud">
-          {{ solicitud.solicitud.correo_solicitante }}
-        </mat-cell>
-      </ng-container>
+    <!-- Correo -->
+    <ng-container matColumnDef="correo_solicitante">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Correo
+      </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud">
+        {{ solicitud.solicitud.correo_solicitante }}
+      </mat-cell>
+    </ng-container>
 
-      <!-- Fecha solicitud -->
-      <ng-container matColumnDef="fecha_entrega">
-        <mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          (click)="sortSolicitudesByDate()"
+    <!-- Fecha solicitud -->
+    <ng-container matColumnDef="fecha_entrega">
+      <mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        (click)="sortSolicitudesByDate()"
+      >
+        Fecha retiro
+      </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud">
+        {{ solicitud.solicitud.fecha_entrega | date : "dd-MM-yyyy" }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Estado de la solicitud -->
+    <ng-container matColumnDef="nombre_estado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Estado
+      </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud">
+        {{ solicitud.solicitud.estadosolicitud.nombre_estado }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let solicitud" class="acciones-container">
+        <button
+          mat-raised-button
+          color="primary"
+          class="accion-btn"
+          (click)="abrirModalDetalleSolicitud(solicitud.solicitud.id_solicitud)"
+          title="Ver detalles"
         >
-          Fecha retiro
-        </mat-header-cell>
-        <mat-cell *matCellDef="let solicitud">
-          {{ solicitud.solicitud.fecha_entrega | date : "dd-MM-yyyy" }}
-        </mat-cell>
-      </ng-container>
+          Detalle
+        </button>
+        <button
+          mat-raised-button
+          color="accent"
+          class="accion-btn"
+          (click)="abrirModaleditarSolicitud(solicitud.solicitud.id_solicitud)"
+          title="Opciones"
+        >
+          Opciones
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="accion-btn"
+          (click)="abrirModalPdfSolicitud(solicitud.solicitud.id_solicitud)"
+          title="PDF"
+        >
+          PDF
+        </button>
+      </mat-cell>
+    </ng-container>
 
-      <!-- Estado de la solicitud -->
-      <ng-container matColumnDef="nombre_estado">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>
-          Estado
-        </mat-header-cell>
-        <mat-cell *matCellDef="let solicitud">
-          {{ solicitud.solicitud.estadosolicitud.nombre_estado }}
-        </mat-cell>
-      </ng-container>
-
-      <!-- Acciones -->
-      <ng-container matColumnDef="acciones">
-        <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
-        <mat-cell *matCellDef="let solicitud" class="acciones-container">
-          <button
-            mat-raised-button
-            color="primary"
-            class="accion-btn"
-            (click)="
-              abrirModalDetalleSolicitud(solicitud.solicitud.id_solicitud)
-            "
-            title="Ver detalles"
-          >
-            Detalle
-          </button>
-          <button
-            mat-raised-button
-            color="accent"
-            class="accion-btn"
-            (click)="
-              abrirModaleditarSolicitud(solicitud.solicitud.id_solicitud)
-            "
-            title="Opciones"
-          >
-            Opciones
-          </button>
-          <button
-            mat-raised-button
-            color="warn"
-            class="accion-btn"
-            (click)="abrirModalPdfSolicitud(solicitud.solicitud.id_solicitud)"
-            title="PDF"
-          >
-            PDF
-          </button>
-
-          <!-- 🆕 Botón para eliminar 
-          <button
-            mat-raised-button
-            color="warn"
-            class="accion-btn"
-            (click)="eliminarSolicitud(solicitud.solicitud.id_solicitud)"
-            title="Eliminar"
-          >
-            Eliminar
-          </button> -->
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
-  </div>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
 </div>
