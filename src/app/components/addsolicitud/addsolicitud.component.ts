@@ -90,6 +90,10 @@ export class AddsolicitudComponent implements OnInit {
     });
   }
 
+  closeModal(): void {
+    this.dialog.closeAll();
+  }
+
   // atras() {
   //   this.router.navigateByUrl('/perfil');
   // }
@@ -214,6 +218,7 @@ export class AddsolicitudComponent implements OnInit {
     }
   }
 
+
   async cargarUsuarios(idArea: number) {
     return await this.usuarioService.getUsuariosPorArea(idArea).pipe(
       map((usuarios) => {
@@ -276,7 +281,11 @@ export class AddsolicitudComponent implements OnInit {
       this.horas.push(i.toString().padStart(2, '0') + ':00'); // Añade ceros a la izquierda si es necesario
     }
   }
+
+
 }
+
+
 
 export interface Area {
   id_area: number;

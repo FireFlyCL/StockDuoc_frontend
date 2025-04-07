@@ -47,6 +47,23 @@ p {
   border-radius: 12px;
 }
 
+.snackbar-success {
+  background-color: #4caf50; /* verde */
+  color: #fff;
+}
+
+.snackbar-error {
+  background-color: #f44336; /* rojo */
+  color: #fff;
+}
+
+.snackbar-warning {
+  background-color: #e53935;
+  color: white;
+  font-weight: bold;
+}
+
+
 @media (max-width: 768px) {
   .mat-dialog-container {
     width: 90vw !important;

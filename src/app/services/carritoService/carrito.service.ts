@@ -70,24 +70,34 @@ export class CarritoService {
     }
   }
 
-  updateProduct(productoId: number, operation: string, stockActual : number) {
+  updateProduct(productoId: number, operation: string, stockActual: number): boolean {
     let productList = this.myCart.value;
     const index = productList.findIndex(p => p.productoId.producto.id_producto === productoId);
-
+  
     if (index !== -1) {
-      if (operation === 'add' && productList[index].cantidad < stockActual) {
-        productList[index].cantidad++;
-      } else if (operation === 'minus' && productList[index].cantidad > 1 && productList[index].cantidad <= stockActual) {
-        
-        productList[index].cantidad--;
-      } else if (operation === 'minus' && productList[index].cantidad === 1 && productList[index].cantidad <= stockActual) {
-
-        productList.splice(index, 1); // Elimina el producto si la cantidad llega a 0
+      if (operation === 'add') {
+        if (productList[index].cantidad < stockActual) {
+          productList[index].cantidad++;
+          this.myCart.next(productList);
+          return true;
+        } else {
+          console.warn('No hay más stock disponible para este producto.');
+          return false;
+        }
+      } else if (operation === 'minus') {
+        if (productList[index].cantidad > 1) {
+          productList[index].cantidad--;
+          this.myCart.next(productList);
+          return true;
+        } else {
+          productList.splice(index, 1);
+          this.myCart.next(productList);
+          return true;
+        }
       }
-      this.myCart.next(productList); // Emite el nuevo estado del carrito
     }
-    console.log(this.myCart);
-
+  
+    return false; // Si no se encuentra el producto o no se puede actualizar
   }
 
 

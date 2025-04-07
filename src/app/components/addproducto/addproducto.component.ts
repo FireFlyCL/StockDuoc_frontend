@@ -16,6 +16,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CarritoService } from 'src/app/services/carritoService/carrito.service';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 import { StockService } from 'src/app/services/stock/stock.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-addproducto',
@@ -58,6 +59,7 @@ export class AddproductoComponent {
     private productoService: ProductoService,
     private router: Router,
     private carritoService: CarritoService,
+    private snackBar: MatSnackBar,
     private stockService: StockService
   ) {
     this.minDate = new Date(); // Obtener la fecha actual
@@ -92,36 +94,46 @@ export class AddproductoComponent {
 
   async addToCart(producto: StockProducto) {
     if (!producto || producto.stock < 1) {
-      console.error(
-        'No hay stock suficiente para el producto:',
-        producto.producto.nombre
-      );
+      this.snackBar.open('Producto sin stock disponible', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['snackbar-error'],
+      });
       return;
     }
 
     let solProd: SolicitudProducto = {
       cantidad: 1,
       productoId: producto,
-      descripcion: '', // Considera permitir la asignación de un valor
-      observacion: '', // Considera permitir la asignación de un valor
-      solicitudId: 0, // Asume que solicitudId es un número. Ajusta según sea necesario.
+      descripcion: '',
+      observacion: '',
+      solicitudId: 0,
     };
 
     let res = await this.carritoService.addProduct(solProd);
 
     if (!res) {
-      // Si no hay stock, agregamos el ID del producto a la lista de sin stock
       this.carritoService.actualizarProductosSinStock(
         solProd.productoId.producto.id_producto,
         true
       );
+      this.snackBar.open(
+        'No hay stock suficiente para este producto',
+        'Cerrar',
+        {
+          duration: 3000,
+          panelClass: ['snackbar-error'],
+        }
+      );
       return false;
     } else {
-      // Si hay stock, asegurarse de que el ID del producto no está en la lista de sin stock
       this.carritoService.actualizarProductosSinStock(
         solProd.productoId.producto.id_producto,
         false
       );
+      this.snackBar.open('Producto agregado al carrito', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['snackbar-success'],
+      });
       return true;
     }
   }

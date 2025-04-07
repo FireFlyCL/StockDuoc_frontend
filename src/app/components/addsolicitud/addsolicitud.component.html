@@ -1,78 +1,89 @@
-<div *ngIf="loading">
-  <mat-spinner></mat-spinner>
+<!-- Modal personalizado con backdrop -->
+<div class="custom-backdrop" (click)="closeModal()">
+  <div class="custom-modal" (click)="$event.stopPropagation()">
+    
+    <!-- Botón de cierre -->
+    <button mat-icon-button class="close-button" (click)="closeModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+
+    <div *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading">
+      <!-- Contenido principal -->
+      <mat-card class="container mt-3">
+        <mat-card-content>
+          <h2>Datos de Retiro</h2>
+
+          <!-- Acordeón -->
+          <mat-accordion multi="true" *ngIf="solProd && solProd.length > 0">
+            <mat-expansion-panel *ngFor="let product of solProd">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <img [src]="product.producto.imagenUrl" height="30" alt="Imagen del producto">
+                  {{ product.producto.nombre }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>Cantidad: {{ product.cantidad }}</p>
+            </mat-expansion-panel>
+          </mat-accordion>
+
+          <br>
+
+          <form [formGroup]="solicitudForm" (ngSubmit)="submitForm()">
+            <mat-form-field *ngIf="!isLoading" class="calendario">
+              <mat-label>Fecha de uso</mat-label>
+              <mat-date-range-input [formGroup]="solicitudForm" [rangePicker]="fechaRetiroPicker" [min]="minDate">
+                <input matStartDate formControlName="fechaEntrega" placeholder="Fecha de Retiro">
+                <input matEndDate formControlName="fechaRegreso" placeholder="Fecha de Devolución">
+              </mat-date-range-input>
+              <mat-hint>Fecha de Retiro – Fecha de Devolución</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="fechaRetiroPicker"></mat-datepicker-toggle>
+              <mat-date-range-picker #fechaRetiroPicker></mat-date-range-picker>
+            </mat-form-field>
+
+            <div *ngIf="!isLoading" class="form-row mt-3">
+              <div class="form-group col">
+                <label for="horaInicio">Hora de Retiro</label>
+                <select class="form-control" formControlName="horaInicio">
+                  <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+                </select>
+              </div>
+
+              <div class="form-group col">
+                <label for="horaTermino">Hora de Devolución</label>
+                <select class="form-control" formControlName="horaTermino">
+                  <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
+                </select>
+              </div>
+            </div>
+
+            <div *ngIf="!isLoading" class="form-group mt-3">
+              <label for="seccion">Sección</label>
+              <input type="text" class="form-control" formControlName="seccion">
+            </div>
+
+            <div *ngIf="!isLoading">
+              <button mat-raised-button color="primary" type="submit" [disabled]="solicitudForm.invalid">
+                <span class="mat-button-wrapper">
+                  <span>Solicitar</span>
+                </span>
+              </button>
+              <span *ngIf="solicitudForm.invalid">Formulario incompleto</span>
+            </div>
+
+            <div *ngIf="isLoading" class="loading-spinner">
+              <img src="https://usagif.com/wp-content/uploads/loading-9.gif" alt="Cargando..." />
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 </div>
 
-<!-- El resto de tu contenido aquí -->
-<div *ngIf="!loading">
-  <!-- Contenido que se muestra cuando no se está cargando -->
-
-  <mat-card class="container mt-3">
-    <mat-card-content>
-      <h2>Datos de Retiro</h2>
-      <!-- Acordeón para la lista de productos -->
-      <mat-accordion multi="true" *ngIf="solProd && solProd.length > 0">
-        <mat-expansion-panel *ngFor="let product of solProd">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <img [src]="product.producto.imagenUrl" height="30" alt="Imagen del producto">
-              {{ product.producto.nombre }}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>Cantidad: {{ product.cantidad }}</p>
-          <!-- Aquí puedes añadir más detalles del producto si es necesario -->
-        </mat-expansion-panel>
-      </mat-accordion>
-      <br>
-      <form [formGroup]="solicitudForm" (ngSubmit)="submitForm()">
-        <mat-form-field *ngIf="!isLoading" class="calendario">
-          <mat-label>Fecha de uso</mat-label>
-          <mat-date-range-input [formGroup]="solicitudForm" [rangePicker]="fechaRetiroPicker" [min]="minDate">
-            <input matStartDate formControlName="fechaEntrega" placeholder="Fecha de Retiro">
-            <input matEndDate formControlName="fechaRegreso" placeholder="Fecha de Devolución">
-          </mat-date-range-input>
-          <mat-hint>Fecha de Retiro – Fecha de Devolución</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="fechaRetiroPicker"></mat-datepicker-toggle>
-          <mat-date-range-picker #fechaRetiroPicker></mat-date-range-picker>
-        </mat-form-field>
-
-        <div *ngIf="!isLoading" class="form-row mt-3">
-          <div class="form-group col">
-            <label for="horaInicio">Hora de Retiro</label>
-            <select class="form-control" formControlName="horaInicio">
-              <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
-            </select>
-          </div>
-
-          <div class="form-group col">
-            <label for="horaTermino">Hora de Devolución</label>
-            <select class="form-control" formControlName="horaTermino">
-              <option *ngFor="let hora of horas" [value]="hora">{{ hora }}</option>
-            </select>
-          </div>
-        </div>
-
-
-        <div *ngIf="!isLoading" class="form-group mt-3">
-          <label for="seccion">Sección</label>
-          <input type="text" class="form-control" formControlName="seccion">
-        </div>
-
-        <div *ngIf="!isLoading">
-          <button mat-raised-button color="primary" type="submit" [disabled]="solicitudForm.invalid"
-            (submit)="submitForm()">
-            <span class="mat-button-wrapper ">
-              <span>Solicitar</span>
-            </span>
-          </button>
-          <span *ngIf="solicitudForm.invalid"> Formulario incompleto</span>
-        </div>
-        <div *ngIf="isLoading" class="loading-spinner">
-          <img src="https://usagif.com/wp-content/uploads/loading-9.gif" alt="Cargando..." />
-        </div>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
 
 
 <!-- <mat-card class="container mt-3">

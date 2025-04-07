@@ -128,8 +128,9 @@
 /* Responsive */
 @media (max-width: 768px) {
   .productCart-wrapper {
-    width: 90%;
+    width: 100vw;
     padding: 1rem;
+    
   }
 
   .productCart-body-info {

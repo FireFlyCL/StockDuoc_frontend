@@ -62,6 +62,7 @@ import { MisolicitudComponent } from './components/misolicitud/misolicitud.compo
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DescargaInventarioComponent } from './components/descarga-inventario/descarga-inventario.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { DescargaInventarioComponent } from './components/descarga-inventario/de
     MatInputModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   providers: [provideHttpClient(withInterceptorsFromDi())],
 })

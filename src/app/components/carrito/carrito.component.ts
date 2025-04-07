@@ -5,12 +5,13 @@ import { CarritoService } from 'src/app/services/carritoService/carrito.service'
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 import { AddsolicitudComponent } from '../addsolicitud/addsolicitud.component';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-carrito',
-    templateUrl: './carrito.component.html',
-    styleUrls: ['./carrito.component.css'],
-    standalone: false
+  selector: 'app-carrito',
+  templateUrl: './carrito.component.html',
+  styleUrls: ['./carrito.component.css'],
+  standalone: false,
 })
 export class CarritoComponent {
   myCart$ = this.cartService.myCart$;
@@ -18,26 +19,32 @@ export class CarritoComponent {
   viewCart: boolean = false;
   mostrarCarrito: boolean = false;
 
-  constructor(private cartService: CarritoService, private productoService: ProductoService,
-    public dialog: MatDialog, private router: Router) {
-
-
-
+  constructor(
+    private cartService: CarritoService,
+    private productoService: ProductoService,
+    public dialog: MatDialog,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) {
     this.myCartWithDetails$ = this.cartService.myCart$.pipe(
-      switchMap(cartItems => {
+      switchMap((cartItems) => {
         // Si el carrito está vacío, devuelve un array vacío.
         if (cartItems.length === 0) {
           return of([]);
         }
 
         // Mapea cada elemento del carrito a una petición HTTP para obtener los detalles del producto.
-        const productDetailsRequests = cartItems.map(cartItem =>
-          this.productoService.getProductoById(cartItem.productoId.producto.id_producto).pipe(
-            map(producto => ({
-              ...cartItem,
-              producto: producto
-            }))
-          ), tap(data => console.log('Datos recibidos:', data))
+        const productDetailsRequests = cartItems.map(
+          (cartItem) =>
+            this.productoService
+              .getProductoById(cartItem.productoId.producto.id_producto)
+              .pipe(
+                map((producto) => ({
+                  ...cartItem,
+                  producto: producto,
+                }))
+              ),
+          tap((data) => console.log('Datos recibidos:', data))
         );
         // Usa forkJoin para ejecutar todas las peticiones HTTP en paralelo y combinar los resultados.
         return forkJoin(productDetailsRequests);
@@ -46,13 +53,25 @@ export class CarritoComponent {
   }
 
   updateUnits(operation: string, id: number, stockActual: number) {
-    console.log(operation + " | " + id);
+    const result = this.cartService.updateProduct(id, operation, stockActual);
 
-    this.cartService.updateProduct(id, operation, stockActual);
+    // 👉 Mostrar mensaje si no hay más stock disponible
+    if (operation === 'add' && !result) {
+      this.snackBar.open(
+        'No hay más stock disponible para este producto.',
+        'Cerrar',
+        {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          panelClass: ['snackbar-warning'],
+        }
+      );
+    }
   }
 
   totalProduct(price: number, units: number) {
-    return price * units
+    return price * units;
   }
   deleteProduct(id: number) {
     this.cartService.deleteProduct(id);
@@ -63,7 +82,7 @@ export class CarritoComponent {
   }
 
   onConfirmarProductosClick() {
-    this.myCartWithDetails$.subscribe(cart => {
+    this.myCartWithDetails$.subscribe((cart) => {
       this.confirmarSolProd(cart);
     });
   }
@@ -76,21 +95,16 @@ export class CarritoComponent {
     this.mostrarCarrito = false;
   }
 
-
-
   confirmarSolProd(solProd: any[]) {
     console.log(solProd);
     const dialogRef = this.dialog.open(AddsolicitudComponent, {
       width: '50%',
-      data: solProd
+      data: solProd,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de editar producto se ha cerrado');
-      // Actualizar la lista de productos si es necesario
-      this.router.navigateByUrl('/perfil');
-
+      // Actualizar la lista de productos si es necesario-
     });
   }
 }
-
