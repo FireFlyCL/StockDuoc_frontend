@@ -31,11 +31,14 @@ mat-form-field.calendario {
 
 .form-row {
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    margin-top: 20px;
+    gap: 20px;
     /* Espacio entre columnas de form-row */
 }
 
 .form-group {
+    margin-top: 10px;
     flex: 1;
     /* Las columnas dentro de form-row ocupan espacios iguales */
 }
@@ -45,11 +48,17 @@ mat-form-field.text-area textarea {
     /* Altura mínima para el área de texto */
 }
 
-button.mat-raised-button {
-    margin-top: 1rem;
+.btn-custom {
+    margin-top: 10px;
+    background-color: #FFFFFF;
     /* Espacio antes del botón */
     padding: 0.5rem 1rem;
     /* Padding para el botón */
+}
+
+.btn-custom:hover{
+    background-color: #FFB800;
+    color: #FFFFFF;
 }
 
 .loading-spinner {

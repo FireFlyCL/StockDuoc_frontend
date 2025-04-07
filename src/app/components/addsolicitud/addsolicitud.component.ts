@@ -15,8 +15,7 @@ import {
   MAT_DATE_FORMATS,
   MAT_DATE_LOCALE,
 } from '@angular/material/core';
-import 'moment/locale/ja';
-import 'moment/locale/fr';
+import 'moment/locale/es';
 import moment from 'moment';
 import {
   Solicitud,
@@ -33,24 +32,24 @@ import { MailService } from 'src/app/services/mailService/mail.service';
 import { UserService } from 'src/app/services/userservice/user.service';
 
 @Component({
-    selector: 'app-addsolicitud',
-    templateUrl: './addsolicitud.component.html',
-    styleUrls: ['./addsolicitud.component.css'],
-    providers: [
-        // The locale would typically be provided on the root module of your application. We do it at
-        // the component level here, due to limitations of our example generation script.
-        { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
-        // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
-        // `MatMomentDateModule` in your applications root module. We provide it at the component level
-        // here, due to limitations of our example generation script.
-        {
-            provide: DateAdapter,
-            useClass: MomentDateAdapter,
-            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
-        },
-        { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-    ],
-    standalone: false
+  selector: 'app-addsolicitud',
+  templateUrl: './addsolicitud.component.html',
+  styleUrls: ['./addsolicitud.component.css'],
+  providers: [
+    // The locale would typically be provided on the root module of your application. We do it at
+    // the component level here, due to limitations of our example generation script.
+    { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+  ],
+  standalone: false,
 })
 //@Inject(MAT_DIALOG_DATA) public id_lugar: number,
 export class AddsolicitudComponent implements OnInit {
@@ -79,6 +78,7 @@ export class AddsolicitudComponent implements OnInit {
   } // Añadir 2 días
 
   ngOnInit(): void {
+    moment.locale('es');
     this.inicializarHoras();
     this.solicitudForm = this.fb.group({
       area: [''],
@@ -100,54 +100,45 @@ export class AddsolicitudComponent implements OnInit {
 
   async submitForm() {
     if (this.solicitudForm?.valid) {
-      // Obtener el item 'clientedata' de sessionStorage y parsearlo a un objeto
-      let clientedataJSON = sessionStorage.getItem('clientedata');
-      let clientedata = clientedataJSON ? JSON.parse(clientedataJSON) : null;
-      //console.log("clientedata");
-      //console.log(clientedata);
-      // Asegúrate de que clientedata y clientedata.escuela no sean null o undefined antes de acceder a id_escuela
-      let areaId =
-        clientedata && clientedata.escuela
-          ? clientedata.escuela.id_escuela
-          : null;
-      let res_nombre_solicitante = sessionStorage.getItem('nombre');
-      let res_correo_solicitante =
-        clientedata && clientedata.correo ? clientedata.correo : null;
-      console.log(areaId);
-
-      //console.log(areaId);
-      // Obtén los valores de fecha de Moment y formatearlos
       const fechaEntrega = this.solicitudForm.get('fechaEntrega')?.value;
+      const fechaEntregaMoment = moment(fechaEntrega);
+      const ahora = moment();
+      const diferenciaHoras = fechaEntregaMoment.diff(ahora, 'hours');
+  
+      if (diferenciaHoras < 48) {
+        const continuar = confirm('⚠ Atención: estás realizando una solicitud con menos de 48 horas de anticipación.\n¿Deseas continuar de todas formas?');
+        if (!continuar) {
+          return; // ❌ Detener proceso si el usuario no quiere continuar
+        }
+      }
+  
+      const clientedataJSON = sessionStorage.getItem('clientedata');
+      const clientedata = clientedataJSON ? JSON.parse(clientedataJSON) : null;
+      const areaId = clientedata?.escuela?.id_escuela ?? null;
+      const res_nombre_solicitante = sessionStorage.getItem('nombre');
+      const res_correo_solicitante = clientedata?.correo ?? null;
+  
       const fechaRegreso = this.solicitudForm.get('fechaRegreso')?.value;
-
-      // Formatear las fechas de Moment a string en formato 'YYYY-MM-DD'
+  
       const fechaEntregaFormatted = fechaEntrega
         ? moment(fechaEntrega).format('YYYY-MM-DD')
         : null;
       const fechaRegresoFormatted = fechaRegreso
         ? moment(fechaRegreso).format('YYYY-MM-DD')
         : null;
-
-      // Crear un objeto con los datos del formulario y las fechas formateadas
-      if (
-        fechaEntregaFormatted &&
-        fechaRegresoFormatted &&
-        res_correo_solicitante &&
-        res_nombre_solicitante
-      ) {
+  
+      if (fechaEntregaFormatted && fechaRegresoFormatted && res_correo_solicitante && res_nombre_solicitante) {
         const solicitud = {
-          fecha_entrega: fechaEntregaFormatted?.toString(),
-          fecha_regreso: fechaRegresoFormatted?.toString(),
+          fecha_entrega: fechaEntregaFormatted.toString(),
+          fecha_regreso: fechaRegresoFormatted.toString(),
           hora_inicio: this.solicitudForm.get('horaInicio')?.value,
           hora_termino: this.solicitudForm.get('horaTermino')?.value,
-          idArea: areaId, // Asegúrate de que el formulario tenga un campo 'area'
+          idArea: areaId,
           nombre_solicitante: res_nombre_solicitante,
           correo_solicitante: res_correo_solicitante,
           seccion: this.solicitudForm.get('seccion')?.value,
         };
-        console.log('Formulario válido, enviar datos:', solicitud);
-
-        //AQUI OCUPO MIS SERVICIOS PARA CREAR LA SOLICITUD Y LUEGO LA SOLICITUD_PRODUCTO
+  
         await this.solicitudService
           .crearSolicitud(solicitud)
           .pipe(
@@ -158,57 +149,41 @@ export class AddsolicitudComponent implements OnInit {
           )
           .subscribe({
             next: (respuestaSolicitud) => {
-              // Asumiendo que la respuesta incluye el ID de la nueva solicitud
               const solicitudId = respuestaSolicitud.id_solicitud;
-
               if (solicitudId) {
-                // Ahora crea las solicitudes de producto asociadas a la solicitud creada
                 this.solProd.forEach(async (element) => {
-                  let nuevaSolicitudProducto: SolicitudProducto = {
+                  const nuevaSolicitudProducto: SolicitudProducto = {
                     cantidad: element.cantidad,
                     descripcion: element.descripcion || 'editable',
                     productoId: element.producto.id_producto,
-                    solicitudId: solicitudId, // Usa el ID de la solicitud recién creada
+                    solicitudId: solicitudId,
                     observacion: element.observacion || 'editable',
                   };
-
+  
                   await this.solProductosService
                     .crearSolicitudProducto(nuevaSolicitudProducto)
                     .pipe(
                       catchError((error) => {
-                        console.error(
-                          'Error al crear la solicitud de producto:',
-                          error
-                        );
-                        return throwError(
-                          () =>
-                            new Error('Error al crear la solicitud de producto')
-                        );
+                        console.error('Error al crear la solicitud de producto:', error);
+                        return throwError(() => new Error('Error al crear la solicitud de producto'));
                       })
                     )
                     .subscribe({
                       next: async (respuestaProducto) => {
-                        console.log(
-                          'Solicitud de producto creada con éxito',
-                          respuestaProducto
-                        );
-
+                        console.log('Solicitud de producto creada con éxito', respuestaProducto);
                         await this.confirmarSolicitud(solicitud);
-                        // Aquí podrías redirigir al usuario o mostrar un mensaje de éxito
                         this.dialog.closeAll();
                       },
                       error: (error) => {
-                        // Manejar errores específicos de la solicitud de producto aquí
                         console.error(error);
                       },
                     });
                 });
               } else {
-                console.log('NO DEVOLVIO IDSOLICITUD');
+                console.log('NO DEVOLVIÓ ID_SOLICITUD');
               }
             },
             error: (error) => {
-              // Manejar errores específicos de la solicitud aquí
               console.error(error);
             },
           });
@@ -217,7 +192,6 @@ export class AddsolicitudComponent implements OnInit {
       console.error('Formulario no válido');
     }
   }
-
 
   async cargarUsuarios(idArea: number) {
     return await this.usuarioService.getUsuariosPorArea(idArea).pipe(
@@ -276,16 +250,15 @@ export class AddsolicitudComponent implements OnInit {
   }
 
   inicializarHoras() {
-    // Llena el array con horas (por ejemplo, de 0 a 23)
-    for (let i = 9; i < 21; i++) {
-      this.horas.push(i.toString().padStart(2, '0') + ':00'); // Añade ceros a la izquierda si es necesario
+    const inicio = moment('08:31', 'HH:mm');
+    const fin = moment('23:10', 'HH:mm');
+
+    while (inicio <= fin) {
+      this.horas.push(inicio.format('HH:mm'));
+      inicio.add(40, 'minutes');
     }
   }
-
-
 }
-
-
 
 export interface Area {
   id_area: number;

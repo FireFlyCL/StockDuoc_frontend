@@ -6,6 +6,7 @@ import { ProductoService } from 'src/app/services/productoservice/producto.servi
 import { AddsolicitudComponent } from '../addsolicitud/addsolicitud.component';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-carrito',
@@ -82,7 +83,8 @@ export class CarritoComponent {
   }
 
   onConfirmarProductosClick() {
-    this.myCartWithDetails$.subscribe((cart) => {
+    this.myCartWithDetails$.pipe(take(1)).subscribe(cart => {
+      if (!cart || cart.length === 0) return;
       this.confirmarSolProd(cart);
     });
   }
@@ -98,7 +100,8 @@ export class CarritoComponent {
   confirmarSolProd(solProd: any[]) {
     console.log(solProd);
     const dialogRef = this.dialog.open(AddsolicitudComponent, {
-      width: '50%',
+      width: '90vw',
+      maxWidth: '600px',
       data: solProd,
     });
 
