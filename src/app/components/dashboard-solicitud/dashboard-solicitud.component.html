@@ -1,18 +1,35 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" opened>
-      <mat-toolbar color="accent">
-        <span>Panel de Control Solicitudes</span>
-      </mat-toolbar>
-      <mat-selection-list #shoes [multiple]="false" (selectionChange)="onSelection($event)">
-        <mat-list-option *ngFor="let shoe of typesOfShoes ; let i = index" [value]="shoe" [selected]="i === 0">
-          {{ shoe.name }}
-        </mat-list-option>
-      </mat-selection-list>
-  
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-card class="content-card">
-        <router-outlet></router-outlet>
-      </mat-card>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+  <mat-sidenav
+    #sidenav
+    [mode]="isSmallScreen ? 'over' : 'side'"
+    [opened]="!isSmallScreen"
+  >
+    <mat-toolbar color="accent">
+      <span>Panel de Control Solicitudes</span>
+    </mat-toolbar>
+    <mat-selection-list
+      #shoes
+      [multiple]="false"
+      (selectionChange)="onSelection($event)"
+    >
+      <mat-list-option
+        *ngFor="let shoe of typesOfShoes; let i = index"
+        [value]="shoe"
+        [selected]="i === 0"
+      >
+        {{ shoe.name }}
+      </mat-list-option>
+    </mat-selection-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="accent">
+      <button mat-icon-button (click)="sidenav.toggle()" *ngIf="isSmallScreen">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-card class="content-card">
+      <router-outlet></router-outlet>
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -7,24 +7,34 @@ import { DocumentoComponent } from '../documento/documento.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-solicitudes',
-    templateUrl: './solicitudes.component.html',
-    styleUrls: ['./solicitudes.component.css'],
-    standalone: false
+  selector: 'app-solicitudes',
+  templateUrl: './solicitudes.component.html',
+  styleUrls: ['./solicitudes.component.css'],
+  standalone: false,
 })
 export class SolicitudesComponent implements OnInit {
-
   solicitudes: any[] = [];
-  displayedColumns: string[] = ['nombre_solicitante', 'correo_solicitante', 'fecha_entrega', 'nombre_estado', 'acciones'];
+  displayedColumns: string[] = [
+    'nombre_solicitante',
+    'correo_solicitante',
+    'fecha_entrega',
+    'nombre_estado',
+    'acciones',
+  ];
   dataSource = new MatTableDataSource<any>();
   sortOrder: 'asc' | 'desc' = 'asc';
   filterControl = new FormControl('');
   estadoControl = new FormControl('');
   estadosUnicos: string[] = [];
 
-  constructor(private solicitudService: SolicitudService, public dialog: MatDialog) { }
+  constructor(
+    private solicitudService: SolicitudService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.cargarSolicitudes();
@@ -38,44 +48,56 @@ export class SolicitudesComponent implements OnInit {
         console.log(JSON.parse(token));
         return JSON.parse(token); // Parsea el token si es una cadena JSON
       } catch (error) {
-        console.error("Error al parsear el token:", error);
+        console.error('Error al parsear el token:', error);
       }
     }
     return null; // Retorna null si no hay datos
   }
 
   async cargarSolicitudes(): Promise<void> {
-    let token: any = await this.showData()
-    let id_area = token.areaIdArea.id_area
+    let token: any = await this.showData();
+    let id_area = token.areaIdArea.id_area;
     this.solicitudService.getSolicitudesPorArea(id_area).subscribe(
-      data => {
+      (data) => {
         this.solicitudes = data;
         this.dataSource.data = data;
-        this.estadosUnicos = [...new Set(data.map(s => s.solicitud.estadosolicitud.nombre_estado))];
+        this.estadosUnicos = [
+          ...new Set(
+            data.map((s) => s.solicitud.estadosolicitud.nombre_estado)
+          ),
+        ];
         console.log(this.solicitudes);
       },
-      error => {
+      (error) => {
         console.error('Error al obtener las solicitudes:', error);
       }
     );
   }
 
   setupFilter() {
-    this.filterControl.valueChanges.pipe(debounceTime(300)).subscribe(value => {
-      const filterValue = value ? value.trim().toLowerCase() : '';
-      this.dataSource.filter = filterValue;
-    });
+    this.filterControl.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((value) => {
+        const filterValue = value ? value.trim().toLowerCase() : '';
+        this.dataSource.filter = filterValue;
+      });
 
     this.dataSource.filterPredicate = (data: any, filter: string) => {
-      return data.solicitud.nombre_solicitante?.toLowerCase().includes(filter) ||
-             data.solicitud.correo_solicitante?.toLowerCase().includes(filter) ||
-             data.solicitud.fecha_entrega?.toString().includes(filter) ||
-             data.solicitud.estadosolicitud.nombre_estado?.toLowerCase().includes(filter);
+      return (
+        data.solicitud.nombre_solicitante?.toLowerCase().includes(filter) ||
+        data.solicitud.correo_solicitante?.toLowerCase().includes(filter) ||
+        data.solicitud.fecha_entrega?.toString().includes(filter) ||
+        data.solicitud.estadosolicitud.nombre_estado
+          ?.toLowerCase()
+          .includes(filter)
+      );
     };
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
     this.dataSource.filter = filterValue;
   }
 
@@ -85,7 +107,9 @@ export class SolicitudesComponent implements OnInit {
       return;
     }
     this.dataSource.filterPredicate = (data: any, filter: string) => {
-      return data.solicitud.estadosolicitud.nombre_estado.toLowerCase() === filter;
+      return (
+        data.solicitud.estadosolicitud.nombre_estado.toLowerCase() === filter
+      );
     };
     this.dataSource.filter = estado.trim().toLowerCase();
   }
@@ -112,10 +136,10 @@ export class SolicitudesComponent implements OnInit {
   abrirModalDetalleSolicitud(id_solicitud: number): void {
     const dialogRef = this.dialog.open(DetalleSolicitudComponent, {
       width: '70%',
-      data: id_solicitud
+      data: id_solicitud,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
       this.cargarSolicitudes();
     });
@@ -124,10 +148,10 @@ export class SolicitudesComponent implements OnInit {
   abrirModaleditarSolicitud(id_solicitud: number) {
     const dialogRef = this.dialog.open(EditEstadoSolComponent, {
       width: '70%',
-      data: id_solicitud
+      data: id_solicitud,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
       this.cargarSolicitudes();
     });
@@ -136,15 +160,41 @@ export class SolicitudesComponent implements OnInit {
   abrirModalPdfSolicitud(id_solicitud: number) {
     const dialogRef = this.dialog.open(DocumentoComponent, {
       width: '70%',
-      data: id_solicitud
+      data: id_solicitud,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
       this.cargarSolicitudes();
     });
   }
+
+  eliminarSolicitud(id: number) {
+    const confirmacion = confirm(
+      '¿Estás seguro de que deseas eliminar esta solicitud?'
+    );
+    if (!confirmacion) return;
+
+    this.solicitudService.deleteSolicitud(id).subscribe({
+      next: () => {
+        this.snackBar.open('Solicitud eliminada con éxito.', 'Cerrar', {
+          duration: 3000,
+        });
+        this.recargarSolicitudes(); // actualiza la tabla
+      },
+      error: (err) => {
+        console.error('Error al eliminar la solicitud:', err);
+        this.snackBar.open('Error al eliminar la solicitud.', 'Cerrar', {
+          duration: 3000,
+        });
+      },
+    });
+  }
+
+  // Este método actualiza la lista
+  recargarSolicitudes() {
+    this.solicitudService.getAllSolicitudes().subscribe((data) => {
+      this.dataSource.data = data;
+    });
+  }
 }
-
-
-
