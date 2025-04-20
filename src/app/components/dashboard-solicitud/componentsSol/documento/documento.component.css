@@ -1,46 +1,78 @@
 /* boleta.component.css */
 .boleta-container {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #000;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #000;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.boleta-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.boleta-table th,
+.boleta-table td {
+  text-align: left;
+  padding: 12px 18px;
+  border-bottom: 1px solid #ddd;
+}
+
+.espaciado {
+  padding: 12px 18px; /* Espaciado uniforme */
 }
 
 .boleta-header {
-    text-align: center;
+  text-align: center;
 }
 
 .boleta-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .boleta-info-section p {
-    margin: 5px 0;
+  margin: 5px 0;
 }
 
 .boleta-body {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .mat-table {
-    width: 100%;
+  width: 100%;
 }
 
 .boleta-footer {
-    margin-top: 20px;
-    text-align: right;
+  margin-top: 20px;
+  text-align: right;
 }
 
 .firma {
-    margin-right: 50px;
+  margin-right: 50px;
+}
+
+.button-custom {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button-custom:hover {
+  background-color: #ffb800;
+  color: white;
 }
 
 .total {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 /* Puedes agregar más estilos según necesites para ajustar el diseño */
