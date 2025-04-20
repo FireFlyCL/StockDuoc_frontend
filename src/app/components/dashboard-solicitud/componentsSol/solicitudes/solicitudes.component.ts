@@ -154,7 +154,9 @@ export class SolicitudesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
+      if(result){
       this.cargarSolicitudes();
+      }
     });
   }
 

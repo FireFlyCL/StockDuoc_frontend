@@ -105,7 +105,7 @@ export class EditEstadoSolComponent implements OnInit {
       )
     }
     this.loading = false
-    this.dialogRef.close()
+    this.dialogRef.close(true)
   }
 
   cargarEstadosSolicitud(): void {
