@@ -18,6 +18,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SolicitudesComponent implements OnInit {
   solicitudes: any[] = [];
   displayedColumns: string[] = [
+    'id_solicitud',
     'nombre_solicitante',
     'correo_solicitante',
     'fecha_entrega',

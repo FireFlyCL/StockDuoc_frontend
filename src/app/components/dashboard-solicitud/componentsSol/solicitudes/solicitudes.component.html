@@ -29,6 +29,15 @@
   </div>
   <div class="table-responsive-wrapper">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+      <!-- ID de la solicitud -->
+      <ng-container matColumnDef="id_solicitud">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          ID
+        </mat-header-cell>
+        <mat-cell *matCellDef="let solicitud">
+          {{ solicitud.solicitud.id_solicitud }}
+        </mat-cell>
+      </ng-container>
       <!-- Nombre del solicitante -->
       <ng-container matColumnDef="nombre_solicitante">
         <mat-header-cell *matHeaderCellDef mat-sort-header>
