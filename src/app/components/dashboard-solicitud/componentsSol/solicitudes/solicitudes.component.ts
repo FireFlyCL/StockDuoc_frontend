@@ -37,9 +37,14 @@ export class SolicitudesComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  filters = {
+    keyword: '',
+    estado: '',
+  };
+
   ngOnInit(): void {
     this.cargarSolicitudes();
-    this.setupFilter();
+    this.setupCombinedFilter();
   }
 
   async showData() {
@@ -75,46 +80,43 @@ export class SolicitudesComponent implements OnInit {
     );
   }
 
-  setupFilter() {
+  setupCombinedFilter() {
+    // 1) Al cambiar la caja de texto de palabra clave…
     this.filterControl.valueChanges
       .pipe(debounceTime(300))
-      .subscribe((value) => {
-        const filterValue = value ? value.trim().toLowerCase() : '';
-        this.dataSource.filter = filterValue;
+      .subscribe((text) => {
+        this.filters.keyword = (text ?? '').trim().toLowerCase();
+        this.applyCombinedFilter();
       });
 
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      return (
-        data.solicitud.nombre_solicitante?.toLowerCase().includes(filter) ||
-        data.solicitud.correo_solicitante?.toLowerCase().includes(filter) ||
-        data.solicitud.fecha_entrega?.toString().includes(filter) ||
-        data.solicitud.estadosolicitud.nombre_estado
-          ?.toLowerCase()
-          .includes(filter)
-      );
+    // 2) estado
+    this.estadoControl.valueChanges.subscribe((estado) => {
+      this.filters.estado = (estado ?? '').trim().toLowerCase();
+      this.applyCombinedFilter();
+    });
+
+    // 3) predicate único
+    this.dataSource.filterPredicate = (data: any, filterJson: string) => {
+      const { keyword, estado } = JSON.parse(filterJson);
+      const s = data.solicitud;
+      const matchKeyword =
+        !keyword ||
+        s.nombre_solicitante.toLowerCase().includes(keyword) ||
+        s.correo_solicitante.toLowerCase().includes(keyword) ||
+        s.fecha_entrega.toString().includes(keyword) ||
+        s.estadosolicitud.nombre_estado.toLowerCase().includes(keyword);
+      const matchEstado =
+        !estado || s.estadosolicitud.nombre_estado.toLowerCase() === estado;
+      return matchKeyword && matchEstado;
     };
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value
-      .trim()
-      .toLowerCase();
-    this.dataSource.filter = filterValue;
+  applyCombinedFilter() {
+    // Dispara el predicate leyendo nuestro objeto filters
+    this.dataSource.filter = JSON.stringify(this.filters);
   }
 
-  filterByEstado(estado: string) {
-    if (!estado) {
-      this.dataSource.filter = '';
-      return;
-    }
-    this.dataSource.filterPredicate = (data: any, filter: string) => {
-      return (
-        data.solicitud.estadosolicitud.nombre_estado.toLowerCase() === filter
-      );
-    };
-    this.dataSource.filter = estado.trim().toLowerCase();
-  }
-
+ 
   toggleSortOrder() {
     this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
     this.sortSolicitudesByDate();
@@ -154,8 +156,8 @@ export class SolicitudesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
-      if(result){
-      this.cargarSolicitudes();
+      if (result) {
+        this.cargarSolicitudes();
       }
     });
   }

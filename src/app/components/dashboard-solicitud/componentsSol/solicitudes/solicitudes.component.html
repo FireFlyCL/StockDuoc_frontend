@@ -1,21 +1,23 @@
 <div class="container">
   <div class="table-header">
-    <h2>Listado de Solicitudes</h2>
+    <!-- filtro palabra clave -->
     <mat-form-field appearance="fill">
       <mat-label>Filtrar</mat-label>
       <input
         matInput
-        (keyup)="applyFilter($event)"
+        [formControl]="filterControl"
         placeholder="Buscar en la tabla"
       />
     </mat-form-field>
 
+    <!-- filtro por estado -->
     <mat-form-field appearance="outline">
       <mat-label>Filtrar por estado</mat-label>
-      <mat-select (selectionChange)="filterByEstado($event.value)">
-        <mat-option *ngFor="let estado of estadosUnicos" [value]="estado">{{
-          estado
-        }}</mat-option>
+      <mat-select [formControl]="estadoControl">
+        <mat-option [value]="''">Todos</mat-option>
+        <mat-option *ngFor="let estado of estadosUnicos" [value]="estado">
+          {{ estado }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
 
