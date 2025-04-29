@@ -1,5 +1,6 @@
 .mat-toolbar{
     background-color: #1A1A1A !important;
+    height: 55px;
 }
 
 .navbar-buttons {

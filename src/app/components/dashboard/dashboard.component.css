@@ -15,6 +15,7 @@
 }
 
 .mat-sidenav-content {
+  background-color: #666666;
   flex: 1;
   /* Asegúrate de que ocupa el espacio restante después de mat-sidenav */
   overflow-y: auto;
@@ -40,7 +41,7 @@ mat-toolbar {
 }
 
 mat-sidenav {
-  width: 250px;
+  width: 300px;
 }
 
 .top-toolbar {

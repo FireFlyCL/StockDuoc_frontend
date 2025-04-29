@@ -39,6 +39,11 @@ p {
   margin: 0 auto; /* Centra horizontalmente */
 }
 
+.mat-mdc-card {
+  height: calc(95vh - 55px);
+  box-shadow: none;
+}
+
 /* Estilo global para todos los mat-dialog */
 .mat-dialog-container {
   max-height: 90vh;
