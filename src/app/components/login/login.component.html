@@ -17,11 +17,12 @@
         <div class="row">
           <button
             class="btn btn-lg btn-google btn-block text-uppercase btn-outline"
-            (click)="login()"
+            (click)="loginSSO('google')"
           >
             <img src="https://img.icons8.com/color/22/000000/google-logo.png" />
             Sign with Google
           </button>
+          <button (click)="loginSSO('microsoft')">Iniciar sesión con Microsoft</button>
         </div>
       </mat-tab>
       <!-- Tab solo para administrativos -->

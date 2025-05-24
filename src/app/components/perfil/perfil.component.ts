@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { type } from 'os';
 import { map } from 'rxjs';
-import { AuthGoogleService } from 'src/app/auth-google.service';
+import { AuthSSOService } from 'src/app/auth-sso.service';
 import { UserService } from 'src/app/services/userservice/user.service';
 import { AutentifacionService } from 'src/auth/autentifacion.service';
 
@@ -23,10 +23,10 @@ export class PerfilComponent implements OnInit {
     nombre: ''
   };
 
-  constructor(private authGoogleService: AuthGoogleService, private aut: AutentifacionService, private router: Router,
+  constructor(private authSSOService: AuthSSOService, private aut: AutentifacionService, private router: Router,
     private usuarioService: UserService) { }
   ngOnInit(): void {
-    this.authGoogleService.isAuthenticated$.subscribe(isAuthenticated => {
+    this.authSSOService.isAuthenticated$.subscribe(isAuthenticated => {
       if (isAuthenticated) {
         this.perfil();
       }
@@ -38,7 +38,7 @@ export class PerfilComponent implements OnInit {
   }
 
   async showData() {
-    let profile = await this.authGoogleService.getProfile();
+    let profile = await this.authSSOService.getProfile();
     if (profile) {
       return profile; // Retorna directamente el objeto si existe
     } else {

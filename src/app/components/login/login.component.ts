@@ -1,7 +1,12 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthGoogleService } from 'src/app/auth-google.service';
+import { AuthSSOService } from 'src/app/auth-sso.service';
 import { UserService } from 'src/app/services/userservice/user.service';
 import { AutentifacionService } from 'src/auth/autentifacion.service';
 
@@ -12,55 +17,58 @@ declare const googleUser: any;
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  standalone: false
+  standalone: false,
 })
 export class LoginComponent implements OnInit {
   loading = false;
   public loginForm!: FormGroup;
   errorMessage: string | null = null; // Propiedad para el mensaje de error
 
-  constructor(private fb: FormBuilder,
-              private loginPrd: AutentifacionService,
-              private routerprd: Router,
-              private usuarioService: UserService,
-              private authGoogleService: AuthGoogleService,
-              private route: ActivatedRoute) {
+  constructor(
+    private fb: FormBuilder,
+    private loginPrd: AutentifacionService,
+    private routerprd: Router,
+    private usuarioService: UserService,
+    private authSSOService: AuthSSOService,
+    private route: ActivatedRoute
+  ) {
     this.loginForm = new FormGroup({
       usuario: new FormControl('', Validators.required),
-      contraseña: new FormControl('', Validators.required)
+      contraseña: new FormControl('', Validators.required),
     });
   }
 
   ngOnInit(): void {
     // Suscribirse a los queryParams para obtener el mensaje de error
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params['error']) {
         this.errorMessage = params['error'];
       }
     });
   }
 
-  login() {
-    this.authGoogleService.login();
+  loginSSO(provider: 'google' | 'microsoft') {
+    this.authSSOService.initLogin(provider);
+    this.authSSOService.login();
   }
 
   iniciarSesion(): void {
     this.loading = true;
     const usuarioModel = {
       correo: this.loginForm.value.usuario,
-      contraseña: this.loginForm.value.contraseña
+      contraseña: this.loginForm.value.contraseña,
     };
 
     this.usuarioService.login(usuarioModel).subscribe(
       (response: any) => {
         const usuario = response.body;
-        sessionStorage.setItem("token", JSON.stringify(usuario));
+        sessionStorage.setItem('token', JSON.stringify(usuario));
         sessionStorage.setItem('area', usuario.areaIdArea.nombre_area);
         sessionStorage.setItem('correo', usuario.correo_institucional);
-        sessionStorage.setItem("nombre", usuario.pnombre);
+        sessionStorage.setItem('nombre', usuario.pnombre);
         console.log(usuario);
         this.loading = false;
-        this.routerprd.navigateByUrl("/perfil");
+        this.routerprd.navigateByUrl('/perfil');
       },
       (error: any) => {
         this.loading = false;
@@ -69,4 +77,3 @@ export class LoginComponent implements OnInit {
     );
   }
 }
-
