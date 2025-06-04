@@ -47,9 +47,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  loginSSO(provider: 'google' | 'microsoft') {
-    this.authSSOService.initLogin(provider);
-    this.authSSOService.login();
+  loginGoogle() {
+    sessionStorage.setItem('sso_provider', 'google');
+    this.authSSOService.login('google');
+  }
+
+  loginMicrosoft() {
+    sessionStorage.setItem('sso_provider', 'microsoft');
+    this.authSSOService.login('microsoft');
   }
 
   iniciarSesion(): void {
