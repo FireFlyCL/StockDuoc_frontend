@@ -41,7 +41,19 @@ h2 {
   display: block;
   width: 100%;
   overflow-x: auto;
-  white-space: nowrap; /* 👈 Evita que el contenido se quiebre */
+}
+
+/* 1) Permite que las celdas crezcan en altura y rompan palabras si es necesario */
+.mi-tabla .mat-cell {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow: visible !important;
+}
+
+/* Opcional: fijas un ancho máximo para que no ocupe toda la pantalla */
+.mi-tabla .mat-column-descripcion,
+.mi-tabla .mat-column-observaciones {
+  max-width: 250px; /* ajústalo al valor que necesites */
 }
 
 mat-header-cell, mat-cell {
