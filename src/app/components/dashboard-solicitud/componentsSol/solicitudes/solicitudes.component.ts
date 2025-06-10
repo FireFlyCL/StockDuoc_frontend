@@ -23,6 +23,7 @@ export class SolicitudesComponent implements OnInit {
     'correo_solicitante',
     'fecha_entrega',
     'nombre_estado',
+    'observaciones',
     'acciones',
   ];
   dataSource = new MatTableDataSource<any>();
@@ -105,6 +106,7 @@ export class SolicitudesComponent implements OnInit {
         s.correo_solicitante.toLowerCase().includes(keyword) ||
         s.fecha_entrega.toString().includes(keyword) ||
         s.estadosolicitud.nombre_estado.toLowerCase().includes(keyword);
+        (s.observaciones && s.observaciones.toLowerCase().includes(keyword));
       const matchEstado =
         !estado || s.estadosolicitud.nombre_estado.toLowerCase() === estado;
       return matchKeyword && matchEstado;

@@ -84,6 +84,16 @@
         </mat-cell>
       </ng-container>
 
+      <!-- Observaciones -->
+      <ng-container matColumnDef="observaciones">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Observaciones
+        </mat-header-cell>
+        <mat-cell *matCellDef="let solicitud">
+          {{ solicitud.solicitud.observaciones }}
+        </mat-cell>
+      </ng-container>
+
       <!-- Acciones -->
       <ng-container matColumnDef="acciones">
         <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
