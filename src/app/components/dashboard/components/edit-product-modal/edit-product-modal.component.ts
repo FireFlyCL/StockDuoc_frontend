@@ -24,6 +24,7 @@ export class EditProductModalComponent {
       marca: ['', Validators.required],
       modelo: ['', Validators.required],
       stock_critico: [0, [Validators.required, Validators.min(0)]],
+      stock_actual: [0, [Validators.required, Validators.min(0)]],
       descripcion: ['', Validators.required],
       observaciones: [''],
       area: [0],
@@ -59,7 +60,7 @@ export class EditProductModalComponent {
   updateProduct(): void {
     if (this.editProductForm.valid) {
       const formData = new FormData();
-  
+
       formData.append('nombre', this.editProductForm.value.nombre);
       formData.append('marca', this.editProductForm.value.marca);
       formData.append('modelo', this.editProductForm.value.modelo);
@@ -67,34 +68,38 @@ export class EditProductModalComponent {
         'stock_critico',
         this.editProductForm.value.stock_critico.toString()
       );
+      formData.append(
+        'stock_actual',
+        this.editProductForm.value.stock_actual.toString()
+      );
       formData.append('descripcion', this.editProductForm.value.descripcion);
-  
+
       if (this.editProductForm.value.observaciones) {
         formData.append(
           'observaciones',
           this.editProductForm.value.observaciones
         );
       }
-  
+
       formData.append(
         'fungible',
         this.editProductForm.value.fungible ? 'true' : 'false'
       );
-  
+
       // ✅ Si hay una nueva imagen seleccionada, actualizarla
       if (this.selectedFile) {
         formData.append('imagen', this.selectedFile, this.selectedFile.name);
-      } 
+      }
       // ✅ Si no se selecciona imagen, enviar la URL existente para conservarla
       else if (this.editProductForm.value.imagen_url) {
         formData.append('imagen_url', this.editProductForm.value.imagen_url);
       }
-  
+
       // ✅ Enviar subArea si existe
       if (this.editProductForm.value.subArea) {
         formData.append('subArea', this.editProductForm.value.subArea);
       }
-  
+
       this.productoService.updateProducto(this.id_producto, formData).subscribe(
         (response) => {
           console.log('Producto actualizado', response);
