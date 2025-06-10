@@ -4,10 +4,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 
 @Component({
-    selector: 'app-agregar-producto-modal',
-    templateUrl: './agregar-producto-modal.component.html',
-    styleUrls: ['./agregar-producto-modal.component.css'],
-    standalone: false
+  selector: 'app-agregar-producto-modal',
+  templateUrl: './agregar-producto-modal.component.html',
+  styleUrls: ['./agregar-producto-modal.component.css'],
+  standalone: false,
 })
 export class AgregarProductoModalComponent implements OnInit {
   productoForm: FormGroup;
@@ -17,7 +17,7 @@ export class AgregarProductoModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private productoService: ProductoService,
-    public dialogRef: MatDialogRef<AgregarProductoModalComponent>,
+    public dialogRef: MatDialogRef<AgregarProductoModalComponent>
   ) {
     this.productoForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -28,12 +28,11 @@ export class AgregarProductoModalComponent implements OnInit {
       observaciones: [''],
       area: [0],
       fungible: [false],
-      imagen_url: ['']
+      imagen_url: [''],
     });
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async showData() {
     let token = sessionStorage.getItem('token');
@@ -43,7 +42,7 @@ export class AgregarProductoModalComponent implements OnInit {
 
         return JSON.parse(token); // Parsea el token si es una cadena JSON
       } catch (error) {
-        console.error("Error al parsear el token:", error);
+        console.error('Error al parsear el token:', error);
       }
     }
     return null; // Retorna null si no hay datos
@@ -59,12 +58,13 @@ export class AgregarProductoModalComponent implements OnInit {
 
   async onFormSubmit(): Promise<void> {
     if (this.productoForm.valid) {
-      let token = await this.showData()
-      let id = token.areaIdArea.id_area
-    // ✅ Obtén subArea del sessionStorage correctamente
-    let subAreaSeleccionada = sessionStorage.getItem('subArea') || 'informatica';
+      let token = await this.showData();
+      let id = token.areaIdArea.id_area;
+      // ✅ Obtén subArea del sessionStorage correctamente
+      let subAreaSeleccionada =
+        sessionStorage.getItem('subArea') || 'informatica';
 
-    console.log('SubArea seleccionada antes de enviar:', subAreaSeleccionada);
+      console.log('SubArea seleccionada antes de enviar:', subAreaSeleccionada);
 
       const formData = new FormData();
       formData.append('nombre', this.productoForm.value.nombre);
@@ -74,22 +74,29 @@ export class AgregarProductoModalComponent implements OnInit {
       formData.append('descripcion', this.productoForm.value.descripcion);
       formData.append('observaciones', this.productoForm.value.observaciones);
       formData.append('area', id.toString());
-      formData.append('fungible', this.productoForm.value.fungible ? 'true' : 'false');
-          // ✅ Asegúrate de enviar la subArea correcta
-          // ✅ Verifica que subArea se envíe correctamente
+      formData.append(
+        'fungible',
+        this.productoForm.value.fungible ? 'true' : 'false'
+      );
+      // ✅ Asegúrate de enviar la subArea correcta
+      // ✅ Verifica que subArea se envíe correctamente
       console.log('SubArea seleccionada:', subAreaSeleccionada);
       formData.append('subArea', subAreaSeleccionada); // 👈 se asigna automáticamente
-      if(this.selectedFile) {
-        formData.append('imagen', this.selectedFile , this.selectedFile.name);
+      // **Solo** si hay un archivo, lo adjuntamos
+      if (this.selectedFile) {
+        formData.append('imagen', this.selectedFile, this.selectedFile.name);
+      } else if (this.productoForm.value.imagen_url) {
+        // si quieres soportar campo URL en lugar de archivo
+        formData.append('imagen_url', this.productoForm.value.imagen_url);
       }
       this.productoService.createProducto(formData).subscribe(
-        data => {
+        (data) => {
           console.log('Producto agregado', data);
           // Aquí puedes cerrar el modal si quieres
           // Cerrar el modal
           this.dialogRef.close(data);
         },
-        error => {
+        (error) => {
           console.error('Error al agregar el producto', error);
         }
       );
