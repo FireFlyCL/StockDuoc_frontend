@@ -20,7 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatProgressBarModule
   ],
   templateUrl: './excel-importer.component.html',
-  // Los estilos que ya tenías o nuevos
+
 })
 export class ExcelImporterComponent {
   
