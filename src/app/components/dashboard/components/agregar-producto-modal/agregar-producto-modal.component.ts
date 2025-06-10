@@ -58,7 +58,7 @@ export class AgregarProductoModalComponent implements OnInit {
   }
 
   async onFormSubmit(): Promise<void> {
-    if (this.productoForm.valid && this.selectedFile) {
+    if (this.productoForm.valid) {
       let token = await this.showData()
       let id = token.areaIdArea.id_area
     // ✅ Obtén subArea del sessionStorage correctamente
@@ -79,7 +79,9 @@ export class AgregarProductoModalComponent implements OnInit {
           // ✅ Verifica que subArea se envíe correctamente
       console.log('SubArea seleccionada:', subAreaSeleccionada);
       formData.append('subArea', subAreaSeleccionada); // 👈 se asigna automáticamente
-      formData.append('imagen', this.selectedFile , this.selectedFile.name);
+      if(this.selectedFile) {
+        formData.append('imagen', this.selectedFile , this.selectedFile.name);
+      }
       this.productoService.createProducto(formData).subscribe(
         data => {
           console.log('Producto agregado', data);

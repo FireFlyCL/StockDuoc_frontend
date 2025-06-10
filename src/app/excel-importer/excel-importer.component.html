@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Importar Productos desde Excel</h2>
+
+<mat-dialog-content class="mat-typography">
+  <p>
+    Selecciona un archivo .xlsx o .xls. Debe ser el formato especificado
+  </p>
+
+  <button type="button" mat-stroked-button (click)="fileInput.click()">
+    <mat-icon>attach_file</mat-icon>
+    Seleccionar Archivo
+  </button>
+
+  <span *ngIf="fileName" style="margin-left: 10px; font-style: italic;">{{ fileName }}</span>
+  
+  <input hidden #fileInput type="file" (change)="onFileChange($event)" accept=".xlsx, .xls"/>
+
+  <div *ngIf="statusMessage" class="status-message">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <p>{{ statusMessage }}</p>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    [disabled]="parsedData.length === 0 || isLoading"
+    (click)="uploadData()">
+    {{ isLoading ? 'Enviando...' : 'Importar Productos' }}
+  </button>
+</mat-dialog-actions>

@@ -9,7 +9,21 @@
     >
       Agregar Producto
     </button>
+    <button
+      mat-raised-button
+      style="margin-left: 10px;"
+      color="primary"
+      (click)="abrirModalImportarExcel()" >
+      <mat-icon>cloud_upload</mat-icon>
+      Importar desde Excel
+    </button>
   </div>
+<div>
+  
+
+  </div>
+
+
 
   <!-- Filtros -->
   <div class="filtros-container">
@@ -109,12 +123,12 @@
           <img
             mat-card-image
             [src]="producto.imagenUrl"
-            (error)="errorCargarImagen($event)"
             alt="{{ producto.nombre }}"
             class="product-image"
           />
         </mat-cell>
-      </ng-container>
+      </ng-container><!--
+            (error)="errorCargarImagen($event)"-->
 
       <!-- Columna para Acciones CRUD -->
       <ng-container matColumnDef="acciones">
