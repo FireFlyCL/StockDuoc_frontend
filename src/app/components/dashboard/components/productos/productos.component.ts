@@ -7,6 +7,8 @@ import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock
 import { EditProductModalComponent } from '../edit-product-modal/edit-product-modal.component';
 import { ExcelImporterComponent } from 'src/app/excel-importer/excel-importer.component';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-productos',
@@ -94,27 +96,60 @@ export class ProductosComponent {
     }
   }
 
-    cargarProductos(): void {
+  cargarProductos(): void {
     const tokenString = sessionStorage.getItem('token');
     if (!tokenString) {
-      console.error("No se encontró token en sessionStorage.");
+      console.error('No se encontró token en sessionStorage.');
       return;
     }
     const token = JSON.parse(tokenString);
     const id = token.areaIdArea.id_area;
 
-    const servicioObservable = this.subArea === 'informatica' 
-      ? this.productoService.getProductosByAreaIdInformatica(id)
-      : this.productoService.getProductosByAreaIdTeleco(id);
-    
+    const servicioObservable =
+      this.subArea === 'informatica'
+        ? this.productoService.getProductosByAreaIdInformatica(id)
+        : this.productoService.getProductosByAreaIdTeleco(id);
+
     servicioObservable.subscribe({
       next: (data) => {
         this.productos = data;
         this.productosFiltrados = data; // Al cargar, la lista filtrada es igual a la completa
         console.log(`Productos de '${this.subArea}' cargados/refrescados.`);
       },
-      error: (error) => console.error('Hubo un error al obtener los productos', error)
+      error: (error) =>
+        console.error('Hubo un error al obtener los productos', error),
     });
+  }
+
+  exportarTablaExcel(): void {
+    // Paso 1: transformar productos a un objeto plano
+    const datosParaExcel = this.productosFiltrados.map((p) => ({
+      Nombre: p.nombre,
+      Marca: p.marca,
+      Modelo: p.modelo,
+      'Stock Crítico': p.stock_critico,
+      'Stock Actual': p.stock_actual,
+      Descripción: p.descripcion,
+      Observaciones: p.observaciones,
+      Fungible: p.fungible ? 'Sí' : 'No',
+    }));
+
+    // Paso 2: crear hoja de cálculo
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosParaExcel);
+
+    // Paso 3: crear libro y agregar la hoja
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+
+    // Paso 4: generar buffer
+    const wbout: ArrayBuffer = XLSX.write(wb, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+
+    // Paso 5: disparar descarga
+    const blob = new Blob([wbout], { type: 'application/octet-stream' });
+    saveAs(blob, `productos_${new Date().toISOString().slice(0, 10)}.xlsx`);
   }
 
   // Filtros
@@ -187,7 +222,7 @@ export class ProductosComponent {
   abrirModalAgregarProducto(): void {
     const dialogRef = this.dialog.open(AgregarProductoModalComponent, {
       width: '90vw',
-      maxWidth:  '600px',
+      maxWidth: '600px',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -196,13 +231,13 @@ export class ProductosComponent {
     });
   }
 
-    abrirModalImportarExcel(): void {
+  abrirModalImportarExcel(): void {
     const dialogRef = this.dialog.open(ExcelImporterComponent, {
       width: '600px',
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === true) {
         console.log('Importación exitosa, actualizando tabla de productos...');
         this.cargarProductos();
@@ -228,7 +263,7 @@ export class ProductosComponent {
   abrirModalAgregarStockByproducto(id_producto: number) {
     const dialogRef = this.dialog.open(AgregarStockModalComponent, {
       width: '90vw',
-      maxWidth:  '600px',
+      maxWidth: '600px',
       data: id_producto,
     });
 
@@ -241,7 +276,7 @@ export class ProductosComponent {
   abrirModalEditarProducto(id_producto: number) {
     const dialogRef = this.dialog.open(EditProductModalComponent, {
       width: '90vw',
-      maxWidth:  '600px',
+      maxWidth: '600px',
       data: id_producto,
     });
 
