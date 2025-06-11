@@ -5,6 +5,7 @@ import { DetalleProductoComponent } from '../detalle-producto/detalle-producto.c
 import { AgregarProductoModalComponent } from '../agregar-producto-modal/agregar-producto-modal.component';
 import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock-modal.component';
 import { EditProductModalComponent } from '../edit-product-modal/edit-product-modal.component';
+import { ExcelImporterComponent } from 'src/app/excel-importer/excel-importer.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -93,6 +94,29 @@ export class ProductosComponent {
     }
   }
 
+    cargarProductos(): void {
+    const tokenString = sessionStorage.getItem('token');
+    if (!tokenString) {
+      console.error("No se encontró token en sessionStorage.");
+      return;
+    }
+    const token = JSON.parse(tokenString);
+    const id = token.areaIdArea.id_area;
+
+    const servicioObservable = this.subArea === 'informatica' 
+      ? this.productoService.getProductosByAreaIdInformatica(id)
+      : this.productoService.getProductosByAreaIdTeleco(id);
+    
+    servicioObservable.subscribe({
+      next: (data) => {
+        this.productos = data;
+        this.productosFiltrados = data; // Al cargar, la lista filtrada es igual a la completa
+        console.log(`Productos de '${this.subArea}' cargados/refrescados.`);
+      },
+      error: (error) => console.error('Hubo un error al obtener los productos', error)
+    });
+  }
+
   // Filtros
   applyFilter(event: any, tipo: string) {
     let filterValue: any;
@@ -169,6 +193,20 @@ export class ProductosComponent {
     dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
       this.getProductosByArea();
+    });
+  }
+
+    abrirModalImportarExcel(): void {
+    const dialogRef = this.dialog.open(ExcelImporterComponent, {
+      width: '600px',
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        console.log('Importación exitosa, actualizando tabla de productos...');
+        this.cargarProductos();
+      }
     });
   }
 
