@@ -11,8 +11,7 @@ import {
   MAT_DATE_FORMATS,
 } from '@angular/material/core';
 import { Router } from '@angular/router';
-import moment from 'moment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CarritoService } from 'src/app/services/carritoService/carrito.service';
 import { ProductoService } from 'src/app/services/productoservice/producto.service';
 import { StockService } from 'src/app/services/stock/stock.service';
@@ -23,12 +22,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './addproducto.component.html',
   styleUrls: ['./addproducto.component.css'],
   providers: [
-    // The locale would typically be provided on the root module of your application. We do it at
-    // the component level here, due to limitations of our example generation script.
     { provide: MAT_DATE_LOCALE, useValue: 'es-CL' },
-    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
-    // `MatMomentDateModule` in your applications root module. We provide it at the component level
-    // here, due to limitations of our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -40,12 +34,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AddproductoComponent {
   solicitudForm!: FormGroup;
-  isLoading = false; // Asumiendo que tienes una variable para manejar la carga
+  isLoading = false;
   minDate!: Date;
-  products: any[] = [];
+  products: StockProducto[] = [];               // Array de StockProducto
   seleccionados: Array<[number, number]> = [];
   horas: string[] = [];
   productosSinStock$: Observable<number[]>;
+
   // 🔎 Filtro y paginación
   searchTerm: string = '';
   paginaActual: number = 1;
@@ -62,10 +57,10 @@ export class AddproductoComponent {
     private snackBar: MatSnackBar,
     private stockService: StockService
   ) {
-    this.minDate = new Date(); // Obtener la fecha actual
+    this.minDate = new Date();
     this.minDate.setDate(this.minDate.getDate() + 2);
     this.productosSinStock$ = carritoService.getProductosSinStock();
-  } // Añadir 2 días
+  }
 
   ngOnInit(): void {
     this.inicializarHoras();
@@ -84,12 +79,21 @@ export class AddproductoComponent {
   }
 
   obtenerProductos(): void {
-    let areaId = 1;
-    this.stockService.getStockByArea(areaId).subscribe((data: any) => {
-      this.products = data;
-      this.filtrarProductos();
-      console.log(this.products);
-    });
+    const areaId = 1;
+
+    // Usamos `data: any[]` para evitar incompatibilidades de tipo al recibir el JSON
+    this.productoService
+      .getProductosByAreaIdStock(areaId)
+      .subscribe((data: any[]) => {
+        // Cada `p` viene con `p.stock_actual`. Lo mapeamos a StockProducto.
+        this.products = data.map((p: any) => ({
+          producto: p as Producto,
+          stock: p.stock_actual,
+        }));
+
+        this.filtrarProductos();
+        console.log(this.products);
+      });
   }
 
   async addToCart(producto: StockProducto) {
@@ -101,7 +105,7 @@ export class AddproductoComponent {
       return;
     }
 
-    let solProd: SolicitudProducto = {
+    const solProd: SolicitudProducto = {
       cantidad: 1,
       productoId: producto,
       descripcion: '',
@@ -109,7 +113,7 @@ export class AddproductoComponent {
       solicitudId: 0,
     };
 
-    let res = await this.carritoService.addProduct(solProd);
+    const res = await this.carritoService.addProduct(solProd);
 
     if (!res) {
       this.carritoService.actualizarProductosSinStock(
@@ -143,27 +147,24 @@ export class AddproductoComponent {
   }
 
   inicializarHoras() {
-    // Llena el array con horas (por ejemplo, de 0 a 23)
     for (let i = 9; i < 21; i++) {
-      this.horas.push(i.toString().padStart(2, '0') + ':00'); // Añade ceros a la izquierda si es necesario
+      this.horas.push(i.toString().padStart(2, '0') + ':00');
     }
   }
 
   toggleSelection(productId: number): void {
-    //console.log(this.getCantidad(productId));
-    const selectedProductIndex = this.seleccionados.some(
-      ([id, cant]) => id === productId && cant === this.getCantidad(productId)
+    const cantidadActual = this.getCantidad(productId);
+    const existe = this.seleccionados.some(
+      ([id, cant]) => id === productId && cant === cantidadActual
     );
-    //console.log(selectedProductIndex);
-    if (selectedProductIndex) {
+    if (existe) {
       this.seleccionados = this.seleccionados.filter(
         ([id, cant]) =>
-          !(id === productId && cant === this.getCantidad(productId))
+          !(id === productId && cant === cantidadActual)
       );
     } else {
       this.seleccionados.push([productId, 1]);
     }
-    //console.log(this.seleccionados);
   }
 
   getCantidad(productId: number): number {
@@ -174,21 +175,20 @@ export class AddproductoComponent {
   }
 
   getMaximaCantidad(productId: number): number {
-    const selectedProduct = this.products.find(
-      (product) => product[0] === productId
+    const sel = this.products.find(
+      (p) => p.producto.id_producto === productId
     );
-    return selectedProduct ? selectedProduct[4] : 0;
+    return sel ? sel.stock : 0;
   }
 
   updateCantidad(productId: number, event: any): void {
     const cantidad = parseInt(event.target.value, 10);
-    const selectedProductIndex = this.seleccionados.findIndex(
+    const idx = this.seleccionados.findIndex(
       (product) => product[0] === productId
     );
-    if (selectedProductIndex !== -1) {
-      this.seleccionados[selectedProductIndex][1] = cantidad;
+    if (idx !== -1) {
+      this.seleccionados[idx][1] = cantidad;
     }
-    //console.log(this.seleccionados);
   }
 
   filtrarProductos() {
@@ -212,7 +212,9 @@ export class AddproductoComponent {
   }
 
   get totalPaginas(): number {
-    return Math.ceil(this.productosFiltrados.length / this.elementosPorPagina);
+    return Math.ceil(
+      this.productosFiltrados.length / this.elementosPorPagina
+    );
   }
 
   anteriorPagina() {
@@ -233,7 +235,7 @@ export class AddproductoComponent {
 export interface Area {
   id_area: number;
   nombre_area: string;
-  deleteAt: null | Date; // Utiliza 'Date' si 'deleteAt' es una fecha, de lo contrario, puedes usar 'any'
+  deleteAt: null | Date; // Puede quedar así, pues al usar `data: any` no se valida estrictamente
 }
 
 export interface StockProducto {
@@ -247,10 +249,11 @@ export interface Producto {
   marca: string;
   modelo: string;
   stock_critico: number;
+  stock_actual: number;    // Lo usaremos para poblar `stock`
   imagen: string;
   imagenUrl: string;
   area: Area;
-  deleteAt: null | Date; // Igual que en la interfaz Area
+  deleteAt: null | Date;
   descripcion: string;
 }
 
@@ -261,3 +264,5 @@ export interface SolicitudProducto {
   solicitudId: number;
   observacion: string;
 }
+
+

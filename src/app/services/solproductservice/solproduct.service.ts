@@ -38,4 +38,5 @@ export interface Solicitud {
   idArea: number;
   nombre_solicitante: string;
   correo_solicitante: string;
+  observaciones?: string;
 }

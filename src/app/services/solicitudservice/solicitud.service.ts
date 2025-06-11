@@ -66,6 +66,7 @@ export class SolicitudService {
 export interface EstadoSolicitud {
   id_estado: number;
   id_solicitud: number;
+  observaciones?: string;
 }
 
 export interface Solicitud {
