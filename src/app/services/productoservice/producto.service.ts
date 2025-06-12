@@ -3,58 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class ProductoService {
-  productos: Producto[] = [];
-
-  private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) { }
-
-  getAllProductos(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/productomodel`);
-  }
-
-  getProductoById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/productomodel/${id}`);
-  }
-
-  createProducto(productoFormData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/productomodel`, productoFormData);
-  }
-
-
-  // updateProducto(producto: any): Observable<any> {
-  //   return this.http.put<any>(`${this.apiUrl}/productomodel/${producto.id}`, producto);
-  // }
-
-  getProductosByAreaIdInformatica(areaId: number): Observable<Producto[]> {
-    const url = `${this.apiUrl}/productomodel/area_informatica/${areaId}`;
-    return this.http.get<Producto[]>(url);
-  }
-
-  getProductosByAreaIdTeleco(areaId: number): Observable<Producto[]> {
-    const url = `${this.apiUrl}/productomodel/area_teleco/${areaId}`;
-    return this.http.get<Producto[]>(url);
-  }
-
-  getProductosByAreaIdStock(areaId: number): Observable<Producto[]> {
-    const url = `${this.apiUrl}/productomodel/area-stock/${areaId}`;
-    return this.http.get<Producto[]>(url);
-  }
-
-  updateProducto(id: number, productoData: FormData): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/productomodel/${id}`, productoData);
-  }
-
-  deleteProducto(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/productomodel/${id}`);
-  }
-
-}
-
-interface Producto {
+export interface Producto {
   id_producto: number;
   nombre: string;
   marca: string;
@@ -72,6 +21,56 @@ interface Producto {
   observaciones: string;
   fungible: boolean;
 }
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductoService {
+  private base = `${environment.apiUrl}/productomodel`;
+
+  constructor(private http: HttpClient) { }
+
+  // Todos los productos
+  getAllProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.base}`);
+  }
+
+  // Un producto por ID
+  getProductoById(id: number): Observable<Producto> {
+    return this.http.get<Producto>(`${this.base}/${id}`);
+  }
+
+  // Crear (multipart/form-data)
+  createProducto(productoFormData: FormData): Observable<Producto> {
+    return this.http.post<Producto>(`${this.base}`, productoFormData);
+  }
+
+  // Actualizar (multipart/form-data)
+  updateProducto(id: number, productoData: FormData): Observable<Producto> {
+    return this.http.put<Producto>(`${this.base}/${id}`, productoData);
+  }
+
+  // Borrar
+  deleteProducto(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${id}`);
+  }
+
+  // ——— Inventario genérico por área (áreas ≠ 1) ———
+  getProductosByAreaId(areaId: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.base}/area-stock/${areaId}`);
+  }
+
+  // ——— Subárea Informática (área 1/informatica) ———
+  getProductosByAreaIdInformatica(areaId: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.base}/area_informatica/${areaId}`);
+  }
+
+  // ——— Subárea Teleco (área 1/teleco) ———
+  getProductosByAreaIdTeleco(areaId: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.base}/area_teleco/${areaId}`);
+  }
+}
+
 
 
 

@@ -83,7 +83,7 @@ export class AddproductoComponent {
 
     // Usamos `data: any[]` para evitar incompatibilidades de tipo al recibir el JSON
     this.productoService
-      .getProductosByAreaIdStock(areaId)
+      .getProductosByAreaId(areaId)
       .subscribe((data: any[]) => {
         // Cada `p` viene con `p.stock_actual`. Lo mapeamos a StockProducto.
         this.products = data.map((p: any) => ({

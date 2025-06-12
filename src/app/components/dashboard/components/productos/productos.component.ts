@@ -1,14 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ProductoService } from 'src/app/services/productoservice/producto.service';
+import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+
+import { ProductoService} from 'src/app/services/productoservice/producto.service';
 import { DetalleProductoComponent } from '../detalle-producto/detalle-producto.component';
 import { AgregarProductoModalComponent } from '../agregar-producto-modal/agregar-producto-modal.component';
 import { AgregarStockModalComponent } from '../agregar-stock-modal/agregar-stock-modal.component';
 import { EditProductModalComponent } from '../edit-product-modal/edit-product-modal.component';
 import { ExcelImporterComponent } from 'src/app/excel-importer/excel-importer.component';
-import { Router } from '@angular/router';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-productos',
@@ -16,108 +17,64 @@ import { saveAs } from 'file-saver';
   styleUrls: ['./productos.component.css'],
   standalone: false,
 })
-export class ProductosComponent {
+export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
-  usuario: any;
 
   columnasMostradas: string[] = [
-    'nombre',
-    'marca_modelo',
-    'stock_critico',
-    'stock_actual',
-    'descripcion',
-    'observaciones',
-    'fungible',
-    'imagen',
-    'acciones',
+    'nombre','marca_modelo','stock_critico','stock_actual',
+    'descripcion','observaciones','fungible','imagen','acciones'
   ];
 
-  router = inject(Router);
+  private router = inject(Router);
+  private productoService = inject(ProductoService);
 
-  subArea = '';
+  // Leemos directamente de sessionStorage
+  private areaId   = Number(sessionStorage.getItem('area'));
+  public  subArea  = sessionStorage.getItem('subArea') || '';
 
-  filtroPalabraClave: string = '';
+  // filtros
+  filtroPalabraClave = '';
   filtroStockCritico: number | null = null;
-  filtroStockActual: number | null = null;
-  filtroFungible: string | boolean = 'all';
+  filtroStockActual:  number | null = null;
+  filtroFungible: boolean | 'all' = 'all';
 
-  constructor(
-    private productoService: ProductoService,
-    public dialog: MatDialog
-  ) {
-    let partes: string[] = this.router.url.split('/');
-    this.subArea = partes[3];
-    console.log('subarea: ', this.subArea);
-  }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getProductosByArea();
+    this.cargarProductos();
   }
 
-  async showData() {
-    let token = sessionStorage.getItem('token');
-    if (token) {
-      try {
-        return JSON.parse(token);
-      } catch (error) {
-        console.error('Error al parsear el token:', error);
+  private cargarProductos(): void {
+    console.log('> cargarProductos:', {
+      areaId: this.areaId,
+      subArea: this.subArea
+    });
+
+    let obs$;
+
+    if (this.areaId === 1) {
+      // Pañol: según la subárea elegida
+      if (this.subArea === 'informatica') {
+        obs$ = this.productoService.getProductosByAreaIdInformatica(this.areaId);
+      } else if (this.subArea === 'teleco') {
+        obs$ = this.productoService.getProductosByAreaIdTeleco(this.areaId);
+      } else {
+        // Si no hay subarea, devolvemos array vacío o podrías listar ambos
+        obs$ = this.productoService.getProductosByAreaId(this.areaId);
       }
-    }
-    return null;
-  }
-
-  async getProductosByArea() {
-    let token: any = await this.showData();
-    let id = token.areaIdArea.id_area;
-
-    if (this.subArea == 'informatica') {
-      this.productoService.getProductosByAreaIdInformatica(id).subscribe(
-        (data) => {
-          this.productos = data;
-          this.productosFiltrados = data;
-          console.log(this.productos);
-        },
-        (error) => {
-          console.error('Hubo un error al obtener los productos', error);
-        }
-      );
     } else {
-      this.productoService.getProductosByAreaIdTeleco(id).subscribe(
-        (data) => {
-          this.productos = data;
-          this.productosFiltrados = data;
-          console.log(this.productos);
-        },
-        (error) => {
-          console.error('Hubo un error al obtener los productos', error);
-        }
-      );
+      // Otras áreas: inventario completo de esa área
+      obs$ = this.productoService.getProductosByAreaId(this.areaId);
     }
-  }
 
-  cargarProductos(): void {
-    const tokenString = sessionStorage.getItem('token');
-    if (!tokenString) {
-      console.error('No se encontró token en sessionStorage.');
-      return;
-    }
-    const token = JSON.parse(tokenString);
-    const id = token.areaIdArea.id_area;
-
-    const servicioObservable =
-      this.subArea === 'informatica'
-        ? this.productoService.getProductosByAreaIdInformatica(id)
-        : this.productoService.getProductosByAreaIdTeleco(id);
-
-    servicioObservable.subscribe({
-      next: (data) => {
+    obs$.subscribe({
+      next: data => {
+        console.log('Productos recibidos:', data);
         this.productos = data;
-        this.productosFiltrados = data; // Al cargar, la lista filtrada es igual a la completa
-        console.log(`Productos de '${this.subArea}' cargados/refrescados.`);
+        this.productosFiltrados = [...data];
       },
-      error: (error) =>
-        console.error('Hubo un error al obtener los productos', error),
+      error: err => console.error('Error cargando productos:', err)
     });
   }
 
@@ -227,7 +184,7 @@ export class ProductosComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar producto se ha cerrado');
-      this.getProductosByArea();
+      this.cargarProductos()
     });
   }
 
@@ -269,7 +226,7 @@ export class ProductosComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de agregar stock se ha cerrado');
-      this.getProductosByArea();
+      this.cargarProductos()
     });
   }
 
@@ -282,7 +239,7 @@ export class ProductosComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('El modal de editar producto se ha cerrado');
-      this.getProductosByArea();
+      this.cargarProductos()
     });
   }
 
@@ -291,7 +248,7 @@ export class ProductosComponent {
       this.productoService.deleteProducto(id).subscribe(
         (response) => {
           console.log('Producto eliminado con éxito', response);
-          this.getProductosByArea();
+          this.cargarProductos()
         },
         (error) => {
           console.error('Error al eliminar el producto', error);

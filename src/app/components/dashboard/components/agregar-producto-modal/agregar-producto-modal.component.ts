@@ -58,13 +58,15 @@ export class AgregarProductoModalComponent implements OnInit {
 
   async onFormSubmit(): Promise<void> {
     if (this.productoForm.valid) {
+      const areaId = Number(sessionStorage.getItem('area'));
+      const subArea = sessionStorage.getItem('subArea');
       let token = await this.showData();
       let id = token.areaIdArea.id_area;
       // ✅ Obtén subArea del sessionStorage correctamente
-      let subAreaSeleccionada =
-        sessionStorage.getItem('subArea') || 'informatica';
+      //let subAreaSeleccionada =
+        //sessionStorage.getItem('subArea') || 'informatica';
 
-      console.log('SubArea seleccionada antes de enviar:', subAreaSeleccionada);
+      console.log('SubArea :', subArea);
 
       const formData = new FormData();
       formData.append('nombre', this.productoForm.value.nombre);
@@ -80,9 +82,12 @@ export class AgregarProductoModalComponent implements OnInit {
       );
       // ✅ Asegúrate de enviar la subArea correcta
       // ✅ Verifica que subArea se envíe correctamente
-      console.log('SubArea seleccionada:', subAreaSeleccionada);
-      formData.append('subArea', subAreaSeleccionada); // 👈 se asigna automáticamente
-      // **Solo** si hay un archivo, lo adjuntamos
+      //console.log('SubArea seleccionada:', subAreaSeleccionada);
+      // 3) Solo si es Pañol (areaId === 1) y hay subArea, lo añades
+      if (areaId === 1 && subArea) {
+        formData.append('subArea', subArea);
+        console.log('👉 Enviando subArea:', subArea);
+      }
       if (this.selectedFile) {
         formData.append('imagen', this.selectedFile, this.selectedFile.name);
       } else if (this.productoForm.value.imagen_url) {
