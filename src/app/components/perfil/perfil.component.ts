@@ -1,127 +1,127 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { type } from 'os';
-import { map } from 'rxjs';
 import { AuthGoogleService } from 'src/app/auth-google.service';
 import { UserService } from 'src/app/services/userservice/user.service';
 import { AutentifacionService } from 'src/auth/autentifacion.service';
 
 @Component({
-    selector: 'app-perfil',
-    templateUrl: './perfil.component.html',
-    styleUrls: ['./perfil.component.css'],
-    standalone: false
+  selector: 'app-perfil',
+  templateUrl: './perfil.component.html',
+  styleUrls: ['./perfil.component.css'],
+  standalone: false,
 })
 export class PerfilComponent implements OnInit {
-
-  public tipo = ''
-  public objetounico = {};
+  public tipo = '';
   public user: any = {
     img: 'src/assets/datos-del-usuario.png',
     correo: '',
     area: '',
-    nombre: ''
+    nombre: '',
   };
 
-  constructor(private authGoogleService: AuthGoogleService, private aut: AutentifacionService, private router: Router,
-    private usuarioService: UserService) { }
+  constructor(
+    private authGoogleService: AuthGoogleService,
+    private aut: AutentifacionService,
+    private router: Router,
+    private usuarioService: UserService
+  ) {}
+
   ngOnInit(): void {
-    this.authGoogleService.isAuthenticated$.subscribe(isAuthenticated => {
-      if (isAuthenticated) {
-        this.perfil();
-      }
-    });
-    let data = this.showData();
-    if (data != null) {
-      this.perfil()
+    this.authGoogleService.isAuthenticated$
+      .subscribe(isAuth => isAuth && this.perfil());
+
+    if (sessionStorage.getItem('token')) {
+      this.perfil();
     }
   }
 
-  async showData() {
-    let profile = await this.authGoogleService.getProfile();
-    if (profile) {
-      return profile; // Retorna directamente el objeto si existe
-    } else {
-      let token = sessionStorage.getItem('token');
-      if (token) {
-        try {
-          return JSON.parse(token); // Parsea el token si es una cadena JSON
-        } catch (error) {
-          console.error("Error al parsear el token:", error);
-        }
-      }
-    }
-    return null; // Retorna null si no hay datos
-  }
-
-  async showDataCleinte() {
-
-    let token = sessionStorage.getItem('clientedata');
+  private async showData(): Promise<any> {
+    const profile = await this.authGoogleService.getProfile();
+    if (profile) return profile;
+    const token = sessionStorage.getItem('token');
     if (token) {
-      try {
-        return JSON.parse(token); // Parsea el token si es una cadena JSON
-      } catch (error) {
-        console.error("Error al parsear el token:", error);
-      }
+      try { return JSON.parse(token); }
+      catch { console.error('Error al parsear token'); }
     }
-
-    return null; // Retorna null si no hay datos
+    return null;
   }
 
+  private async showDataCliente(): Promise<any> {
+    const token = sessionStorage.getItem('clientedata');
+    if (token) {
+      try { return JSON.parse(token); }
+      catch { console.error('Error al parsear clientedata'); }
+    }
+    return null;
+  }
 
   public async perfil() {
-    let data2 = await this.showData();
-
-    if (data2) {
-      try {
-        let clientedata = await this.showDataCleinte()
-        console.log("Datos cliente recibidos:", clientedata);
-        if (typeof data2 === 'object' && data2 !== null) {
-          if ('correo_institucional' in data2) {
-            // Procesar como administrador
-            this.tipo = 'admin';
-            const nombreCompleto = [data2.pnombre, data2.snombre, data2.appaterno].filter(Boolean).join(' ');
-            this.user = {
-              nombre: nombreCompleto,
-              correo: data2.correo_institucional,
-              area: data2.areaIdArea?.nombre_area,
-              img: 'assets/datos-del-usuario.png'
-            };
-          } else if ('email' in data2 && 'escuela' in clientedata) {
-
-            let areacliente = clientedata.escuela.nombre_escuela || ""
-            // Procesar como usuario regular
-            this.tipo = 'user';
-            this.user = {
-              nombre: data2.name,
-              correo: data2.email,
-              area: areacliente,
-              img: data2.picture
-            };
-
-          } else {
-            console.error("Tipo de usuario no identificado");
-          }
-        } else {
-          console.error("Los datos parseados no son un objeto");
-        }
-        console.log(this.tipo);
-        console.log(this.user);
-      } catch (error) {
-        console.error("Error al parsear los datos:", error);
-      }
-    } else {
-      console.error("No se pudo obtener información del usuario");
+    const data2 = await this.showData();
+    if (!data2) {
+      console.error('No se pudo obtener información del usuario');
+      return;
     }
-  }
 
-  cargarUsuarios(idArea: number) {
-    return this.usuarioService.getUsuariosPorArea(idArea).pipe(
-      map(usuarios => {
-        // Suponiendo que el correo del administrador es el primer usuario
-        return usuarios.length > 0 ? usuarios[0].area.nombre_area : null;
-      })
-    );
+    // Limpiamos cualquier subÁrea previa
+    sessionStorage.removeItem('subArea');
+
+    // 1) Si es administrador (tiene correo_institucional)
+    if ('correo_institucional' in data2) {
+      this.tipo = 'admin';
+      const nombreCompleto = [data2.pnombre, data2.snombre, data2.appaterno]
+        .filter(Boolean).join(' ');
+      const correoAdmin = data2.correo_institucional;
+
+      // Extraemos el ID y nombre de área desde el token
+      const areaObj = data2.areaIdArea;
+      const areaId   = areaObj?.id_area ?? areaObj?.idArea;
+      const nombreArea = areaObj?.nombre_area;
+
+      if (!areaId) {
+        console.error('No vino areaId en el perfil');
+        return;
+      }
+
+      // --- GUARDAR EN SESSIONSTORAGE ---
+      sessionStorage.setItem('area',     areaId.toString());
+      sessionStorage.setItem('areaNombre', nombreArea);
+
+      // Configuramos el objeto user
+      this.user = {
+        nombre: nombreCompleto,
+        correo: correoAdmin,
+        area: nombreArea,
+        img: 'assets/datos-del-usuario.png'
+      };
+
+      // Finalmente redirigimos _después_ de haber guardado el areaId
+   
+
+    // 2) Si es usuario normal
+    } else if ('email' in data2) {
+      const clientedata = await this.showDataCliente();
+      const nombreEscuela = clientedata?.escuela?.nombre_escuela;
+      if (!nombreEscuela) {
+        console.error('Faltan datos de clientedata');
+        return;
+      }
+
+      this.tipo = 'user';
+      this.user = {
+        nombre: data2.name,
+        correo: data2.email,
+        area: nombreEscuela,
+        img: data2.picture
+      };
+
+      // Guardamos también el nombre de "área" para consistencia
+      sessionStorage.setItem('areaNombre', nombreEscuela);
+
+      // Y redirigimos donde corresponda
+      this.router.navigateByUrl('/perfil');
+    } else {
+      console.error('Tipo de usuario no identificado');
+    }
   }
 
   solicitud() {
@@ -129,12 +129,12 @@ export class PerfilComponent implements OnInit {
     this.router.navigateByUrl('solicitud');
   }
 
-  documento(){
+  documento() {
     this.router.navigateByUrl('descarga-inventario');
   }
 
   solicitudes() {
-    console.log("entramos a dashboard-solicitud");
+    console.log('entramos a dashboard-solicitud');
 
     this.router.navigateByUrl('/dashboard-solicitud');
   }
@@ -149,6 +149,6 @@ export class PerfilComponent implements OnInit {
 
   public cerrarSesion() {
     this.aut.limpiarToken();
-    this.router.navigateByUrl("/");
+    this.router.navigateByUrl('/');
   }
 }

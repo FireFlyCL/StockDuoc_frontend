@@ -37,6 +37,7 @@ const routes: Routes = [
     canActivate: [AdminGuard], data: { roles: ['admin'] },
     children: [
       { path: '', redirectTo: 'productos', pathMatch: 'full' }, // Redirige a 'productos' por defecto
+      { path: 'productos', component: ProductosComponent },
       { path: 'productos/informatica', component: ProductosComponent },
       { path: 'productos/teleco', component: ProductosComponent },      
       { path: 'stock', component: StockComponent },
@@ -49,7 +50,7 @@ const routes: Routes = [
     component: DashboardSolicitudComponent,
     canActivate: [AdminGuard], data: { roles: ['admin'] },
     children: [
-      { path: '', redirectTo: 'solicitudes', pathMatch: 'full' }, // Redirige a 'productos' por defecto
+      { path: '', redirectTo: 'solicitudes', pathMatch: 'full' },
       { path: 'solicitudes', component: SolicitudesComponent },
       { path: 'documento', component: DocumentoComponent }
     ]
