@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthGoogleService } from 'src/app/auth-google.service';
+import { type } from 'os';
+import { map } from 'rxjs';
+import { AuthSSOService } from 'src/app/auth-sso.service';
 import { UserService } from 'src/app/services/userservice/user.service';
 import { AutentifacionService } from 'src/auth/autentifacion.service';
 
@@ -19,26 +21,40 @@ export class PerfilComponent implements OnInit {
     nombre: '',
   };
 
-  constructor(
-    private authGoogleService: AuthGoogleService,
-    private aut: AutentifacionService,
-    private router: Router,
-    private usuarioService: UserService
-  ) {}
-
+  constructor(private authSSOService: AuthSSOService, private aut: AutentifacionService, private router: Router,
+    private usuarioService: UserService) { }
   ngOnInit(): void {
-    this.authGoogleService.isAuthenticated$
-      .subscribe(isAuth => isAuth && this.perfil());
-
-    if (sessionStorage.getItem('token')) {
-      this.perfil();
+    this.authSSOService.isAuthenticated$.subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        this.perfil();
+      }
+    });
+    let data = this.showData();
+    if (data != null) {
+      this.perfil()
     }
   }
 
-  private async showData(): Promise<any> {
-    const profile = await this.authGoogleService.getProfile();
-    if (profile) return profile;
-    const token = sessionStorage.getItem('token');
+  async showData() {
+    let profile = await this.authSSOService.getProfile();
+    if (profile) {
+      return profile; // Retorna directamente el objeto si existe
+    } else {
+      let token = sessionStorage.getItem('token');
+      if (token) {
+        try {
+          return JSON.parse(token); // Parsea el token si es una cadena JSON
+        } catch (error) {
+          console.error("Error al parsear el token:", error);
+        }
+      }
+    }
+    return null; // Retorna null si no hay datos
+  }
+
+  async showDataCleinte() {
+
+    let token = sessionStorage.getItem('clientedata');
     if (token) {
       try { return JSON.parse(token); }
       catch { console.error('Error al parsear token'); }

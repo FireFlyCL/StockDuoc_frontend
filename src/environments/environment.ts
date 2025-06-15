@@ -7,7 +7,9 @@ export const environment = {
   //apiUrl: 'https://ms.stockduocpv.cl/api',
   production: false,
   //client_id: "208347700706-5keu8vdao455dkcol1cg38glbnpshn9h.apps.googleusercontent.com",
-  client_id: "1009864471240-qh07jdup7ia40jpkuphdkquqjops6cgo.apps.googleusercontent.com",
+  client_id_google: "1009864471240-qh07jdup7ia40jpkuphdkquqjops6cgo.apps.googleusercontent.com",
+  client_id_microsoft: '6ab78eca-637b-400c-b849-f0d4feaa773a',
+  tenant_id_microsoft: 'afe9c86e-957a-43ed-ab74-58ca90876a9a',
   client_id_prod: "739052527959-9qb37r6e196f3a4e00biidp63gthk66i.apps.googleusercontent.com",
   urlApiRailway: "https://apistockduoc-production.up.railway.app/api"
 };

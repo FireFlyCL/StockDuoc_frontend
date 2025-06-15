@@ -1,45 +1,35 @@
 import { Injectable } from '@angular/core';
-import { AuthGoogleService } from 'src/app/auth-google.service';
+import { AuthSSOService } from 'src/app/auth-sso.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutentifacionService {
 
-  private ingresar:boolean = false;
+  private ingresar = false;
 
-  constructor(private authGoogleService: AuthGoogleService) { }
+  constructor(private authSSOService: AuthSSOService) {}
 
-
-  // public  ingresarAplicativo(obj:any):boolean{
-  //   this.ingresar = obj.usuario == 'samv' && obj.password=='123';
-  //     return this.ingresar;
-  // }
-
-  public habilitarlogeo(){
+  public habilitarlogeo(): boolean {
     return this.ingresar;
   }
 
-
-  public getAutenticationByToken(){
-    //let token = sessionStorage.getItem("token")
-    let token = sessionStorage.getItem("id_token")
-    return token;
+  public getAutenticationByToken(): string | null {
+    // Dependiendo del proveedor, puede haber un "token" o un "id_token"
+    return sessionStorage.getItem('token') || sessionStorage.getItem('id_token');
   }
 
-  public limpiarToken(){
+  public limpiarToken(): boolean {
     sessionStorage.clear();
-    sessionStorage.setItem("nombre",'')
-    sessionStorage.setItem("correo",'')
-    sessionStorage.setItem("area",'')
-    sessionStorage.clear()
-    // try {
-    //   this.authGoogleService.logout()
-    // } catch (error) {
-    //   console.log(error);
-      
-    // }
-    
+
+    // Llamada segura al logout SSO (Google o Microsoft)
+    try {
+      this.authSSOService.logout();
+    } catch (error) {
+      console.error('Error al cerrar sesión en SSO:', error);
+    }
+
     return true;
   }
 }
+
