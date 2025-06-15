@@ -144,7 +144,7 @@ export class RedirectmodelComponent {
 
   async cliente(email: string): Promise<Observable<any>> {
     return this.clienteService.escuelaByCorreo(email).pipe(
-      tap((data) => console.log('Cliente obtenido:', data)),
+      //tap((data) => console.log('Cliente obtenido:', data)),
       catchError((error) => {
         //console.log('Error al obtener cliente:', error);
         return throwError(() => new Error('Error al obtener los datos del cliente'));
