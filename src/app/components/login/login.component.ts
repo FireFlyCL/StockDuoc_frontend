@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('area', usuario.areaIdArea.nombre_area);
         sessionStorage.setItem('correo', usuario.correo_institucional);
         sessionStorage.setItem('nombre', usuario.pnombre);
-        console.log(usuario);
+        //console.log(usuario);
         this.loading = false;
         this.routerprd.navigateByUrl('/perfil');
       },
