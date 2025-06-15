@@ -65,10 +65,29 @@ button {
     border-radius: 5px;
 }
 
+.btn-microsoft {
+    color: #545454;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px 1px #ddd;
+    border-radius: 5px;
+}
+
+.btn-microsoft img{
+    width: 22px;
+    height: 22px;
+}
+
 .btn-google:hover {
   
     background-color: #C23B33;
     border-color: #C23B33;
+    color: #ffffff;
+}
+
+.btn-microsoft:hover {
+  
+    background-color: #3335c2;
+    border-color: #3335c2;
     color: #ffffff;
 }
 
