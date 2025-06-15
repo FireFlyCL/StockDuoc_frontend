@@ -48,3 +48,28 @@
     align-items: center;
     z-index: 1000;
 }
+
+.button-container button {
+  background-color: #FFCC00; /* Color amarillo DUOC */
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 12px 24px;
+  text-transform: uppercase;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  width: 100%; /* El botón ocupará todo el ancho disponible */
+}
+
+/* Efecto hover para el botón */
+.button-container button:hover {
+  background-color: #e6b800; /* Color más oscuro al pasar el ratón */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra sutil al pasar el ratón */
+}
+
+/* Estilo para el contenedor del botón si deseas espaciarlo mejor */
+.button-container {
+  margin-top: 20px; /* Un poco de espacio por encima */
+  display: flex;
+  justify-content: center; /* Centra el botón */
+  align-items: center;
+}

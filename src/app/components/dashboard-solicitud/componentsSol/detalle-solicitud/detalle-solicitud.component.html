@@ -8,14 +8,29 @@
         <mat-card-title>Detalle de la Solicitud</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p><strong>Fecha de Retiro:</strong> {{ solicitud?.fecha_entrega | date:'fullDate' }}</p>
-        <p><strong>Fecha de Regreso:</strong> {{ solicitud?.fecha_regreso | date:'fullDate' }}</p>
+        <p>
+          <strong>Fecha de Retiro:</strong>
+          {{ solicitud?.fecha_entrega | date : "fullDate" }}
+        </p>
+        <p>
+          <strong>Fecha de Regreso:</strong>
+          {{ solicitud?.fecha_regreso | date : "fullDate" }}
+        </p>
         <p><strong>Hora de Inicio:</strong> {{ solicitud?.hora_inicio }}</p>
         <p><strong>Hora de Término:</strong> {{ solicitud?.hora_termino }}</p>
         <p><strong>Sección:</strong> {{ solicitud?.seccion }}</p>
-        <p><strong>Nombre del Solicitante:</strong> {{ solicitud?.nombre_solicitante }}</p>
-        <p><strong>Correo del Solicitante:</strong> {{ solicitud?.correo_solicitante }}</p>
-        <p><strong>Estado de la Solicitud:</strong> {{ solicitud?.estadosolicitud?.nombre_estado }}</p>
+        <p>
+          <strong>Nombre del Solicitante:</strong>
+          {{ solicitud?.nombre_solicitante }}
+        </p>
+        <p>
+          <strong>Correo del Solicitante:</strong>
+          {{ solicitud?.correo_solicitante }}
+        </p>
+        <p>
+          <strong>Estado de la Solicitud:</strong>
+          {{ solicitud?.estadosolicitud?.nombre_estado }}
+        </p>
       </mat-card-content>
     </div>
     <mat-card-header>
@@ -26,19 +41,24 @@
         <div class="producto-card-content">
           <div class="producto-info">
             <mat-card-header>
-              <mat-card-title>{{ item.solicitud_producto.producto.nombre }}</mat-card-title>
-              <mat-card-subtitle>{{ item.solicitud_producto.producto.marca }} - {{
-                item.solicitud_producto.producto.modelo
-                }}</mat-card-subtitle>
+              <mat-card-title>{{
+                item.solicitud_producto.producto.nombre
+              }}</mat-card-title>
+              <mat-card-subtitle
+                >{{ item.solicitud_producto.producto.marca }} -
+                {{ item.solicitud_producto.producto.modelo }}</mat-card-subtitle
+              >
             </mat-card-header>
             <mat-card-content>
               <p>Cantidad: {{ item.cantidad }}</p>
               <p>Observación: {{ item.solicitud_producto.observacion }}</p>
-              <!-- ... resto de los detalles del producto ... -->
             </mat-card-content>
           </div>
           <div class="producto-imagen">
-            <img [src]="item.solicitud_producto.producto.imagenUrl" alt="{{ item.solicitud_producto.producto.nombre }}">
+            <img
+              [src]="item.solicitud_producto.producto.imagenUrl"
+              alt="{{ item.solicitud_producto.producto.nombre }}"
+            />
           </div>
         </div>
       </mat-card>
