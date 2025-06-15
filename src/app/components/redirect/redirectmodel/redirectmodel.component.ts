@@ -30,11 +30,11 @@ export class RedirectmodelComponent {
 
   ngOnInit(): void {
     const currentUrl = window.location.href;
-    console.log('URL actual:', currentUrl);
+    //console.log('URL actual:', currentUrl);
 
     // 1) Detectar si venimos de Google o de Microsoft
     const provider = sessionStorage.getItem('sso_provider') as 'google' | 'microsoft';
-    console.log('Provider almacenado en sessionStorage:', provider);
+    //console.log('Provider almacenado en sessionStorage:', provider);
 
     if (provider === 'google') {
       // Reconfiguramos OAuthService para Google antes de procesar el token
@@ -43,7 +43,7 @@ export class RedirectmodelComponent {
       // Reconfiguramos OAuthService para Microsoft antes de procesar el token
       this.authSSOService.initLogin('microsoft');
     } else {
-      console.warn('No se encontró proveedor en sessionStorage. Asumiendo Google por defecto.');
+      //console.warn('No se encontró proveedor en sessionStorage. Asumiendo Google por defecto.');
       this.authSSOService.initLogin('google');
     }
 
@@ -52,7 +52,7 @@ export class RedirectmodelComponent {
 
     // 3) Nos suscribimos para ver si se autenticó correctamente
     this.authSSOService.isAuthenticated$.subscribe((isAuthenticated) => {
-      console.log('Usuario autenticado:', isAuthenticated);
+      //console.log('Usuario autenticado:', isAuthenticated);
       if (isAuthenticated) {
         this.perfil();
       } else {
@@ -64,7 +64,7 @@ export class RedirectmodelComponent {
   async showData() {
     const profile = await this.authSSOService.getProfile();
     const datag = JSON.stringify(profile);
-    console.log(datag);
+    //console.log(datag);
     return datag;
   }
 
@@ -80,7 +80,7 @@ export class RedirectmodelComponent {
     this.user.area = data2.hd;
 
     const escuela = await this.escuelaByUser(this.user.correo);
-    console.log('ENTRAMOS AL REDIRECT, escuela:', escuela);
+    //console.log('ENTRAMOS AL REDIRECT, escuela:', escuela);
 
     if (data2.picture) {
       this.tipo = 'user';
@@ -97,7 +97,7 @@ export class RedirectmodelComponent {
       dominio === 'profesor.duoc.cl'
     ) {
       if (escuela) {
-        console.log('SI TIENE ESCUELA');
+        //console.log('SI TIENE ESCUELA');
         sessionStorage.setItem('area', this.user.area);
         sessionStorage.setItem('correo', this.user.correo);
         sessionStorage.setItem('nombre', this.user.nombre);
@@ -113,7 +113,7 @@ export class RedirectmodelComponent {
           }
         );
       } else {
-        console.log('NO TIENE ESCUELA');
+        //console.log('NO TIENE ESCUELA');
         sessionStorage.setItem('area', this.user.area);
         sessionStorage.setItem('correo', this.user.correo);
         sessionStorage.setItem('nombre', this.user.nombre);
@@ -135,7 +135,7 @@ export class RedirectmodelComponent {
       this.clienteService.escuelaByCorreo(email).subscribe(
         (data) => resolve(data !== false),
         (error) => {
-          console.error('Error al obtener la escuela del usuario:', error);
+          //console.error('Error al obtener la escuela del usuario:', error);
           resolve(false);
         }
       );
@@ -146,7 +146,7 @@ export class RedirectmodelComponent {
     return this.clienteService.escuelaByCorreo(email).pipe(
       tap((data) => console.log('Cliente obtenido:', data)),
       catchError((error) => {
-        console.log('Error al obtener cliente:', error);
+        //console.log('Error al obtener cliente:', error);
         return throwError(() => new Error('Error al obtener los datos del cliente'));
       })
     );
