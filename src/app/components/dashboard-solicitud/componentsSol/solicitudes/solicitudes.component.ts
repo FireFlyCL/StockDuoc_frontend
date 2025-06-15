@@ -102,6 +102,7 @@ export class SolicitudesComponent implements OnInit {
       const s = data.solicitud;
       const matchKeyword =
         !keyword ||
+        s.id_solicitud.toString().includes(keyword) ||
         s.nombre_solicitante.toLowerCase().includes(keyword) ||
         s.correo_solicitante.toLowerCase().includes(keyword) ||
         s.fecha_entrega.toString().includes(keyword) ||
