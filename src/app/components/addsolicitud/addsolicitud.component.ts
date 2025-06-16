@@ -74,11 +74,11 @@ export class AddsolicitudComponent implements OnInit {
     private usuarioService: UserService
   ) {
     this.minDate = new Date(); // Obtener la fecha actual
-    this.minDate.setDate(this.minDate.getDate() + 2);
+    this.minDate.setDate(this.minDate.getDate() + 3);
   } // Añadir 2 días
 
   ngOnInit(): void {
-    moment.locale('es');
+    moment.locale('cl');
     this.inicializarHoras();
     this.solicitudForm = this.fb.group({
       area: [''],
@@ -98,100 +98,122 @@ export class AddsolicitudComponent implements OnInit {
   //   this.router.navigateByUrl('/perfil');
   // }
 
-  async submitForm() {
-    if (this.solicitudForm?.valid) {
-      const fechaEntrega = this.solicitudForm.get('fechaEntrega')?.value;
-      const fechaEntregaMoment = moment(fechaEntrega);
-      const ahora = moment();
-      const diferenciaHoras = fechaEntregaMoment.diff(ahora, 'hours');
-  
-      if (diferenciaHoras < 48) {
-        const continuar = confirm('⚠ Atención: estás realizando una solicitud con menos de 48 horas de anticipación.\n¿Deseas continuar de todas formas?');
-        if (!continuar) {
-          return; // ❌ Detener proceso si el usuario no quiere continuar
-        }
-      }
-  
-      const clientedataJSON = sessionStorage.getItem('clientedata');
-      const clientedata = clientedataJSON ? JSON.parse(clientedataJSON) : null;
-      const areaId = clientedata?.escuela?.id_escuela ?? null;
-      const res_nombre_solicitante = sessionStorage.getItem('nombre');
-      const res_correo_solicitante = clientedata?.correo ?? null;
-  
-      const fechaRegreso = this.solicitudForm.get('fechaRegreso')?.value;
-  
-      const fechaEntregaFormatted = fechaEntrega
-        ? moment(fechaEntrega).format('YYYY-MM-DD')
-        : null;
-      const fechaRegresoFormatted = fechaRegreso
-        ? moment(fechaRegreso).format('YYYY-MM-DD')
-        : null;
-  
-      if (fechaEntregaFormatted && fechaRegresoFormatted && res_correo_solicitante && res_nombre_solicitante) {
-        const solicitud = {
-          fecha_entrega: fechaEntregaFormatted.toString(),
-          fecha_regreso: fechaRegresoFormatted.toString(),
-          hora_inicio: this.solicitudForm.get('horaInicio')?.value,
-          hora_termino: this.solicitudForm.get('horaTermino')?.value,
-          idArea: areaId,
-          nombre_solicitante: res_nombre_solicitante,
-          correo_solicitante: res_correo_solicitante,
-          seccion: this.solicitudForm.get('seccion')?.value,
-        };
-  
-        await this.solicitudService
-          .crearSolicitud(solicitud)
-          .pipe(
-            catchError((error) => {
-              console.error('Error al crear la solicitud:', error);
-              return throwError(() => new Error('Error al crear la solicitud'));
-            })
-          )
-          .subscribe({
-            next: (respuestaSolicitud) => {
-              const solicitudId = respuestaSolicitud.id_solicitud;
-              if (solicitudId) {
-                this.solProd.forEach(async (element) => {
-                  const nuevaSolicitudProducto: SolicitudProducto = {
-                    cantidad: element.cantidad,
-                    descripcion: element.descripcion || 'editable',
-                    productoId: element.producto.id_producto,
-                    solicitudId: solicitudId,
-                    observacion: element.observacion || 'editable',
-                  };
-  
-                  await this.solProductosService
-                    .crearSolicitudProducto(nuevaSolicitudProducto)
-                    .pipe(
-                      catchError((error) => {
-                        console.error('Error al crear la solicitud de producto:', error);
-                        return throwError(() => new Error('Error al crear la solicitud de producto'));
-                      })
-                    )
-                    .subscribe({
-                      next: async (respuestaProducto) => {
-                        console.log('Solicitud de producto creada con éxito', respuestaProducto);
-                        await this.confirmarSolicitud(solicitud);
-                        this.dialog.closeAll();
-                      },
-                      error: (error) => {
-                        console.error(error);
-                      },
-                    });
-                });
-              } else {
-                console.log('NO DEVOLVIÓ ID_SOLICITUD');
-              }
-            },
-            error: (error) => {
-              console.error(error);
-            },
-          });
-      }
-    } else {
-      console.error('Formulario no válido');
+async submitForm() {
+  if (this.solicitudForm?.valid) {
+    const fechaEntrega = this.solicitudForm.get('fechaEntrega')?.value;
+    const fechaEntregaMoment = moment(fechaEntrega);
+    const ahora = moment();
+    
+    // Lógica para verificar las 48 horas hábiles
+    const diferenciaHoras = fechaEntregaMoment.diff(ahora, 'hours');
+    
+    // Considerar solo días hábiles y descontar festivos
+    const horasHábiles = this.calcularHorasHabiles(ahora, fechaEntregaMoment);
+    
+    if (horasHábiles < 48) {
+      alert('La fecha de entrega no puede ser seleccionada dentro de las 48 horas hábiles siguientes. Por favor, seleccione una fecha con más de 48 horas de anticipación.');
+      return; // Detener si la fecha no es válida
     }
+
+    // Aquí iría tu lógica para guardar la solicitud como en el código original
+    
+    const clientedataJSON = sessionStorage.getItem('clientedata');
+    const clientedata = clientedataJSON ? JSON.parse(clientedataJSON) : null;
+    const areaId = clientedata?.escuela?.id_escuela ?? null;
+    const res_nombre_solicitante = sessionStorage.getItem('nombre');
+    const res_correo_solicitante = clientedata?.correo ?? null;
+
+    const fechaRegreso = this.solicitudForm.get('fechaRegreso')?.value;
+
+    const fechaEntregaFormatted = fechaEntrega
+      ? moment(fechaEntrega).format('YYYY-MM-DD')
+      : null;
+    const fechaRegresoFormatted = fechaRegreso
+      ? moment(fechaRegreso).format('YYYY-MM-DD')
+      : null;
+
+    if (fechaEntregaFormatted && fechaRegresoFormatted && res_correo_solicitante && res_nombre_solicitante) {
+      const solicitud = {
+        fecha_entrega: fechaEntregaFormatted.toString(),
+        fecha_regreso: fechaRegresoFormatted.toString(),
+        hora_inicio: this.solicitudForm.get('horaInicio')?.value,
+        hora_termino: this.solicitudForm.get('horaTermino')?.value,
+        idArea: areaId,
+        nombre_solicitante: res_nombre_solicitante,
+        correo_solicitante: res_correo_solicitante,
+        seccion: this.solicitudForm.get('seccion')?.value,
+      };
+
+      await this.solicitudService
+        .crearSolicitud(solicitud)
+        .pipe(
+          catchError((error) => {
+            console.error('Error al crear la solicitud:', error);
+            return throwError(() => new Error('Error al crear la solicitud'));
+          })
+        )
+        .subscribe({
+          next: (respuestaSolicitud) => {
+            const solicitudId = respuestaSolicitud.id_solicitud;
+            if (solicitudId) {
+              this.solProd.forEach(async (element) => {
+                const nuevaSolicitudProducto: SolicitudProducto = {
+                  cantidad: element.cantidad,
+                  descripcion: element.producto.descripcion || '',
+                  productoId: element.producto.id_producto,
+                  solicitudId: solicitudId,
+                  observacion: element.producto.observaciones || '',
+                };
+
+                await this.solProductosService
+                  .crearSolicitudProducto(nuevaSolicitudProducto)
+                  .pipe(
+                    catchError((error) => {
+                      console.error('Error al crear la solicitud de producto:', error);
+                      return throwError(() => new Error('Error al crear la solicitud de producto'));
+                    })
+                  )
+                  .subscribe({
+                    next: async (respuestaProducto) => {
+                      console.log('Solicitud de producto creada con éxito', respuestaProducto);
+                      await this.confirmarSolicitud(solicitud);
+                      this.dialog.closeAll();
+                    },
+                    error: (error) => {
+                      console.error(error);
+                    },
+                  });
+              });
+            } else {
+              console.log('NO DEVOLVIÓ ID_SOLICITUD');
+            }
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+    }
+  } else {
+    console.error('Formulario no válido');
   }
+}
+
+// Función para calcular horas hábiles (descontando festivos)
+calcularHorasHabiles(fechaInicio: moment.Moment, fechaFin: moment.Moment): number {
+  const festivos = ['2025-12-25', '2025-01-01', '2025-06-20']; // Lista de días festivos (deberías gestionarlos dinámicamente)
+  let horas = 0;
+  let fechaActual = moment(fechaInicio);
+
+  while (fechaActual.isBefore(fechaFin)) {
+    // Si el día no es festivo y es un día hábil (lunes a viernes)
+    if (fechaActual.isoWeekday() < 6 && !festivos.includes(fechaActual.format('YYYY-MM-DD'))) {
+      horas += 24; // Asumimos 24 horas hábiles por día
+    }
+    fechaActual.add(1, 'days');
+  }
+
+  return horas;
+}
 
   async cargarUsuarios(idArea: number) {
     return await this.usuarioService.getUsuariosPorArea(idArea).pipe(
