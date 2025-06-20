@@ -42,7 +42,8 @@ export class MailService {
     const emailData = {
       to: datosSolicitud.correo_solicitante,
       subject: 'Aviso de Solicitud RECHAZADA',
-      text: `Tu solicitud para la sección ${datosSolicitud.seccion} ha sido creada con éxito.`,
+      text: `Tu solicitud para la sección ${datosSolicitud.seccion} ha sido rechazada.`,
+      text2: `Motivo ${datosSolicitud.observaciones}`,
       html: this.crearHtmlSolicitudRechazada(datosSolicitud)
     };
     return this.enviarEmail(emailData);
@@ -53,7 +54,7 @@ export class MailService {
     const emailData = {
       to: datosSolicitud.correo_solicitante,
       subject: 'Aviso de Solicitud ACEPTADA',
-      text: `Tu solicitud para la sección ${datosSolicitud.seccion} ha sido creada con éxito.`,
+      text: `Tu solicitud para la sección ${datosSolicitud.seccion} ha sido aprobada, debe retirar el dia ${datosSolicitud.fecha_entrega} a las ${datosSolicitud.hora_inicio}.`,
       html: this.crearHtmlSolicitudConfirmada(datosSolicitud)
     };
     return this.enviarEmail(emailData);
@@ -95,7 +96,7 @@ export class MailService {
     return `
       <h1>Solicitud Rechazada</h1>
       <p>Estimado/a ${datos.nombre_solicitante},</p>
-      <p>Tu solicitud para la sección ${datos.seccion} ha sido rechazada con éxito para las fechas ${datos.fecha_entrega} a ${datos.fecha_regreso}.</p>
+      <p>Tu solicitud para la sección ${datos.seccion} ha sido rechazada para las fechas ${datos.fecha_entrega} a ${datos.fecha_regreso}, debido a ${datos.observaciones}} .</p>
       // ... más detalles ...
     `;
   }

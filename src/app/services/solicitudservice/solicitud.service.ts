@@ -37,9 +37,9 @@ export class SolicitudService {
     return this.http.get<any[]>(url);
   }
 
-  actualizarEstadoSolicitud(id: number, estado: number): Observable<HttpResponse<any>> {
+  actualizarEstadoSolicitud(id: number, estado: number, observaciones: string): Observable<HttpResponse<any>> {
     const url = `${this.apiUrl}/solicitudmodel/editarestado/${id}`;
-    const body = { estado: estado };
+    const body = { estado: estado, observaciones: observaciones};
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<any>(url, body, { headers, observe: 'response' });
   }
