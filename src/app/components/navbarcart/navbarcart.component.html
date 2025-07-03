@@ -8,14 +8,24 @@
       </mat-card-content>
     </div>
   </div>
+
   <div class="navbar-title">Stockduoc</div>
-  <div class="navbar-cart" (click)="onToggleCart()">
-    <div class="navbar-cart-items" *ngIf="(myCart$ | async)?.length">
-      <p>{{ (myCart$ | async)?.length }}</p>
-    </div>
-    <i class="fa-solid fa-cart-shopping"></i>
+
+<button
+  class="navbar-cart-button"
+  *ngIf="myCart$ | async as cart"
+  [ngClass]="{ 'has-items': cart.length > 0 }"
+  (click)="onToggleCart()"
+>
+  <div class="navbar-cart-items" *ngIf="cart.length > 0">
+    <p>{{ cart.length }}</p>
   </div>
+  Completa tu Solicitud
+  <i class="fa-solid fa-cart-shopping"></i>
+</button>
 </nav>
+
 <div class="cart" [ngClass]="{ show: viewCart }">
   <app-carrito></app-carrito>
 </div>
+
