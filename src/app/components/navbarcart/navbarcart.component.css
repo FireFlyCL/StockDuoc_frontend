@@ -66,9 +66,10 @@
 
 
 .navbar-cart-button {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   background-color: white;
   color: black;
   border: 1px solid #ccc;
@@ -79,6 +80,7 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
+
 .navbar-cart-button:hover {
   background-color: #ffb800;
   color: white;
@@ -88,6 +90,21 @@
   background-color: #4caf50; /* color indicativo cuando hay productos */
   color: white;
 }
+
+.navbar-cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ffcc00;   /* amarillo DUOC */
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 12px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.3);
+}
+
 
 .navbar-cart-items {
   background-color: red;

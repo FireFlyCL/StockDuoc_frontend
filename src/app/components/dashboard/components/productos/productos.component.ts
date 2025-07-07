@@ -217,6 +217,11 @@ export class ProductosComponent implements OnInit {
     return true;
   }
 
+  hideBrokenImage(event: Event) {
+  const img = event.target as HTMLImageElement;
+  img.style.display = 'none';
+}
+
   abrirModalAgregarStockByproducto(id_producto: number) {
     const dialogRef = this.dialog.open(AgregarStockModalComponent, {
       width: '90vw',

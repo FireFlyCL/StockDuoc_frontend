@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   provideHttpClient,
@@ -63,6 +63,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DescargaInventarioComponent } from './components/descarga-inventario/descarga-inventario.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
+
 
 @NgModule({
   declarations: [
@@ -133,6 +138,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatProgressSpinnerModule,
     MatSnackBarModule,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [provideHttpClient(withInterceptorsFromDi()), {provide: LOCALE_ID, useValue: 'es-CL'} ],
 })
 export class AppModule {}

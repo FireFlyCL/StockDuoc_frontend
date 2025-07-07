@@ -14,13 +14,16 @@
 <button
   class="navbar-cart-button"
   *ngIf="myCart$ | async as cart"
-  [ngClass]="{ 'has-items': cart.length > 0 }"
+  [class.has-items]="cart.length > 0"
   (click)="onToggleCart()"
 >
-  <div class="navbar-cart-items" *ngIf="cart.length > 0">
-    <p>{{ cart.length }}</p>
-  </div>
-  Completa tu Solicitud
+  <!-- Contador como badge -->
+  <span class="navbar-cart-badge" *ngIf="cart.length > 0">
+    {{ cart.length }}
+  </span>
+
+  <!-- Texto e ícono -->
+  <span class="navbar-cart-text">Completa tu Solicitud</span>
   <i class="fa-solid fa-cart-shopping"></i>
 </button>
 </nav>

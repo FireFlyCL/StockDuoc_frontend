@@ -125,13 +125,18 @@
       <ng-container matColumnDef="imagen">
         <mat-header-cell *matHeaderCellDef> Imagen </mat-header-cell>
         <mat-cell *matCellDef="let producto" class="imagen-container">
-          <img
-            mat-card-image
-            [src]="producto.imagenUrl"
-            (error)="errorCargarImagen($event)"
-            alt="{{ producto.nombre }}"
-            class="product-image"
-          />
+          <!-- Solo renderiza la etiqueta <img> si existe URL -->
+          <ng-container *ngIf="producto.imagenUrl; else emptyImagen">
+            <img
+              mat-card-image
+              [src]="producto.imagenUrl"
+              alt="{{ producto.nombre }}"
+              (error)="hideBrokenImage($event)"
+              class="product-image"
+            />
+          </ng-container>
+          <!-- Template vacío para dejar la celda en blanco -->
+          <ng-template #emptyImagen></ng-template>
         </mat-cell>
       </ng-container>
 
